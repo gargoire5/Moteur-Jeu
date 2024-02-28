@@ -23,4 +23,5 @@
 #include <wrl.h>
 #include <shellapi.h>
 #include <iostream>
+#include <vector>
 #include <cassert>

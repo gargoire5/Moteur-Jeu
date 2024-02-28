@@ -1,8 +1,15 @@
 #pragma once
+
+typedef enum ComponentType
+{
+	Mesh,
+	BoxGeo
+};
 class Component
 {
 public:
-private:
 
+private:
+	ComponentType _Type;
 };
 
