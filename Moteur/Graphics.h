@@ -4,13 +4,14 @@ class Graphics
 {
 public:
 	Graphics();
-	bool InitWindow();
-	bool InitDX();
-
-
+	void InitWindow(HINSTANCE hInstance);
+	void InitDX();
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	float _fWindowWidth;
+	float _fWindowHeight;
 
 	HWND _hWindow;
 

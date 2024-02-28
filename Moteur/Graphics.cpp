@@ -2,26 +2,26 @@
 
 Graphics::Graphics()
 {
-	WindowWidth = 100.f;
-	WindowHeight = 100.f;
+	_fWindowWidth = 100.f;
+	_fWindowHeight = 100.f;
 }
 
-bool Graphics::InitWindow()
+void Graphics::InitWindow(HINSTANCE hInstance)
 {
 	WNDCLASSEX windowClass = { 0 };
 	windowClass.cbSize = sizeof(WNDCLASSEX);
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
 	windowClass.lpfnWndProc = WindowProc;
-	windowClass.hInstance = GetModuleHandle(0);
+	windowClass.hInstance = hInstance;
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.lpszClassName = L"Window";
 	RegisterClassEx(&windowClass);
 
-	_hWindow = CreateWindow(windowClass.lpszClassName, L"Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, nullptr, nullptr, GetModuleHandle(0), NULL);
+	_hWindow = CreateWindow(windowClass.lpszClassName, L"Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, nullptr, nullptr, hInstance, NULL);
 	ShowWindow(_hWindow, SW_NORMAL);
 }
 
-bool Graphics::InitDX()
+void Graphics::InitDX()
 {
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
