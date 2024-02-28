@@ -134,6 +134,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Incl.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
