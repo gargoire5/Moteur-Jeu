@@ -1,4 +1,5 @@
 #pragma once
+
 class Timer
 {
 public:
@@ -13,5 +14,7 @@ public:
 private:
 	float _fDeltaTime;
 	float _fSecondsPerCount;
+	float _fTotalTime;
+	bool _bStop;
 };
 
