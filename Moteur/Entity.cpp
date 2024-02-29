@@ -4,7 +4,7 @@
 Entity::Entity()
 {}
 
-Entity::AttachComponent(ComponentType iType)
+void Entity::AttachComponent(ComponentType iType)
 {
 
 }
