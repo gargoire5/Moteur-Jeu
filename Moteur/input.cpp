@@ -1,13 +1,14 @@
 #include "input.h"
 
-Input::Input(HWND hWnd) : _Input(nullptr), _KeyboardDevice(nullptr) {
+Input::Input(HWND _hWindow) : _Input(nullptr), _KeyboardDevice(nullptr) {
+
     // Initialisation de DirectInput
     DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&_Input, NULL);
 
     // Initialisation du clavier
     _Input->CreateDevice(GUID_SysKeyboard, &_KeyboardDevice, NULL);
     _KeyboardDevice->SetDataFormat(&c_dfDIKeyboard);
-    _KeyboardDevice->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+    _KeyboardDevice->SetCooperativeLevel(_hWindow, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
     _KeyboardDevice->Acquire();
 }
 

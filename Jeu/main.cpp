@@ -5,5 +5,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 {
 	Engine* pEngine = new Engine(hInstance);
 	pEngine->Run();
-
 }

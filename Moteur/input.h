@@ -1,6 +1,7 @@
 #pragma once
 
 #include <dinput.h>
+#include "Graphics.h"
 
 class Input
 {
@@ -12,7 +13,7 @@ private:
 
 public:
 
-	Input(HWND hWnd);
+	Input(HWND _hWindow);
 
 	~Input();
 
