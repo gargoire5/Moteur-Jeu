@@ -1,11 +1,14 @@
 #include "Incl.h"
 #include "timer.h"
-
+using Microsoft::WRL::ComPtr;
+using namespace std;
+using namespace DirectX;
 
 Timer::Timer() {
-    _fSecondsPerCount = 0.f;
     _fDeltaTime = 0.f;
-    
+    _fTotalTime = 0.f;
+    _fPrevTime = 0.f;
+    _bStop = true;
 }
 
 
@@ -13,16 +16,7 @@ float Timer::TotalTime() const
 {
     //si pause stocker le temps dans une autre variable
     //sinon incrémenter totaltime de deltatime
-    
-    DWORD  = timeGetTime();
-    if (_bStop == false)
-    {
-        float GetTime = _fTotalTime;
-    }
-    else if (_bStop == true) {
-
-    }
-    return 0.0f;
+    return _fTotalTime;
 }
 
 float Timer::DeltaTime() const
@@ -38,18 +32,31 @@ void Timer::Reset()
 
 void Timer::Start()
 {
-    if (_bStop == false) {
-        _bStop = true;
-    }
+        _bStop = false;
 }
 
 void Timer::Stop()
 {
-    if (_bStop == false) {
         _bStop = true;
-    }
 }
 
-void Timer::Tick()
+void Timer::Tick(HWND hWnd)
 {
+
+
+    if (_bStop == false) {
+        DWORD  CurrTime = timeGetTime() / 1000;
+        _fDeltaTime = CurrTime - _fPrevTime;
+
+        _fPrevTime = CurrTime;
+        _fTotalTime += CurrTime;
+    }
+
+    wstring deltatime = to_wstring(_fDeltaTime);
+    wstring totaltime = to_wstring(_fTotalTime);
+
+    wstring windowText = L" hello";
+
+    SetWindowText(hWnd, windowText.c_str());
+    
 }
