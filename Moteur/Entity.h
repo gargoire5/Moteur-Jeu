@@ -34,5 +34,4 @@ T* Entity::AttachComponent(ComponentType iType)
 	T* pComponent = new T(iType);
 	_vComponentList.push_back(pComponent);
 	return pComponent;
-	//return nullptr;
 }

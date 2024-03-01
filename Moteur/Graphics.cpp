@@ -32,7 +32,7 @@ void Graphics::InitDX()
 	{
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 		ID3D12Debug* debugController;
-		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
+ 		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
 		debugController->EnableDebugLayer();
 	}
 #endif
@@ -129,8 +129,9 @@ void Graphics::InitDX()
 	_DXViewPort.MaxDepth = 1.0f;	
 	_DXCommandList->RSSetViewports(1, &_DXViewPort);
 
-	_ScissorRect = { 0, 0, 1280 / 2, 720 / 2 };
-	_DXCommandList->RSSetScissorRects(1, &_ScissorRect);
+	_DXScissorRect = { 0, 0, 1280 / 2, 720 / 2 };
+	_DXCommandList->RSSetScissorRects(1, &_DXScissorRect);
+	_DXCommandList->RSSetScissorRects(1, &_DXScissorRect);
 }
 
 LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -149,8 +150,80 @@ LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 }
+ID3D12Resource* Graphics::GetCurrentBackBuffer()const
+{
+	return _DXSwapChainBuffer[_iCurrBackBuffer];
+}
+D3D12_CPU_DESCRIPTOR_HANDLE Graphics::GetCurrentBackBufferView()const
+{
+	return CD3DX12_CPU_DESCRIPTOR_HANDLE(
+		_DXRtvHeapDescriptor->GetCPUDescriptorHandleForHeapStart(),
+		_iCurrBackBuffer,
+		_iRtvDescriptorSize);
+}
+D3D12_CPU_DESCRIPTOR_HANDLE Graphics::GetDepthStencilView()const
+{
+	return _DXDsvHeapDescriptor->GetCPUDescriptorHandleForHeapStart();
+}
 
 void Graphics::Draw()
 {
+	// Reuse the memory associated with command recording.
+	// We can only reset when the associated command lists have finished execution on the GPU.
+	assert(_DXCommandAllocator->Reset() == S_OK && "Reset CommandAllocator error");
 
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	assert(_DXCommandList->Reset(_DXCommandAllocator, _DXPSO) == S_OK && "Reset CommandList");
+
+	_DXCommandList->RSSetViewports(1, &_DXViewPort);
+	_DXCommandList->RSSetScissorRects(1, &_DXScissorRect);
+
+	// Indicate a state transition on the resource usage.
+	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(GetCurrentBackBuffer(),
+		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
+
+	// Clear the back buffer and depth buffer.
+	_DXCommandList->ClearRenderTargetView(GetCurrentBackBufferView(), DirectX::Colors::LightSteelBlue, 0, nullptr);
+	_DXCommandList->ClearDepthStencilView(GetDepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
+
+	// Specify the buffers we are going to render to.
+	_DXCommandList->OMSetRenderTargets(1, &GetCurrentBackBufferView(), true, &GetDepthStencilView());
+
+	//ID3D12DescriptorHeap* descriptorHeaps[] = { mCbvHeap.Get() };
+	//mCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+
+	//mCommandList->SetGraphicsRootSignature(mRootSignature.Get());
+
+	//mCommandList->IASetVertexBuffers(0, 1, &mBoxGeo->VertexBufferView());
+	//mCommandList->IASetIndexBuffer(&mBoxGeo->IndexBufferView());
+	//mCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//mCommandList->SetGraphicsRootDescriptorTable(0, mCbvHeap->GetGPUDescriptorHandleForHeapStart());
+
+	//mCommandList->DrawIndexedInstanced(
+	//	mBoxGeo->DrawArgs["box"].IndexCount,
+	//	1, 0, 0, 0);
+
+	//// Indicate a state transition on the resource usage.
+	//mCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
+	//	D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT));
+
+	//// Done recording commands.
+	//ThrowIfFailed(mCommandList->Close());
+
+	//// Add the command list to the queue for execution.
+	//ID3D12CommandList* cmdsLists[] = { mCommandList.Get() };
+	//mCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	//// swap the back and front buffers
+	//ThrowIfFailed(mSwapChain->Present(0, 0));
+	//mCurrBackBuffer = (mCurrBackBuffer + 1) % SwapChainBufferCount;
+
+	//// Wait until frame commands are complete.  This waiting is inefficient and is
+	//// done for simplicity.  Later we will show how to organize our rendering code
+	//// so we do not have to wait per frame.
+	//FlushCommandQueue();
 }
+
+

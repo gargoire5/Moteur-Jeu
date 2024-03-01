@@ -5,7 +5,7 @@ class Mesh : public Component
 {
 public:
 	
-	void SetComponent() override;
+	//void SetComponent() override;
 
 };
 
