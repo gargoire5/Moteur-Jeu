@@ -1,8 +1,11 @@
 #pragma once
 #include "Component.h"
+
 class Mesh : public Component
 {
 public:
 	
+	void SetComponent() override;
+
 };
 

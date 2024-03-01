@@ -2,6 +2,7 @@
 Engine::Engine(HINSTANCE hInstance)
 {
 	_hInstance = hInstance;
+	_pEntityManager = new EntityManager();
 }
 
 void Engine::Run()
@@ -31,4 +32,9 @@ void Engine::Run()
 
 		// Render
 	}
+}
+
+EntityManager* Engine::GetEntityManager()
+{
+	return _pEntityManager;
 }

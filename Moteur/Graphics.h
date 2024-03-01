@@ -7,6 +7,8 @@ public:
 	void InitWindow(HINSTANCE hInstance);
 	void InitDX();
 
+	void Draw();
+
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -45,6 +47,6 @@ private:
 	ID3D12Resource* _DXDepthStencilBuffer;
 
 	D3D12_VIEWPORT _DXViewPort;
-	tagRECT _ScissorRect;	
+	tagRECT _ScissorRect;
 };
 
