@@ -140,8 +140,10 @@
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
+
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
+
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxGeo.cpp" />
