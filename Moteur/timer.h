@@ -10,7 +10,7 @@ public:
 	void Reset(); // Call before message loop.
 	void Start(); // Call when unpaused.
 	void Stop();  // Call when paused.
-	void Tick(HWND hWnd);  // Call every frame.
+	void Tick();  // Call every frame.
 private:
 	float _fDeltaTime;
 	float _fTotalTime;

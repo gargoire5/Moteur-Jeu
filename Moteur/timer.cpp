@@ -42,7 +42,7 @@ void Timer::Stop()
         _bStop = true;
 }
 
-void Timer::Tick(HWND hWnd)
+void Timer::Tick()
 {
 
 
@@ -54,11 +54,13 @@ void Timer::Tick(HWND hWnd)
         _fTotalTime += _fDeltaTime;
     }
 
-    wstring deltatime = to_wstring(_fDeltaTime);
+
+    //afficher le temp avec hwnd en param et public dans graph
+    /*wstring deltatime = to_wstring(_fDeltaTime);
     wstring totaltime = to_wstring(_fTotalTime);
 
     wstring windowText = L" hello" + deltatime + L"+" + totaltime;
 
-    SetWindowText(hWnd, windowText.c_str());
+    SetWindowText(hWnd, windowText.c_str());*/
     
 }

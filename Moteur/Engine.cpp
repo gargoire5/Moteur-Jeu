@@ -24,7 +24,7 @@ void Engine::Run()
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
-			_cTime->Tick(_pGraphics->_hWindow);
+			_cTime->Tick();
 
 			if (msg.message == WM_QUIT)
 			{
