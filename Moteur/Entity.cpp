@@ -6,5 +6,5 @@ Entity::Entity()
 
 void Entity::AttachComponent(ComponentType iType)
 {
-
+	
 }
