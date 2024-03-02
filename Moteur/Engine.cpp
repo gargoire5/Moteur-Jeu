@@ -31,6 +31,7 @@ void Engine::Run()
 		// Update (time, input, gameplay...)
 
 		// Render
+		_pGraphics->Draw();
 	}
 }
 

@@ -46,6 +46,9 @@
     <ClCompile Include="transform.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="MathHelper.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="transform.h">
@@ -93,6 +96,12 @@
     <ClInclude Include="timer.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="UploadBuffer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -104,5 +113,21 @@
     <Filter Include="Fichiers de ressources">
       <UniqueIdentifier>{a249f3a6-2c34-49c6-818b-9e59730a346e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Shader">
+      <UniqueIdentifier>{e1d5a049-2194-4141-8fb2-fd1990077458}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color_ps.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
+    <None Include="Shaders\color_vs.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

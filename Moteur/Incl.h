@@ -18,6 +18,8 @@
 #include "Source/d3dx12.h"
 #include <DirectXMath.h>
 #include <DirectXColors.h>
+#include "MathHelper.h"
+#include "UploadBuffer.h"
 
 #include <string>
 #include <wrl.h>
@@ -25,3 +27,4 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <memory>

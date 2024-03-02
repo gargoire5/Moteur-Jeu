@@ -136,12 +136,14 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Incl.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
+    <ClInclude Include="UploadBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoxGeo.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -160,7 +163,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="transform.cpp" />
   </ItemGroup>
-
+  <ItemGroup>
+    <FxCompile Include="Shaders\color.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color_ps.cso" />
+    <None Include="Shaders\color_vs.cso" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

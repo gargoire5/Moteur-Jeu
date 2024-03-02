@@ -10,13 +10,14 @@ public:
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
-	
+
 
 	void Draw();
 
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	void FlushCommandQueue();
 
 	float _fWindowWidth;
 	float _fWindowHeight;
@@ -27,6 +28,8 @@ private:
 	ID3D12Device* _DXDevice;
 
 	ID3D12Fence* _DXFence;
+	UINT64 _iCurrentFence = 0;
+
 	UINT _iRtvDescriptorSize;
 	UINT _iDsvDescriptorSize;
 
@@ -46,6 +49,7 @@ private:
 	ID3D12DescriptorHeap* _DXDsvHeapDescriptor;
 
 	int _iCurrBackBuffer = 0;
+	static const int _iBufferCount = 2;
 	ID3D12Resource* _DXSwapChainBuffer[2];
 
 	D3D12_RESOURCE_DESC _DXDepthStencilDesc;
@@ -56,5 +60,23 @@ private:
 	tagRECT _DXScissorRect;
 
 	ID3D12PipelineState* _DXPSO = nullptr;
-};
 
+	ID3D12RootSignature* _DXRootSignature = nullptr;
+	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
+
+	struct ObjectConstants
+	{
+		DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
+	};
+
+	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
+
+	ID3DBlob* _VsByteCode = nullptr;
+	ID3DBlob* _PsByteCode = nullptr;
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> _vInputLayout;
+
+	ID3DBlob* CompileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target);
+
+
+}
