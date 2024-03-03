@@ -1,19 +1,23 @@
 #pragma once
 #include "Incl.h"
+
+struct ObjectConstants
+{
+	DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
+};
+
 class Graphics
 {
 public:
 	Graphics();
-	void InitWindow(HINSTANCE hInstance);
+	void InitWindow();
 	void InitDX();
+	void OnResize();
+	void Draw();
 
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
-
-
-	void Draw();
-
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -63,20 +67,16 @@ private:
 
 	ID3D12RootSignature* _DXRootSignature = nullptr;
 	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
+	UINT _iCbvSrvDescriptorSize;
 
-	struct ObjectConstants
-	{
-		DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
-	};
 
 	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
 
-	ID3DBlob* _VsByteCode = nullptr;
-	ID3DBlob* _PsByteCode = nullptr;
+	ID3DBlob* _VertexShader = nullptr;
+	ID3DBlob* _PixelShader = nullptr;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> _vInputLayout;
 
-	ID3DBlob* CompileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target);
-
-
-}
+	int _iWindowWidth = 1280;
+	int _iWindowHeight = 720;
+};

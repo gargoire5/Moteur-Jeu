@@ -1,15 +1,16 @@
 #include "Engine.h"
-Engine::Engine(HINSTANCE hInstance)
+Engine::Engine()
 {
-	_hInstance = hInstance;
-	_pEntityManager = new EntityManager();
+
 }
 
 void Engine::Run()
 {
+	_pEntityManager = new EntityManager();
 	_pGraphics = new Graphics();
-	_pGraphics->InitWindow(_hInstance);
+	_pGraphics->InitWindow();
 	_pGraphics->InitDX();
+	_pGraphics->OnResize();
 
 	bool running = true;
 	while (running)
@@ -17,7 +18,7 @@ void Engine::Run()
 		MSG msg = { 0 };
 
 		// If there are Window messages then process them.
-		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -27,11 +28,14 @@ void Engine::Run()
 				break;
 			}
 		}
+		else
+		{
+			// Update (time, input, gameplay...)
 
-		// Update (time, input, gameplay...)
-
-		// Render
-		_pGraphics->Draw();
+			// Render
+			_pGraphics->Draw();
+		}
+		
 	}
 }
 

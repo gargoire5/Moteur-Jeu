@@ -18,8 +18,9 @@
 #include "Source/d3dx12.h"
 #include <DirectXMath.h>
 #include <DirectXColors.h>
-#include "MathHelper.h"
-#include "UploadBuffer.h"
+#include "Source/MathHelper.h"
+#include "Source/d3dUtil.h"
+#include "Source/UploadBuffer.h"
 
 #include <string>
 #include <wrl.h>

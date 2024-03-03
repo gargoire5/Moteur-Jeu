@@ -1,5 +1,4 @@
 #include "../Moteur/Engine.h"
-//#include "../Moteur/Mesh.h"
 
 #ifdef _DEBUG
 #include <crtdbg.h>
@@ -13,7 +12,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 //#endif
 	//------------------------------------------------------
 
-	Engine* pEngine = new Engine(hInstance);
+	Engine* pEngine = new Engine();
 	pEngine->Run();
 
 

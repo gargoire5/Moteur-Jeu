@@ -6,18 +6,18 @@ Graphics::Graphics()
 	_fWindowHeight = 100.f;
 }
 
-void Graphics::InitWindow(HINSTANCE hInstance)
+void Graphics::InitWindow()
 {
 	WNDCLASSEX windowClass = { 0 };
 	windowClass.cbSize = sizeof(WNDCLASSEX);
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
 	windowClass.lpfnWndProc = WindowProc;
-	windowClass.hInstance = hInstance;
+	windowClass.hInstance = GetModuleHandle(NULL);
 	windowClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	windowClass.lpszClassName = L"Window";
 	RegisterClassEx(&windowClass);
 
-	_hWindow = CreateWindow(windowClass.lpszClassName, L"Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720, nullptr, nullptr, hInstance, NULL);
+	_hWindow = CreateWindow(windowClass.lpszClassName, L"Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, _iWindowWidth, _iWindowHeight, nullptr, nullptr, GetModuleHandle(NULL), NULL);
 	ShowWindow(_hWindow, SW_NORMAL);
 }
 
@@ -54,6 +54,7 @@ void Graphics::InitDX()
 
 	_iRtvDescriptorSize = _DXDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 	_iDsvDescriptorSize = _DXDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	_iCbvSrvDescriptorSize = _DXDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//-----------------Define MSAA Quality--------------------------------------------------------------------------------------------------------------------//
 	_DXQualityLevels.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -69,11 +70,10 @@ void Graphics::InitDX()
 	assert(_DXDevice->CreateCommandQueue(&_DXCommandQueueDesc, IID_PPV_ARGS(&_DXCommandQueue)) == S_OK && "create Command Queue error");
 	assert(_DXDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&_DXCommandAllocator)) == S_OK && "create Command Allocator error");
 	assert(_DXDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, _DXCommandAllocator, nullptr, IID_PPV_ARGS(&_DXCommandList)) == S_OK && "create Command List error");
-	_DXCommandList->Close(); //close = etat
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//-----------------Create SwapChain--------------------------------------------------------------------------------------------------------------------//
-	_DXSwapChainDESC.BufferDesc.Width = 1280;
-	_DXSwapChainDESC.BufferDesc.Height = 720;
+	_DXSwapChainDESC.BufferDesc.Width = _iWindowWidth;
+	_DXSwapChainDESC.BufferDesc.Height = _iWindowHeight;
 	_DXSwapChainDESC.BufferDesc.RefreshRate.Denominator = 1;
 	_DXSwapChainDESC.BufferDesc.RefreshRate.Numerator = 60;
 	_DXSwapChainDESC.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -102,7 +102,7 @@ void Graphics::InitDX()
 	_DXDsvHeapDesc.NodeMask = 0;
 	assert(_DXDevice->CreateDescriptorHeap(&_DXDsvHeapDesc, IID_PPV_ARGS(&_DXDsvHeapDescriptor)) == S_OK && "create dsvDescriptorHeap error");
 
-	_DXSwapChain->ResizeBuffers(2, 1280, 720, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+	_DXSwapChain->ResizeBuffers(2, _iWindowWidth, _iWindowHeight, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 	_DXSwapChain->GetBuffer(0, IID_PPV_ARGS(&_DXSwapChainBuffer[0]));
 	_DXSwapChain->GetBuffer(1, IID_PPV_ARGS(&_DXSwapChainBuffer[1]));
 	_DXDevice->CreateRenderTargetView(_DXSwapChainBuffer[_iCurrBackBuffer], nullptr, _DXRtvHeapDescriptor->GetCPUDescriptorHandleForHeapStart());
@@ -110,8 +110,8 @@ void Graphics::InitDX()
 	//------------------Create Depth Buffer-------------------------------------------------------------------------------------------------------------------//
 	_DXDepthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	_DXDepthStencilDesc.Alignment = 0;
-	_DXDepthStencilDesc.Width = 1280;
-	_DXDepthStencilDesc.Height = 720;
+	_DXDepthStencilDesc.Width = _iWindowWidth;
+	_DXDepthStencilDesc.Height = _iWindowHeight;
 	_DXDepthStencilDesc.DepthOrArraySize = 1;
 	_DXDepthStencilDesc.MipLevels = 1;
 	_DXDepthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
@@ -124,22 +124,31 @@ void Graphics::InitDX()
 	_DXOptClear.DepthStencil.Depth = 1.0f;
 	_DXOptClear.DepthStencil.Stencil = 0;
 
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	dsvDesc.Texture2D.MipSlice = 0;
+
 	assert(_DXDevice->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),D3D12_HEAP_FLAG_NONE,&_DXDepthStencilDesc,D3D12_RESOURCE_STATE_COMMON,&_DXOptClear,IID_PPV_ARGS(&_DXDepthStencilBuffer)) == S_OK && "error CreateCommittedResource");
-	_DXDevice->CreateDepthStencilView(_DXDepthStencilBuffer, nullptr, _DXDsvHeapDescriptor->GetCPUDescriptorHandleForHeapStart());
+	_DXDevice->CreateDepthStencilView(_DXDepthStencilBuffer, &dsvDesc, _DXDsvHeapDescriptor->GetCPUDescriptorHandleForHeapStart());
 	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(_DXDepthStencilBuffer, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//--------------------Create ViewPort---------------------------------------------------------------------------------------------------------------//
 	_DXViewPort.TopLeftX = 0.0f;
 	_DXViewPort.TopLeftY = 0.0f;
-	_DXViewPort.Width = 1280;
-	_DXViewPort.Height = 720;
+	_DXViewPort.Width = _iWindowWidth;
+	_DXViewPort.Height = _iWindowHeight;
 	_DXViewPort.MinDepth = 0.0f;
 	_DXViewPort.MaxDepth = 1.0f;	
 	_DXCommandList->RSSetViewports(1, &_DXViewPort);
 
-	_DXScissorRect = { 0, 0, 1280 / 2, 720 / 2 };
+	_DXScissorRect = { 0, 0, _iWindowWidth / 2, _iWindowHeight / 2 };
 	_DXCommandList->RSSetScissorRects(1, &_DXScissorRect);
 	_DXCommandList->RSSetScissorRects(1, &_DXScissorRect);
+	_DXCommandList->Close();
+	ID3D12CommandList* cmdsLists[] = { _DXCommandList };
+	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//-----------------Create CbvBuffer--------------------------------------------------------------------------------------------------------------------//
 	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
@@ -147,7 +156,8 @@ void Graphics::InitDX()
 	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	cbvHeapDesc.NodeMask = 0;
-	assert(_DXDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap)) == S_OK && "error CreateDescriptorHeap");
+	_DXDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
+
 
 	_ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(_DXDevice, 1, true);
 
@@ -193,14 +203,12 @@ void Graphics::InitDX()
 	{
 		::OutputDebugStringA((char*)errorBlob->GetBufferPointer());
 	}
-	assert(hr && "error blob");
-	assert(_DXDevice->CreateRootSignature(0,serializedRootSig->GetBufferPointer(),serializedRootSig->GetBufferSize(),IID_PPV_ARGS(&_DXRootSignature)));
+	assert(hr == S_OK && "error blob");
+	assert(_DXDevice->CreateRootSignature(0,serializedRootSig->GetBufferPointer(),serializedRootSig->GetBufferSize(),IID_PPV_ARGS(&_DXRootSignature)) == S_OK && "error create rootsignature");
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//--------------------Build Shader-----------------------------------------------------------------------------------------------------------------//
-	HRESULT hr = S_OK;
-
-	_VsByteCode = CompileShader(L"Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
-	_PsByteCode = CompileShader(L"Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
+	_VertexShader = d3dUtil::CompileShader(L"C:\\Users\\chris\\OneDrive\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
+	_PixelShader = d3dUtil::CompileShader(L"C:\\Users\\chris\\OneDrive\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
 
 	_vInputLayout =
 	{
@@ -215,12 +223,13 @@ void Graphics::InitDX()
 	psoDesc.pRootSignature = _DXRootSignature;
 	psoDesc.VS =
 	{
-		reinterpret_cast<BYTE*>(_VsByteCode->GetBufferPointer()),_VsByteCode->GetBufferSize()
+		reinterpret_cast<BYTE*>(_VertexShader->GetBufferPointer()),
+		_VertexShader->GetBufferSize()
 	};
 	psoDesc.PS =
 	{
-		reinterpret_cast<BYTE*>(_PsByteCode->GetBufferPointer()),
-		_PsByteCode->GetBufferSize()
+		reinterpret_cast<BYTE*>(_PixelShader->GetBufferPointer()),
+		_PixelShader->GetBufferSize()
 	};
 	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
@@ -249,6 +258,7 @@ LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 	}
 	return 0;
 
+
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
@@ -273,7 +283,8 @@ void Graphics::Draw()
 {
 	// Reuse the memory associated with command recording.
 	// We can only reset when the associated command lists have finished execution on the GPU.
-	assert(_DXCommandAllocator->Reset() == S_OK && "Reset CommandAllocator error");
+	HRESULT hr = _DXCommandAllocator->Reset();
+	assert(hr == S_OK && "Reset CommandAllocator error");
 
 	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
 	// Reusing the command list reuses memory.
@@ -287,7 +298,7 @@ void Graphics::Draw()
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
 	// Clear the back buffer and depth buffer.
-	_DXCommandList->ClearRenderTargetView(GetCurrentBackBufferView(), DirectX::Colors::LightSteelBlue, 0, nullptr);
+	_DXCommandList->ClearRenderTargetView(GetCurrentBackBufferView(), DirectX::Colors::Aquamarine, 0, nullptr);
 	_DXCommandList->ClearDepthStencilView(GetDepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 	// Specify the buffers we are going to render to.
@@ -354,25 +365,105 @@ void Graphics::FlushCommandQueue()
 	}
 }
 
-ID3DBlob* Graphics::CompileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target)
+void Graphics::OnResize()
 {
-	UINT compileFlags = 0;
-#if defined(DEBUG) || defined(_DEBUG)  
-	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-#endif
+	assert(_DXDevice);
+	assert(_DXSwapChain);
+	assert(_DXCommandAllocator);
 
-	HRESULT hr = S_OK;
+	// Flush before changing any resources.
+	FlushCommandQueue();
 
-	ID3DBlob* byteCode = nullptr;
-	ID3DBlob* errors;
-	hr = D3DCompileFromFile(filename.c_str(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
+	_DXCommandList->Reset(_DXCommandAllocator, nullptr);
 
-	if (errors != nullptr)
-		OutputDebugStringA((char*)errors->GetBufferPointer());
+	// Release the previous resources we will be recreating.
+	for (int i = 0; i < _iBufferCount; ++i)
+	{
+		_DXSwapChainBuffer[i]->Release();
+		_DXSwapChainBuffer[i] = nullptr;
+	}
+		
+	_DXDepthStencilBuffer->Release();
+	_DXDepthStencilBuffer = nullptr;
 
-	assert(hr);
+	// Resize the swap chain.
+	assert(_DXSwapChain->ResizeBuffers(
+		_iBufferCount,
+		_iWindowWidth, _iWindowHeight,
+		DXGI_FORMAT_R8G8B8A8_UNORM,
+		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH) == S_OK && "error resize swapchain");
 
-	return byteCode;
-}
+	_iCurrBackBuffer = 0;
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHeapHandle(_DXRtvHeapDescriptor->GetCPUDescriptorHandleForHeapStart());
+	for (UINT i = 0; i < _iBufferCount; i++)
+	{
+		assert(_DXSwapChain->GetBuffer(i, IID_PPV_ARGS(&_DXSwapChainBuffer[i])) == S_OK && "error getbuffer");
+		_DXDevice->CreateRenderTargetView(_DXSwapChainBuffer[i], nullptr, rtvHeapHandle);
+		rtvHeapHandle.Offset(1, _iRtvDescriptorSize);
+	}
+
+	// Create the depth/stencil buffer and view.
+	D3D12_RESOURCE_DESC depthStencilDesc;
+	depthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthStencilDesc.Alignment = 0;
+	depthStencilDesc.Width = _iWindowWidth;
+	depthStencilDesc.Height = _iWindowHeight;
+	depthStencilDesc.DepthOrArraySize = 1;
+	depthStencilDesc.MipLevels = 1;
+
+	// Correction 11/12/2016: SSAO chapter requires an SRV to the depth buffer to read from 
+	// the depth buffer.  Therefore, because we need to create two views to the same resource:
+	//   1. SRV format: DXGI_FORMAT_R24_UNORM_X8_TYPELESS
+	//   2. DSV Format: DXGI_FORMAT_D24_UNORM_S8_UINT
+	// we need to create the depth buffer resource with a typeless format.  
+	depthStencilDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
+
+	depthStencilDesc.SampleDesc.Count = 1;
+	depthStencilDesc.SampleDesc.Quality = 0;
+	depthStencilDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+	depthStencilDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	D3D12_CLEAR_VALUE optClear;
+	optClear.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	optClear.DepthStencil.Depth = 1.0f;
+	optClear.DepthStencil.Stencil = 0;
+	assert(_DXDevice->CreateCommittedResource(
+		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+		D3D12_HEAP_FLAG_NONE,
+		&depthStencilDesc,
+		D3D12_RESOURCE_STATE_COMMON,
+		&optClear,
+		IID_PPV_ARGS(&_DXDepthStencilBuffer))==S_OK && "error create DSBuffer");
+
+	// Create descriptor to mip level 0 of entire resource using the format of the resource.
+	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	dsvDesc.Texture2D.MipSlice = 0;
+	_DXDevice->CreateDepthStencilView(_DXDepthStencilBuffer, &dsvDesc, _DXDsvHeapDescriptor->GetCPUDescriptorHandleForHeapStart());
+
+	// Transition the resource from its initial state to be used as a depth buffer.
+	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(_DXDepthStencilBuffer,D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+
+	// Execute the resize commands.
+	_DXCommandList->Close();
+	ID3D12CommandList* cmdsLists[] = { _DXCommandList };
+	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until resize is complete.
+	FlushCommandQueue();
+
+	// Update the viewport transform to cover the client area.
+	_DXViewPort.TopLeftX = 0;
+	_DXViewPort.TopLeftY = 0;
+	_DXViewPort.Width = static_cast<float>(_iWindowWidth);
+	_DXViewPort.Height = static_cast<float>(_iWindowHeight);
+	_DXViewPort.MinDepth = 0.0f;
+	_DXViewPort.MaxDepth = 1.0f;
+
+	_DXScissorRect = { 0, 0, _iWindowWidth, _iWindowHeight };
+	}
+
 

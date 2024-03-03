@@ -2,6 +2,7 @@
 #include "d3dUtil.h"
 #include <comdef.h>
 #include <fstream>
+#include <iostream>
 
 using Microsoft::WRL::ComPtr;
 
@@ -87,7 +88,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
     return defaultBuffer;
 }
 
-ComPtr<ID3DBlob> d3dUtil::CompileShader(
+ID3DBlob* d3dUtil::CompileShader(
 	const std::wstring& filename,
 	const D3D_SHADER_MACRO* defines,
 	const std::string& entrypoint,
@@ -98,19 +99,20 @@ ComPtr<ID3DBlob> d3dUtil::CompileShader(
 	compileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-	HRESULT hr = S_OK;
+    HRESULT hr = S_OK;
 
-	ComPtr<ID3DBlob> byteCode = nullptr;
-	ComPtr<ID3DBlob> errors;
-	hr = D3DCompileFromFile(filename.c_str(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
+    ID3DBlob* byteCode = nullptr;
+    ID3DBlob* errors = nullptr;
 
-	if(errors != nullptr)
-		OutputDebugStringA((char*)errors->GetBufferPointer());
+    hr = D3DCompileFromFile(filename.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
+        entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
 
-	ThrowIfFailed(hr);
+    if (errors != nullptr)
+        OutputDebugStringA((char*)errors->GetBufferPointer());
 
-	return byteCode;
+    ThrowIfFailed(hr);
+
+    return byteCode;
 }
 
 std::wstring DxException::ToString()const

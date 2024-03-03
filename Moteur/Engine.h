@@ -4,7 +4,7 @@
 class Engine
 {
 public:
-	Engine(HINSTANCE hInstance);
+	Engine();
 	void Run();
 	void Pause();
 	void Resume();
@@ -15,7 +15,6 @@ public:
 private:
 	Graphics* _pGraphics;
 	EntityManager* _pEntityManager;
-	HINSTANCE _hInstance;
 
 };
 
