@@ -32,8 +32,8 @@ void Graphics::InitDX()
 	{
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 		ID3D12Debug* debugController;
-		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
-		debugController->EnableDebugLayer();
+		//assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
+		//debugController->EnableDebugLayer();
 	}
 #endif
 
@@ -137,6 +137,13 @@ LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 {
 	switch (msg)
 	{
+
+	case WM_CLOSE:
+	{
+		// Fermer le programme lorsque la fenêtre est fermée.
+		PostQuitMessage(0);
+	}
+	return 0;
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}

@@ -11,12 +11,11 @@ public:
 	void Resume();
 	void Exit();
 	void Update();
-	void DrawText();
 
 private:
 
 	Graphics* _pGraphics;
 	HINSTANCE _hInstance;
-	Input* _InputManager;
+	Input* _pInput;
 };
 
