@@ -1,20 +1,13 @@
 #pragma once
 
-typedef enum ComponentType
-{
-	CompoMesh,
-	CompoBoxGeo
-};
-
 class Component
 {
 public:
 	Component();
-	Component(ComponentType iType);
-	ComponentType GetComponentType();
-	//virtual void SetComponent();
+
+	virtual int GetID() = 0;
 
 private:
-	ComponentType _iType;
+
 };
 

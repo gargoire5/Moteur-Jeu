@@ -1,4 +1,6 @@
 #include "Graphics.h"
+#include "Engine.h"
+#include "MeshRenderer.h"
 
 using namespace DirectX;
 Graphics::Graphics()
@@ -310,10 +312,18 @@ void Graphics::Draw()
 
 	_DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
 
-	//Add Object to render in command list
-	/*CommandList->IASetVertexBuffers(0, 1, &_DXBoxGeo->VertexBufferView());
-	mCommandList->IASetIndexBuffer(&mBoxGeo->IndexBufferView());
-	mCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);*/
+	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
+	{
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		for (Component* pComponent : vCompoList)
+		{
+			if (pComponent->GetID() == MeshRenderer::ID)
+			{
+
+			}
+		}
+	}
 
 	_DXCommandList->SetGraphicsRootDescriptorTable(0, _DXCbvHeap->GetGPUDescriptorHandleForHeapStart());
 
@@ -466,6 +476,15 @@ void Graphics::OnResize()
 	_DXViewPort.MaxDepth = 1.0f;
 
 	_DXScissorRect = { 0, 0, _iWindowWidth, _iWindowHeight };
-	}
+}
+
+ID3D12GraphicsCommandList* Graphics::GetCommandList()
+{
+	return _DXCommandList;
+}
+ID3D12Device* Graphics::GetDevice()
+{
+	return _DXDevice;
+}
 
 

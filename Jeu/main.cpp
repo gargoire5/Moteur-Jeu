@@ -1,4 +1,5 @@
 #include "../Moteur/Engine.h"
+#include "../Moteur/MeshRenderer.h"
 
 #ifdef _DEBUG
 #include <crtdbg.h>
@@ -13,9 +14,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	//------------------------------------------------------
 
 	Engine* pEngine = Engine::Instance();
-	pEngine->Run();
+	pEngine->Init();
+
+	EntityManager* pEntityManager = pEngine->GetEntityManager();
+	Entity* pTest = pEntityManager->CreateEntity("test");
+	MeshRenderer* pMeshTest = pTest->AttachComponent<MeshRenderer>();
 	
 
+
+	
+	pEngine->Run();
 
 	//------------------------------------------------------
 //#ifdef _DEBUG

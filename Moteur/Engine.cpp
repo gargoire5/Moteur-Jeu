@@ -16,14 +16,17 @@ Engine* Engine::Instance()
 	}
 	return _pInstance;
 }
-
-void Engine::Run()
+#include "../Moteur/MeshRenderer.h"
+void Engine::Init()
 {
 	_pEntityManager = new EntityManager();
 	_pGraphics = new Graphics();
 	_pGraphics->InitWindow();
 	_pGraphics->InitDX();
 	_pGraphics->OnResize();
+}
+void Engine::Run()
+{
 
 	bool running = true;
 	while (running)
@@ -55,4 +58,8 @@ void Engine::Run()
 EntityManager* Engine::GetEntityManager()
 {
 	return _pEntityManager;
+}
+Graphics* Engine::GetGraphics()
+{
+	return _pGraphics;
 }

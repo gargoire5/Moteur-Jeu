@@ -13,7 +13,10 @@ class Mesh
 public:
 	Mesh();
 
-	void UpLoadMesh(ID3D12Device* DXDevice, ID3D12GraphicsCommandList* DXCommandList, std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices);
+	void UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices);
+
+	D3D12_VERTEX_BUFFER_VIEW Mesh::VertexBufferView()const;
+	D3D12_INDEX_BUFFER_VIEW Mesh::IndexBufferView()const;
 
 	ID3DBlob* _DXVertexBufferCPU = nullptr;
 	ID3DBlob* _DXIndexBufferCPU = nullptr;
@@ -30,7 +33,7 @@ public:
 	DXGI_FORMAT _DXIndexFormat = DXGI_FORMAT_R16_UINT;
 	UINT _iIndexBufferByteSize = 0;
 
-	std::unordered_map<std::string, SubmeshGeometry> _DrawArgs;
+	UINT _iIndexCount;
 
 private:
 	UINT _iVbByteSize;

@@ -1,18 +1,16 @@
 #include "Mesh.h"
+#include "Engine.h"
 
 Mesh::Mesh()
 {}
 
-void Mesh::UpLoadMesh(ID3D12Device* DXDevice, ID3D12GraphicsCommandList* DXCommandList, std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
+void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
 {
 	_iVbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	_iIbByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
 
-	//D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
-	//CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
-	//
-	//D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
-	//CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
+	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 
 	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices.data(), _iVbByteSize, _DXVertexBufferUploader);
 	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices.data(), _iIbByteSize, _DXIndexBufferUploader);
@@ -21,11 +19,26 @@ void Mesh::UpLoadMesh(ID3D12Device* DXDevice, ID3D12GraphicsCommandList* DXComma
 	_iVertexBufferByteSize = _iVbByteSize;
 	_DXIndexFormat = DXGI_FORMAT_R16_UINT;
 	_iIndexBufferByteSize = _iIbByteSize;
+	
+	_iIndexCount = (UINT)indices.size();
+}
 
-	SubmeshGeometry submesh;
-	submesh.IndexCount = (UINT)indices.size();
-	submesh.StartIndexLocation = 0;
-	submesh.BaseVertexLocation = 0;
+D3D12_VERTEX_BUFFER_VIEW Mesh::VertexBufferView()const
+{
+	D3D12_VERTEX_BUFFER_VIEW vbv;
+	vbv.BufferLocation = _DXVertexBufferGPU->GetGPUVirtualAddress();
+	vbv.StrideInBytes = _iVertexByteStride;
+	vbv.SizeInBytes = _iVertexBufferByteSize;
 
-	_DrawArgs["c"] = submesh;
+	return vbv;
+}
+
+D3D12_INDEX_BUFFER_VIEW Mesh::IndexBufferView()const
+{
+	D3D12_INDEX_BUFFER_VIEW ibv;
+	ibv.BufferLocation = _DXIndexBufferGPU->GetGPUVirtualAddress();
+	ibv.Format = _DXIndexFormat;
+	ibv.SizeInBytes = _iIndexBufferByteSize;
+
+	return ibv;
 }

@@ -132,7 +132,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BoxGeo.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Engine.h" />
@@ -159,7 +158,6 @@
     <ClInclude Include="transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BoxGeo.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Engine.cpp" />
