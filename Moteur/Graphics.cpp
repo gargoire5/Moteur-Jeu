@@ -208,8 +208,8 @@ void Graphics::InitDX()
 	assert(_DXDevice->CreateRootSignature(0,serializedRootSig->GetBufferPointer(),serializedRootSig->GetBufferSize(),IID_PPV_ARGS(&_DXRootSignature)) == S_OK && "error create rootsignature");
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//--------------------Build Shader-----------------------------------------------------------------------------------------------------------------//
-	_VertexShader = d3dUtil::CompileShader(L"C:\\Users\\Clément\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
-	_PixelShader = d3dUtil::CompileShader(L"C:\\Users\\Clément\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
+	_VertexShader = d3dUtil::CompileShader(L"../Moteur\\Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
+	_PixelShader = d3dUtil::CompileShader(L"../Moteur\\Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
 
 	_vInputLayout =
 	{

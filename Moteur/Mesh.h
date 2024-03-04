@@ -8,7 +8,7 @@ struct Vertex
 	XMFLOAT3 Pos;
 	XMFLOAT4 Color;
 };
-class Mesh : public Component
+class Mesh
 {
 public:
 	Mesh();

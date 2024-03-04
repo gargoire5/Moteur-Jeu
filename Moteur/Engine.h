@@ -4,7 +4,7 @@
 class Engine
 {
 public:
-	Engine();
+	static Engine* Instance();
 	void Run();
 	void Pause();
 	void Resume();
@@ -13,6 +13,8 @@ public:
 	EntityManager* GetEntityManager();
 
 private:
+	Engine();
+	static Engine* _pInstance;
 	Graphics* _pGraphics;
 	EntityManager* _pEntityManager;
 

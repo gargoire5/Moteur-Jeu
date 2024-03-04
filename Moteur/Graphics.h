@@ -1,5 +1,6 @@
 #pragma once
 #include "Incl.h"
+#include "Mesh.h"
 
 struct ObjectConstants
 {

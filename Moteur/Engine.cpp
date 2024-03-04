@@ -1,7 +1,20 @@
 #include "Engine.h"
+
+Engine* Engine::_pInstance;
+
 Engine::Engine()
 {
+	_pEntityManager = nullptr;
+	_pGraphics = nullptr;
+}
 
+Engine* Engine::Instance()
+{
+	if (!_pInstance)
+	{
+		_pInstance = new Engine();
+	}
+	return _pInstance;
 }
 
 void Engine::Run()
