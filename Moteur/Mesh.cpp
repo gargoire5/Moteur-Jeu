@@ -8,14 +8,13 @@ void Mesh::UpLoadMesh(ID3D12Device* DXDevice, ID3D12GraphicsCommandList* DXComma
 	_iVbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	_iIbByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
 
-	D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
-	CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
-
-	D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
-	CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
+	//D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
+	//CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
+	//
+	//D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
+	//CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
 
 	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices.data(), _iVbByteSize, _DXVertexBufferUploader);
-
 	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices.data(), _iIbByteSize, _DXIndexBufferUploader);
 
 	_iVertexByteStride = sizeof(Vertex);
