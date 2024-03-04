@@ -10,11 +10,9 @@ public:
 
 	template <class T>
 	T* AttachComponent(ComponentType iType);
-
+	void UploadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices);
 	void DetachComponent(ComponentType iType);
 	const char* GetName();
-
-	
 
 private:
 	const char* _cName;
@@ -31,7 +29,7 @@ T* Entity::AttachComponent(ComponentType iType)
 			return nullptr;
 		}
 	}
-	T* pComponent = new T(iType);
+	T* pComponent = new T();
 	_vComponentList.push_back(pComponent);
 	return pComponent;
 }

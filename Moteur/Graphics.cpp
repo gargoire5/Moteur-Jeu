@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
+using namespace DirectX;
 Graphics::Graphics()
 {
 	_fWindowWidth = 100.f;
@@ -27,15 +28,15 @@ void Graphics::InitDX()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-#if defined(DEBUG) || defined(_DEBUG) 
-	// Enable the D3D12 debug layer.
-	{
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-		ID3D12Debug* debugController;
- 		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
-		debugController->EnableDebugLayer();
-	}
-#endif
+//#if defined(DEBUG) || defined(_DEBUG) 
+//	// Enable the D3D12 debug layer.
+//	{
+//		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+//		ID3D12Debug* debugController;
+// 		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
+//		debugController->EnableDebugLayer();
+//	}
+//#endif
 
 	//---------------Create Device/Factory----------------------------------------------------------------------------------------------------------------------//
 	assert(CreateDXGIFactory1(IID_PPV_ARGS(&_DXFactory))==S_OK && "error create Factory");
@@ -207,8 +208,8 @@ void Graphics::InitDX()
 	assert(_DXDevice->CreateRootSignature(0,serializedRootSig->GetBufferPointer(),serializedRootSig->GetBufferSize(),IID_PPV_ARGS(&_DXRootSignature)) == S_OK && "error create rootsignature");
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//--------------------Build Shader-----------------------------------------------------------------------------------------------------------------//
-	_VertexShader = d3dUtil::CompileShader(L"C:\\Users\\chris\\OneDrive\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
-	_PixelShader = d3dUtil::CompileShader(L"C:\\Users\\chris\\OneDrive\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
+	_VertexShader = d3dUtil::CompileShader(L"C:\\Users\\Clément\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "VS", "vs_5_0");
+	_PixelShader = d3dUtil::CompileShader(L"C:\\Users\\Clément\\Documents\\GitHub\\Moteur-Jeu\\Shaders\\color.hlsl", nullptr, "PS", "ps_5_0");
 
 	_vInputLayout =
 	{
@@ -316,6 +317,7 @@ void Graphics::Draw()
 
 	_DXCommandList->SetGraphicsRootDescriptorTable(0, _DXCbvHeap->GetGPUDescriptorHandleForHeapStart());
 
+	
 	//_DXCommandList->DrawIndexedInstanced(
 		//mBoxGeo->DrawArgs["box"].IndexCount,
 		//1, 0, 0, 0);

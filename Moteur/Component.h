@@ -9,7 +9,7 @@ typedef enum ComponentType
 class Component
 {
 public:
-	//Component();
+	Component();
 	Component(ComponentType iType);
 	ComponentType GetComponentType();
 	//virtual void SetComponent();

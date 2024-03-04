@@ -160,10 +160,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\color_ps.cso" />
-    <None Include="Shaders\color_vs.cso" />
+    <None Include="Shaders\color_vs.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
+    <None Include="Shaders\color_ps.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Shaders\color.hlsl" />
+    <Text Include="Shaders\color.hlsl">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </Text>
   </ItemGroup>
 </Project>
