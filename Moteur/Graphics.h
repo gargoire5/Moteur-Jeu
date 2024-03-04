@@ -1,5 +1,6 @@
 #pragma once
 #include "Incl.h"
+#include "Shader.h"
 #include "Mesh.h"
 
 struct ObjectConstants
@@ -19,6 +20,7 @@ public:
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
+	ID3D12Device* GetDevice();
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -70,13 +72,7 @@ private:
 	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
 	UINT _iCbvSrvDescriptorSize;
 
-
 	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
-
-	ID3DBlob* _VertexShader = nullptr;
-	ID3DBlob* _PixelShader = nullptr;
-
-	std::vector<D3D12_INPUT_ELEMENT_DESC> _vInputLayout;
 
 	int _iWindowWidth = 1280;
 	int _iWindowHeight = 720;

@@ -11,12 +11,12 @@ public:
 	void Exit();
 
 	EntityManager* GetEntityManager();
+	Graphics* GetGraphics();
 
 private:
 	Engine();
 	static Engine* _pInstance;
 	Graphics* _pGraphics;
 	EntityManager* _pEntityManager;
-
 };
 

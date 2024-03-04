@@ -56,3 +56,7 @@ EntityManager* Engine::GetEntityManager()
 {
 	return _pEntityManager;
 }
+
+Graphics* Engine::GetGraphics() {
+	return _pGraphics;
+}
