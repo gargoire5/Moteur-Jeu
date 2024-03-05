@@ -11,7 +11,7 @@ public:
 
 	void Initialize();
 	void Purge();
-	void Draw();//mech, matrice
+	void Draw(/*Mesh, matrice Transform*/);//mech, matrice
 
 private:
 	ID3DBlob* serializedRootSig = nullptr;

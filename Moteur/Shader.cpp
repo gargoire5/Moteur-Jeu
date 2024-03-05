@@ -87,8 +87,19 @@ void Shader::Purge()
 	}
 }
 
-void Shader::Draw()
+void Shader::Draw(/*Mesh, transform::Rotate*/)
 {
+	//call mesh
+	
+
+	//call meshrenderer
 
 
+	//call shader
+
+
+	//return all
+	
 }
+
+
