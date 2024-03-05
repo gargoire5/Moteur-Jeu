@@ -310,9 +310,8 @@ void Graphics::Draw()
 	ID3D12DescriptorHeap* descriptorHeaps[] = { _DXCbvHeap };
 	_DXCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
-	_DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
-
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+
 	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
 	{
 		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
@@ -320,17 +319,10 @@ void Graphics::Draw()
 		{
 			if (pComponent->GetID() == MeshRenderer::ID)
 			{
-
+				dynamic_cast<MeshRenderer*>(pComponent)->RenderMesh();
 			}
 		}
 	}
-
-	_DXCommandList->SetGraphicsRootDescriptorTable(0, _DXCbvHeap->GetGPUDescriptorHandleForHeapStart());
-
-	
-	//_DXCommandList->DrawIndexedInstanced(
-		//mBoxGeo->DrawArgs["box"].IndexCount,
-		//1, 0, 0, 0);
 
 	// Indicate a state transition on the resource usage.
 	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(GetCurrentBackBuffer(),
@@ -481,6 +473,10 @@ void Graphics::OnResize()
 ID3D12GraphicsCommandList* Graphics::GetCommandList()
 {
 	return _DXCommandList;
+}
+ID3D12RootSignature* Graphics::GetRootSignature()
+{
+	return _DXRootSignature;
 }
 ID3D12Device* Graphics::GetDevice()
 {

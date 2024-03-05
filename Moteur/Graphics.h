@@ -18,6 +18,7 @@ public:
 
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
+	ID3D12RootSignature* GetRootSignature();
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;

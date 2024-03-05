@@ -13,9 +13,9 @@ public:
 		return ID;
 	}
 	void SetMesh(Mesh* pMesh);
-	void SetBuffer();
 	void RenderMesh();
 private:
 	Mesh* _pMeshToRender;
+	std::unique_ptr<UploadBuffer<ObjectConstants>> mObjectCB = nullptr;
 };
 
