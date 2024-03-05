@@ -1,5 +1,4 @@
 #include "Shader.h"
-
 #include "Graphics.h"
 
 Shader::Shader()
@@ -15,17 +14,18 @@ Shader::~Shader()
 void Shader::Initialize()
 {
 
-	DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
+	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 
-	CD3DX12_ROOT_PARAMETER slotRootParameter[1];
+	CD3DX12_ROOT_PARAMETER slotRootParameter[2];
 
 	// Create a single descriptor table of CBVs.
-	CD3DX12_DESCRIPTOR_RANGE cbvTable;
-	cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-	slotRootParameter[0].InitAsDescriptorTable(1, &cbvTable);
+	//CD3DX12_DESCRIPTOR_RANGE cbvTable;
+	//cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
+	slotRootParameter[0].InitAsConstantBufferView(0);
+	slotRootParameter[1].InitAsConstantBufferView(1);
 
 	// A root signature is an array of root parameters.
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(1, slotRootParameter, 0, nullptr,
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(2, slotRootParameter, 0, nullptr,
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
@@ -73,7 +73,8 @@ void Shader::Initialize()
 	psoDesc.SampleDesc.Count = 1;
 	psoDesc.SampleDesc.Quality = 0;
 	psoDesc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	assert(DXDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&_DXPSO)) == S_OK && "error create pso");
+	HRESULT hrr = DXDevice->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&_DXPSO));
+	assert( hrr== S_OK && "error create pso");
 
 }
 
@@ -87,8 +88,19 @@ void Shader::Purge()
 	}
 }
 
-void Shader::Draw()
+void Shader::Draw(Mesh* pMeshToRender, Buffer* pBuffer)
 {
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 
+	DXCommandList->SetGraphicsRootSignature(Engine::Instance()->GetGraphics()->GetRootSignature());
 
+	DXCommandList->SetPipelineState(_DXPSO);
+
+	DXCommandList->IASetVertexBuffers(0, 1, &pMeshToRender->VertexBufferView());
+	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
+	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	DXCommandList->SetGraphicsRootConstantBufferView(0, pBuffer->GetVirtualAddr());
+
+	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }

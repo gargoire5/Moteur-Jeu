@@ -1,6 +1,9 @@
 #pragma once
+#include "Incl.h"
 #include "Component.h"
 #include "Mesh.h"
+#include "Shader.h"
+#include "Graphics.h"
 
 class MeshRenderer : public Component
 {
@@ -13,9 +16,12 @@ public:
 		return ID;
 	}
 	void SetMesh(Mesh* pMesh);
-	void RenderMesh();
+	void RenderMesh(Shader* pShader);
+	void UpdateWorldPos();
+	void SetPosition(float x, float y, float z);
 private:
 	Mesh* _pMeshToRender;
-	std::unique_ptr<UploadBuffer<ObjectConstants>> mObjectCB = nullptr;
+	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
+	Transform* _pTransform;
 };
 

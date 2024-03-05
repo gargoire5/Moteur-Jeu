@@ -69,3 +69,18 @@ using namespace DirectX;
 		fDir.z = mRot._33;
 
 	}
+
+	void Transform::Update_mPos()
+	{
+		mPos = XMVectorSet(fPos.x, fPos.y, fPos.z, 1.0f);
+	}
+
+	void Transform::Update_WorldMatrix()
+	{
+		XMVECTOR pos = XMLoadFloat3(&fPos);
+		XMVECTOR right = XMLoadFloat3(&fRight);
+		XMVECTOR up = XMLoadFloat3(&fUp);
+		XMMATRIX mMatrix = XMMatrixLookAtLH(pos, right, up);
+
+		XMStoreFloat4x4(&matrix, mMatrix);
+	}

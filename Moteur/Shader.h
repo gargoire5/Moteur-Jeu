@@ -11,7 +11,7 @@ public:
 
 	void Initialize();
 	void Purge();
-	void Draw();//mech, matrice
+	void Draw(Mesh* pMeshToRender, Buffer* pBuffer);
 
 private:
 	ID3DBlob* serializedRootSig = nullptr;
@@ -22,5 +22,4 @@ private:
 	ID3D12PipelineState* _DXPSO = nullptr;
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> _vInputLayout;
-	ID3D12Device* DXDevice = nullptr;
 };

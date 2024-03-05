@@ -5,7 +5,11 @@
 
 struct ObjectConstants
 {
-	DirectX::XMFLOAT4X4 WorldViewProj = MathHelper::Identity4x4();
+	DirectX::XMFLOAT4X4 WorldMatrix = MathHelper::Identity4x4();
+};
+struct CamConstants
+{
+	DirectX::XMFLOAT4X4 ViewProj = MathHelper::Identity4x4();
 };
 
 class Graphics
@@ -15,15 +19,16 @@ public:
 	void InitWindow();
 	void InitDX();
 	void OnResize();
+	void Update();
 	void Draw();
 
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
 	ID3D12RootSignature* GetRootSignature();
+	ID3D12DescriptorHeap* GetCbvHeap();
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
-	ID3D12Device* GetDevice();
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -69,13 +74,23 @@ private:
 	D3D12_VIEWPORT _DXViewPort;
 	tagRECT _DXScissorRect;
 
+	D3D12_DESCRIPTOR_HEAP_DESC _DXCbvHeapDesc;
+	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
+
 	ID3D12PipelineState* _DXPSO = nullptr;
 
 	ID3D12RootSignature* _DXRootSignature = nullptr;
-	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
 	UINT _iCbvSrvDescriptorSize;
 
-	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
+	Shader* _pShader;
+
+	XMFLOAT4X4 _f4World = MathHelper::Identity4x4();
+	XMFLOAT4X4 _f4View = MathHelper::Identity4x4();
+	XMFLOAT4X4 _f4Proj = MathHelper::Identity4x4();
+
+	float _fTheta = 1.5f * XM_PI;
+	float _fPhi = XM_PIDIV4;
+	float _fRadius = 5.0f;
 
 	int _iWindowWidth = 1280;
 	int _iWindowHeight = 720;

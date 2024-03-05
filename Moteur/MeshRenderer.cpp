@@ -1,5 +1,7 @@
 #include "MeshRenderer.h"
 #include "Engine.h"
+
+
 MeshRenderer::MeshRenderer()
 {
 	_pMeshToRender = nullptr;
@@ -7,21 +9,31 @@ MeshRenderer::MeshRenderer()
 
 void MeshRenderer::SetMesh(Mesh* pMesh)
 {
+	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
+	_DXObjectCB = new UploadBuffer<ObjectConstants>(DXDevice, 1, true);
+
 	_pMeshToRender = pMesh;
 }
 
 
-void MeshRenderer::RenderMesh()
+void MeshRenderer::RenderMesh(Shader* pShader)
 {
-	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+	pShader->Draw(_pMeshToRender, _DXObjectCB);
+}
 
-	DXCommandList->SetGraphicsRootSignature(Engine::Instance()->GetGraphics()->GetRootSignature());
-	DXCommandList->IASetVertexBuffers(0, 1, &_pMeshToRender->VertexBufferView());
-	DXCommandList->IASetIndexBuffer(&_pMeshToRender->IndexBufferView());
-	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+void MeshRenderer::UpdateWorldPos()
+{
+	ObjectConstants objConstants;
+	objConstants.WorldMatrix = _pTransform->matrix;
+	_DXObjectCB->CopyData(0, objConstants);
+}
 
-	DXCommandList->SetGraphicsRootDescriptorTable(0, _DXCbvHeap->GetGPUDescriptorHandleForHeapStart());
+void MeshRenderer::SetPosition(float x, float y, float z)
+{
+	_pTransform = new Transform();
+	_pTransform->fPos = { x,y,z };
+	_pTransform->qRot = { 0,0,0,0 };
+	_pTransform->fRight = { 0,0,0 };
+	_pTransform->fUp = { 0,0,0 };
 
-	ID3D12GraphicsCommandList* _DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-	_DXCommandList->DrawIndexedInstanced( _pMeshToRender->_iIndexCount,1, 0, 0, 0);
 }

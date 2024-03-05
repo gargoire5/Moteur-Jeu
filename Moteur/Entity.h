@@ -17,6 +17,8 @@ public:
 	const char* GetName();
 	std::vector<Component*> GetComponents();
 
+
+
 private:
 	const char* _cName;
 	std::vector<Component*> _vComponentList;

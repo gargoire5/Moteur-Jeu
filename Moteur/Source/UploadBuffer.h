@@ -1,9 +1,10 @@
 #pragma once
 
 #include "d3dUtil.h"
+#include "Buffer.h"
 
 template<typename T>
-class UploadBuffer
+class UploadBuffer : public Buffer
 {
 public:
     UploadBuffer(ID3D12Device* device, UINT elementCount, bool isConstantBuffer) : 
@@ -55,6 +56,8 @@ public:
         memcpy(&mMappedData[elementIndex*mElementByteSize], &data, sizeof(T));
     }
 
+    virtual D3D12_GPU_VIRTUAL_ADDRESS GetVirtualAddr()override;
+
 private:
     Microsoft::WRL::ComPtr<ID3D12Resource> mUploadBuffer;
     BYTE* mMappedData = nullptr;
@@ -62,3 +65,9 @@ private:
     UINT mElementByteSize = 0;
     bool mIsConstantBuffer = false;
 };
+
+template<typename T>
+D3D12_GPU_VIRTUAL_ADDRESS UploadBuffer<T>::GetVirtualAddr()
+{
+    return Resource()->GetGPUVirtualAddress();
+}

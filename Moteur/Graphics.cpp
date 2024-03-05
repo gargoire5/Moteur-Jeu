@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "Engine.h"
 #include "MeshRenderer.h"
+#include "Camera.h"
 
 using namespace DirectX;
 Graphics::Graphics()
@@ -153,34 +154,17 @@ void Graphics::InitDX()
 	ID3D12CommandList* cmdsLists[] = { _DXCommandList };
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 	//-------------------------------------------------------------------------------------------------------------------------------------//
-	//-----------------Create CbvBuffer--------------------------------------------------------------------------------------------------------------------//
-	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
-	cbvHeapDesc.NumDescriptors = 1;
-	cbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	cbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	cbvHeapDesc.NodeMask = 0;
-	_DXDevice->CreateDescriptorHeap(&cbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
-
-
-	_ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(_DXDevice, 1, true);
-
-	UINT iObjCBByteSize = (sizeof(ObjectConstants) + 255) & ~255;
-
-	D3D12_GPU_VIRTUAL_ADDRESS cbAddress = _ObjectCB->Resource()->GetGPUVirtualAddress();
-	// Offset to the ith object constant buffer in the buffer.
-	int boxCBufIndex = 0;
-	cbAddress += boxCBufIndex * iObjCBByteSize;
-
-	D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
-	cbvDesc.BufferLocation = cbAddress;
-	cbvDesc.SizeInBytes = iObjCBByteSize;
-
-	_DXDevice->CreateConstantBufferView(&cbvDesc,_DXCbvHeap->GetCPUDescriptorHandleForHeapStart());
+	//-----------------Create CbvHeap--------------------------------------------------------------------------------------------------------------------//	
+	_DXCbvHeapDesc.NumDescriptors = 1;
+	_DXCbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	_DXCbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	_DXCbvHeapDesc.NodeMask = 0;
+	_DXDevice->CreateDescriptorHeap(&_DXCbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//------------------Shader Calling-------------------------------------------------------------------------------------------------------------------//
-	Shader shades;
-	shades.Initialize();
-	
+	_pShader = new Shader();
+	_pShader->Initialize();
+	//-------------------------------------------------------------------------------------------------------------------------------------//
 }
 
 LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -258,7 +242,7 @@ void Graphics::Draw()
 		{
 			if (pComponent->GetID() == MeshRenderer::ID)
 			{
-				dynamic_cast<MeshRenderer*>(pComponent)->RenderMesh();
+				dynamic_cast<MeshRenderer*>(pComponent)->RenderMesh(_pShader);
 			}
 		}
 	}
@@ -407,6 +391,43 @@ void Graphics::OnResize()
 	_DXViewPort.MaxDepth = 1.0f;
 
 	_DXScissorRect = { 0, 0, _iWindowWidth, _iWindowHeight };
+
+	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, static_cast<float>(_iWindowWidth) / _iWindowHeight, 1.0f, 1000.0f);
+	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
+	{
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		for (Component* pComponent : vCompoList)
+		{
+			if (pComponent->GetID() == Camera::ID)
+			{
+				XMStoreFloat4x4(&dynamic_cast<Camera*>(pComponent)->GetProj(),P);
+			}
+		}
+	}
+}
+
+void Graphics::Update()
+{
+	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+	
+	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
+	{
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		for (Component* pComponent : vCompoList)
+		{
+			if (pComponent->GetID() == Camera::ID)
+			{
+				dynamic_cast<Camera*>(pComponent)->UpdateCam();
+			}
+
+			if (pComponent->GetID() == MeshRenderer::ID)
+			{
+				dynamic_cast<MeshRenderer*>(pComponent)->UpdateWorldPos();
+			}
+		}
+	}
+
 }
 
 ID3D12GraphicsCommandList* Graphics::GetCommandList()
@@ -417,8 +438,9 @@ ID3D12RootSignature* Graphics::GetRootSignature()
 {
 	return _DXRootSignature;
 }
-ID3D12Device* Graphics::GetDevice()
+ID3D12DescriptorHeap* Graphics::GetCbvHeap()
 {
-	return _DXDevice;
+	return _DXCbvHeap;
 }
+
 

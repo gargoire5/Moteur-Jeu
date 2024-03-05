@@ -40,9 +40,6 @@
     <ClCompile Include="transform.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Camera.cpp">
-      <Filter>Fichiers de ressources\Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\d3dApp.cpp">
       <Filter>Fichiers de ressources\Source</Filter>
     </ClCompile>
@@ -61,6 +58,7 @@
     <ClCompile Include="Source\MathHelper.cpp">
       <Filter>Fichiers de ressources\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Buffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="transform.h">
@@ -71,9 +69,6 @@
     </ClInclude>
     <ClInclude Include="Incl.h">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Camera.h">
-      <Filter>Fichiers de ressources\Source</Filter>
     </ClInclude>
     <ClInclude Include="Source\d3dApp.h">
       <Filter>Fichiers de ressources\Source</Filter>
@@ -135,6 +130,7 @@
     <ClInclude Include="timer.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Buffer.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">

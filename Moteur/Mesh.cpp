@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "Engine.h"
+#include "Graphics.h"
 
 Mesh::Mesh()
 {}

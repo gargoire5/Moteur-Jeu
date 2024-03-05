@@ -21,6 +21,7 @@
 #include "Source/MathHelper.h"
 #include "Source/d3dUtil.h"
 #include "Source/UploadBuffer.h"
+#include "transform.h"
 
 #include <string>
 #include <wrl.h>

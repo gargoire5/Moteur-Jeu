@@ -47,6 +47,7 @@ void Engine::Run()
 		else
 		{
 			// Update (time, input, gameplay...)
+			_pGraphics->Update();
 
 			// Render
 			_pGraphics->Draw();
