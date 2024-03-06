@@ -32,8 +32,11 @@ XMFLOAT4X4 Camera::GetProj()
 {
 	return _mProj;
 }
-
-void Camera::RenderMesh()
+void Camera::PreRender()
+{
+	_pShader->PreDraw();
+}
+void Camera::Render()
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 

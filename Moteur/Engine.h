@@ -1,7 +1,7 @@
 #pragma once
 //#include "Graphics.h"
 #include "EntityManager.h"
-class Graphics;
+#include "Graphics.h"
 class Engine
 {
 public:

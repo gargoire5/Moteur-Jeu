@@ -1,7 +1,7 @@
 #pragma once
 #include "Incl.h"
-#include "Mesh.h"
 #include "Component.h"
+#include "Mesh.h"
 
 class Entity
 {

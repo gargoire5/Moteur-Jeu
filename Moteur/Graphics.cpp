@@ -200,6 +200,11 @@ D3D12_CPU_DESCRIPTOR_HANDLE Graphics::GetDepthStencilView()const
 	return _DXDsvHeapDescriptor->GetCPUDescriptorHandleForHeapStart();
 }
 
+Shader* Graphics::GetShader()
+{
+	return _pShader;
+}
+
 ID3D12Device* Graphics::GetDevice()
 {
 	return _DXDevice;
@@ -239,24 +244,14 @@ void Graphics::Draw()
 	{
 		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
 		for (Component* pComponent : vCompoList)
-			pComponent->PreRenderMesh();
+		{
+			pComponent->PreRender();
+			pComponent->Render();
+		}
+			
+	
 	}
 
-	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
-	{
-		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
-		for (Component* pComponent : vCompoList)
-		{
-			if (pComponent->GetID() == Camera::ID)
-			{
-				dynamic_cast<Camera*>(pComponent)->RenderMesh();
-			}
-			if (pComponent->GetID() == MeshRenderer::ID)
-			{
-				dynamic_cast<MeshRenderer*>(pComponent)->RenderMesh(_pShader);
-			}
-		}
-	}
 
 	// Indicate a state transition on the resource usage.
 	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(GetCurrentBackBuffer(),

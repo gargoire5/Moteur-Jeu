@@ -1,5 +1,5 @@
 #include "MeshRenderer.h"
-#include "Engine.h"
+
 
 
 MeshRenderer::MeshRenderer()
@@ -15,19 +15,15 @@ void MeshRenderer::SetMesh(Mesh* pMesh)
 
 	_pMeshToRender = pMesh;
 }
-void MeshRenderer::SetShader(Shader* pShader)
-{
-	_pShader = pShader;
-}
 
-void MeshRenderer::PreRenderMesh()
+void MeshRenderer::PreRender()
 {
 	_pShader->PreDraw();
 }
 
-void MeshRenderer::RenderMesh(Shader* pShader)
+void MeshRenderer::Render()
 {
-	pShader->Draw(_pMeshToRender, _DXObjectCB);
+	_pShader->Draw(_pMeshToRender, _DXObjectCB);
 }
 
 void MeshRenderer::UpdateWorldPos()
