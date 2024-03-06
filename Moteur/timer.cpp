@@ -8,7 +8,7 @@ Timer::Timer() {
     _fDeltaTime = 0.f;
     _fTotalTime = 0.f;
     DWORD  CurrTime = timeGetTime();
-    _fPrevTime = CurrTime;
+    _fPrevTime = 0;
     _bStop = true;
 }
 
@@ -45,11 +45,13 @@ void Timer::Stop()
 void Timer::Tick()
 {
 
-
+    
     if (_bStop == false) {
         DWORD  CurrTime = timeGetTime();
         _fDeltaTime = (CurrTime - _fPrevTime)/1000;
-
+        if (_fPrevTime == 0) {
+            _fDeltaTime = 0;
+        }
         _fPrevTime = CurrTime;
         _fTotalTime += _fDeltaTime;
     }
