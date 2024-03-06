@@ -1,59 +1,100 @@
 #include "input.h"
 
-std::unordered_map<int, bool> keyStates;
+Input::Input() {
 
-
-Input::Input()
-{
+    for (int i = 0; i < 256; ++i) {
+        _keyStates[i] = KeyState::None;
+    }
 }
 
-void Input::InitializeKeyStates() {
-	// Initialiser l'état des touches à false.
-	keyStates[VK_ESCAPE] = false;
-	keyStates['Z'] = false;
-	keyStates['Q'] = false;
-	keyStates['S'] = false;
-	keyStates['D'] = false;
+void Input::Update() {
+
+    for (auto& pair : _keyStates) {
+        prevKeyStates[pair.first] = pair.second;
+    }
+
+    for (auto& pair : _keyStates) {
+        bool isKeyDown = (GetAsyncKeyState(pair.first) & 0x8000);
+        bool wasKeyDown = (pair.second == KeyState::Down || pair.second == KeyState::Held);
+
+        if (isKeyDown) {
+            if (wasKeyDown) {
+                pair.second = KeyState::Held;
+            }
+            else {
+                pair.second = KeyState::Down;
+            }
+        }
+        else {
+            if (wasKeyDown) {
+                pair.second = KeyState::Up;
+            }
+            else {
+                pair.second = KeyState::Inactive;
+            }
+        }
+    }
+
+    for (auto& pair : _keyStates) {
+
+        wchar_t character;
+        UINT scanCode = MapVirtualKey(pair.first, MAPVK_VK_TO_CHAR);
+        if (scanCode != 0) {
+            character = static_cast<wchar_t>(scanCode);
+        }
+        else {
+            character = L' ';
+        }
+
+        if (pair.second == KeyState::Down) {
+            std::wstring message = L"Touche enfoncée : ";
+            message += character;
+            OutputDebugString(message.c_str());
+            OutputDebugString(L"\n");
+        }
+        else if (pair.second == KeyState::Up) {
+            std::wstring message = L"Touche relâchée : ";
+            message += character;
+            OutputDebugString(message.c_str());
+            OutputDebugString(L"\n");
+        }
+        else if (pair.second == KeyState::Held && prevKeyStates[pair.first] != KeyState::Held) {
+            std::wstring message = L"Touche maintenue : ";
+            message += character;
+            OutputDebugString(message.c_str());
+            OutputDebugString(L"\n");
+        }
+    }
 }
 
-void Input::CheckKeyboardState()
-{
-
-	for (auto& pair : keyStates) {
-
-		bool isKeyDown = (GetAsyncKeyState(pair.first) & 0x8000);
-
-		if (isKeyDown && !pair.second) {
-			pair.second = true;
-			if (pair.first == VK_ESCAPE) {
-				PostQuitMessage(0);
-			}
-			else {
-
-				switch (pair.first) {
-				case 'Z':
-					OutputDebugString(L"Touche 'Z' enfoncée : Déplacement vers le haut.\n");
-					break;
-				case 'Q':
-					OutputDebugString(L"Touche 'Q' enfoncée : Déplacement vers la gauche.\n");
-					break;
-				case 'S':
-					OutputDebugString(L"Touche 'S' enfoncée : Déplacement vers le bas.\n");
-					break;
-				case 'D':
-					OutputDebugString(L"Touche 'D' enfoncée : Déplacement vers la droite.\n");
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		else if (!isKeyDown && pair.second) {
-			pair.second = false;
-			OutputDebugString(L"Touche relaché\n");
-		}
-	}
+KeyState Input::GetKeyState(int virtualKeyCode) const {
+    auto it = _keyStates.find(virtualKeyCode);
+    if (it != _keyStates.end()) {
+        return it->second;
+    }
+    else {
+        return KeyState::None;
+    }
 }
+
+bool Input::IsKeyDown(int virtualKeyCode) const {
+    return GetKeyState(virtualKeyCode) == KeyState::Down;
+}
+
+bool Input::IsKeyUp(int virtualKeyCode) const {
+    return GetKeyState(virtualKeyCode) == KeyState::Up;
+}
+
+int Input::GetKeyPressed() const {
+    for (const auto& pair : _keyStates) {
+        if (pair.second == KeyState::Down) {
+            int scanCode = MapVirtualKey(pair.first, MAPVK_VK_TO_CHAR);
+            return (scanCode == 0) ? pair.first : scanCode;
+        }
+    }
+    return -1;
+}
+
 
 
 

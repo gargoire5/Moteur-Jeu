@@ -1,4 +1,5 @@
 #pragma once
+#include "Incl.h"
 #include "Graphics.h"
 #include "input.h"
 

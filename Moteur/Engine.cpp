@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <Windows.h> 
 #include <string> 
 
 
@@ -15,7 +14,6 @@ void Engine::Run()
 	_pGraphics->InitWindow(_hInstance);
 	_pGraphics->InitDX();
 	_pInput = new Input();
-	_pInput->InitializeKeyStates();
 
 
 	bool running = true;
@@ -37,8 +35,13 @@ void Engine::Run()
 
 		// Update (time, input, gameplay...)
 
-		_pInput->CheckKeyboardState();
+		_pInput->Update();
 
+
+		if (_pInput->IsKeyUp(VK_ESCAPE))
+		{
+			PostQuitMessage(0);
+		}
 
 		// Render
 

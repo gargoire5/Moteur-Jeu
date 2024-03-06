@@ -1,18 +1,26 @@
 #pragma once
-
-#include <Windows.h>
 #include <unordered_map>
+#include "Incl.h"
 
-class Input
-{
-private:
+enum class KeyState {
+    None,
+    Down,
+    Up,
+    Held,
+    Inactive
+};
+
+class Input {
 public:
+    Input();
+    void Update();
+    KeyState GetKeyState(int virtualKeyCode) const;
+    bool IsKeyDown(int virtualKeyCode) const;
+    bool IsKeyUp(int virtualKeyCode) const;
+    int GetKeyPressed() const;
+private:
+    std::unordered_map<int, KeyState> _keyStates;
+    std::unordered_map<int, KeyState> prevKeyStates;
 
-	Input();
-
-
-
-	void InitializeKeyStates();
-	void CheckKeyboardState();
 };
 
