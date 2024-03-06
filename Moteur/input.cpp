@@ -14,6 +14,7 @@ void Input::Update() {
     }
 
     for (auto& pair : _keyStates) {
+
         bool isKeyDown = (GetAsyncKeyState(pair.first) & 0x8000);
         bool wasKeyDown = (pair.second == KeyState::Down || pair.second == KeyState::Held);
 
@@ -35,7 +36,7 @@ void Input::Update() {
         }
     }
 
-    for (auto& pair : _keyStates) {
+    /*for (auto& pair : _keyStates) {
 
         wchar_t character;
         UINT scanCode = MapVirtualKey(pair.first, MAPVK_VK_TO_CHAR);
@@ -64,7 +65,7 @@ void Input::Update() {
             OutputDebugString(message.c_str());
             OutputDebugString(L"\n");
         }
-    }
+    }*/
 }
 
 KeyState Input::GetKeyState(int virtualKeyCode) const {
@@ -83,6 +84,10 @@ bool Input::IsKeyDown(int virtualKeyCode) const {
 
 bool Input::IsKeyUp(int virtualKeyCode) const {
     return GetKeyState(virtualKeyCode) == KeyState::Up;
+}
+
+bool Input::IsKeyHeld(int virtualKeyCode) const {
+    return GetKeyState(virtualKeyCode) == KeyState::Held;
 }
 
 int Input::GetKeyPressed() const {

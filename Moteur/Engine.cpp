@@ -38,9 +38,17 @@ void Engine::Run()
 		_pInput->Update();
 
 
+		if (_pInput->IsKeyDown(VK_ESCAPE))
+		{
+			OutputDebugString( L"Touche enfoncée \n");
+		}
 		if (_pInput->IsKeyUp(VK_ESCAPE))
 		{
-			PostQuitMessage(0);
+			OutputDebugString(L"Touche relaché \n");
+		}
+		if (_pInput->IsKeyHeld(VK_ESCAPE))
+		{
+			OutputDebugString(L"Touche maintenu\n");
 		}
 
 		// Render
