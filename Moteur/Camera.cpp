@@ -10,8 +10,8 @@ void Camera::Init()
 	_pTransform->fPos = { 0,0,0 };
 	_pTransform->Update_mPos();
 
-	_pTransform->fRight = { 0,0,0 };
-	_pTransform->fUp = { 0,0,0 };
+	_pTransform->fRight = { 0,1,0 };
+	_pTransform->fUp = { 0,1,0 };
 
 	_pTransform->Update_WorldMatrix();
 }
@@ -31,4 +31,14 @@ void Camera::UpdateCam()
 XMFLOAT4X4 Camera::GetProj()
 {
 	return _mProj;
+}
+
+void Camera::RenderMesh()
+{
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+
+	D3D12_GPU_VIRTUAL_ADDRESS GpuAddr = _DXCamCB->GetVirtualAddr();
+
+	DXCommandList->SetGraphicsRootConstantBufferView(1, GpuAddr);
+
 }

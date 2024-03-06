@@ -11,10 +11,19 @@ void MeshRenderer::SetMesh(Mesh* pMesh)
 {
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	_DXObjectCB = new UploadBuffer<ObjectConstants>(DXDevice, 1, true);
+	_pTransform = new Transform();
 
 	_pMeshToRender = pMesh;
 }
+void MeshRenderer::SetShader(Shader* pShader)
+{
+	_pShader = pShader;
+}
 
+void MeshRenderer::PreRenderMesh()
+{
+	_pShader->PreDraw();
+}
 
 void MeshRenderer::RenderMesh(Shader* pShader)
 {

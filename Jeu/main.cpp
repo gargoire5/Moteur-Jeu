@@ -18,6 +18,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	pEngine->Init();
 
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
+
+	Entity* cam = pEntityManager->CreateEntity("camera");
+	Camera* pcamera = cam->AttachComponent<Camera>();
+	pcamera->Init();
+
 	Entity* pTest = pEntityManager->CreateEntity("test");
 	MeshRenderer* pMeshTest = pTest->AttachComponent<MeshRenderer>();
 
@@ -64,10 +69,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	pMesh.UpLoadMesh(vertices, indices);
 	pMeshTest->SetMesh(&pMesh);
 
-	Entity* cam = pEntityManager->CreateEntity("camera");
-	Camera* pcamera = cam->AttachComponent<Camera>();
-	pcamera->Init();
-	
 	pEngine->Run();
 
 	//------------------------------------------------------

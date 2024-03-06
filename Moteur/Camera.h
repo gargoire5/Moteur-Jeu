@@ -15,6 +15,7 @@ public:
 	void Init();
 	void UpdateCam();
 	XMFLOAT4X4 GetProj();
+	void RenderMesh();
 
 	
 private:

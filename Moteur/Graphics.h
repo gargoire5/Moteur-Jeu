@@ -24,7 +24,6 @@ public:
 
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
-	ID3D12RootSignature* GetRootSignature();
 	ID3D12DescriptorHeap* GetCbvHeap();
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
@@ -79,7 +78,6 @@ private:
 
 	ID3D12PipelineState* _DXPSO = nullptr;
 
-	ID3D12RootSignature* _DXRootSignature = nullptr;
 	UINT _iCbvSrvDescriptorSize;
 
 	Shader* _pShader;

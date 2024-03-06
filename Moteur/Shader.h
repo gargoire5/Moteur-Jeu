@@ -11,6 +11,7 @@ public:
 
 	void Initialize();
 	void Purge();
+	void PreDraw();
 	void Draw(Mesh* pMeshToRender, Buffer* pBuffer);
 
 private:

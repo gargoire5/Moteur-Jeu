@@ -8,7 +8,7 @@ cbuffer cbPerObject : register(b0)
 {
 	float4x4 gWorld; 
 };
-cbuffer cbPerObject : register(b1)
+cbuffer cbPerPass : register(b1)
 {
     float4x4 gViewProj;
 };

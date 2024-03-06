@@ -33,10 +33,10 @@ public:
 	DXGI_FORMAT _DXIndexFormat = DXGI_FORMAT_R16_UINT;
 	UINT _iIndexBufferByteSize = 0;
 
-	UINT _iIndexCount;
+	UINT _iIndexCount = 0;
 
 private:
-	UINT _iVbByteSize;
-	UINT _iIbByteSize;
+	UINT _iVbByteSize = 0;
+	UINT _iIbByteSize = 0;
 };
 

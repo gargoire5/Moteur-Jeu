@@ -3,7 +3,9 @@
 #include "Graphics.h"
 
 Mesh::Mesh()
-{}
+{
+
+}
 
 void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
 {
@@ -12,6 +14,14 @@ void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 
 
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+
+	HRESULT hr = D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
+	assert(hr == S_OK && "error create blob");
+	CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
+
+	hr = D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
+	assert(hr == S_OK && "error create blob");
+	CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
 
 	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices.data(), _iVbByteSize, _DXVertexBufferUploader);
 	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices.data(), _iIbByteSize, _DXIndexBufferUploader);

@@ -239,7 +239,18 @@ void Graphics::Draw()
 	{
 		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
 		for (Component* pComponent : vCompoList)
+			pComponent->PreRenderMesh();
+	}
+
+	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
+	{
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		for (Component* pComponent : vCompoList)
 		{
+			if (pComponent->GetID() == Camera::ID)
+			{
+				dynamic_cast<Camera*>(pComponent)->RenderMesh();
+			}
 			if (pComponent->GetID() == MeshRenderer::ID)
 			{
 				dynamic_cast<MeshRenderer*>(pComponent)->RenderMesh(_pShader);
@@ -416,6 +427,8 @@ void Graphics::Update()
 		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
 		for (Component* pComponent : vCompoList)
 		{
+			//pComponent->UpdateCam();
+
 			if (pComponent->GetID() == Camera::ID)
 			{
 				dynamic_cast<Camera*>(pComponent)->UpdateCam();
@@ -433,10 +446,6 @@ void Graphics::Update()
 ID3D12GraphicsCommandList* Graphics::GetCommandList()
 {
 	return _DXCommandList;
-}
-ID3D12RootSignature* Graphics::GetRootSignature()
-{
-	return _DXRootSignature;
 }
 ID3D12DescriptorHeap* Graphics::GetCbvHeap()
 {

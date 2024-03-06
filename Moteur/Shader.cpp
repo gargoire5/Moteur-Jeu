@@ -88,11 +88,21 @@ void Shader::Purge()
 	}
 }
 
+void Shader::PreDraw()
+{
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+	DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
+}
+
 void Shader::Draw(Mesh* pMeshToRender, Buffer* pBuffer)
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 
-	DXCommandList->SetGraphicsRootSignature(Engine::Instance()->GetGraphics()->GetRootSignature());
+	
+	ID3D12RootSignature* pRootSignature = _DXRootSignature;
+
+	//DXCommandList->SetGraphicsRootSignature(pRootSignature);
+	//DXCommandList->SetGraphicsRootConstantBufferView(1, pBuffer->GetVirtualAddr());
 
 	DXCommandList->SetPipelineState(_DXPSO);
 
@@ -104,3 +114,4 @@ void Shader::Draw(Mesh* pMeshToRender, Buffer* pBuffer)
 
 	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }
+
