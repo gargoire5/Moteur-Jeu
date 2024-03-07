@@ -15,9 +15,8 @@ public:
 	void DetachComponent();
 
 	const char* GetName();
-	std::vector<Component*> GetComponents();
 
-
+	std::vector<Component*>& GetComponents();
 
 private:
 	const char* _cName;

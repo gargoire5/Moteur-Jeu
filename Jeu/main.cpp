@@ -22,9 +22,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	Entity* cam = pEntityManager->CreateEntity("camera");
 	Camera* pcamera = cam->AttachComponent<Camera>();
 	pcamera->Init();
+	pcamera->SetShader();
 
 	Entity* pTest = pEntityManager->CreateEntity("test");
 	MeshRenderer* pMeshTest = pTest->AttachComponent<MeshRenderer>();
+	pMeshTest->SetShader();
 
 	std::array<Vertex, 8> vertices =
 	{

@@ -11,7 +11,7 @@ const char* Entity::GetName()
 	return _cName;
 }
 
-std::vector<Component*> Entity::GetComponents()
+std::vector<Component*>& Entity::GetComponents()
 {
 	return _vComponentList;
 }

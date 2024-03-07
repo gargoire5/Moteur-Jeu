@@ -15,6 +15,5 @@ public:
 
 protected:
 	Shader* _pShader;
-
 };
 

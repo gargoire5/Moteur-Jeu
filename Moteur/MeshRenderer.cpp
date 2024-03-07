@@ -29,7 +29,8 @@ void MeshRenderer::Render()
 void MeshRenderer::UpdateWorldPos()
 {
 	ObjectConstants objConstants;
-	objConstants.WorldMatrix = _pTransform->matrix;
+	XMMATRIX matrix = XMMatrixTranspose(XMLoadFloat4x4(&_pTransform->matrix));
+	XMStoreFloat4x4(&objConstants.WorldMatrix, matrix);
 	_DXObjectCB->CopyData(0, objConstants);
 }
 

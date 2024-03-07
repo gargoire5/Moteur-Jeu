@@ -1,7 +1,18 @@
+#include "Engine.h"
 #include "Component.h"
 
 
 Component::Component()
+{
+
+}
+
+void Component::PreRender()
+{
+
+}
+
+void Component::Render()
 {
 
 }

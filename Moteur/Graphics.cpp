@@ -248,10 +248,7 @@ void Graphics::Draw()
 			pComponent->PreRender();
 			pComponent->Render();
 		}
-			
-	
 	}
-
 
 	// Indicate a state transition on the resource usage.
 	_DXCommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(GetCurrentBackBuffer(),

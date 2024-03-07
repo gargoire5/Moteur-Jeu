@@ -1,7 +1,9 @@
 #pragma once
 #include  "Incl.h"
-#include "Engine.h"
-#include "Mesh.h"
+//#include "Engine.h"
+//#include "Mesh.h"
+
+class Mesh;
 
 class Shader
 {

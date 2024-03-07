@@ -9,20 +9,22 @@ using namespace DirectX;
 struct Transform
 {
 public:
+	Transform();
+public:
 	//vecteur scale et matrice associé
 	XMFLOAT3 fSca;
-	XMVECTOR mSca;
+	XMFLOAT4X4 mSca;
 
 	//vecteurs pour stocker les directions
 	XMFLOAT3 fRight;
 	XMFLOAT3 fUp;
 	XMFLOAT3 fDir;
 	XMFLOAT4 qRot;
-	XMVECTOR mRot;
+	XMFLOAT4X4 mRot;
 
 	//vecteur position et matrice associé
 	XMFLOAT3 fPos;
-	XMVECTOR mPos;
+	XMFLOAT4X4 mPos;
 
 	XMFLOAT4X4 matrix; //matrice world
 
