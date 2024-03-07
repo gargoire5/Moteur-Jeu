@@ -24,8 +24,6 @@ public:
 private:
 	Mesh* _pMeshToRender;
 	//Texture*;
-
-	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
 	Transform* _pTransform;
+	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
 };
-

@@ -9,19 +9,28 @@ Mesh::Mesh()
 
 void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
 {
+	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+	ID3D12CommandQueue* DXCommandQueue = Engine::Instance()->GetGraphics()->GetCommandQueue();
+	ID3D12CommandAllocator* DXCommandAllocator = Engine::Instance()->GetGraphics()->GetCommandAllocator();
+
+	HRESULT hr = DXCommandAllocator->Reset();
+	assert(hr == S_OK && "Reset CommandAllocator error");
+
+	// A command list can be reset after it has been added to the command queue via ExecuteCommandList.
+	// Reusing the command list reuses memory.
+	assert(DXCommandList->Reset(DXCommandAllocator, nullptr) == S_OK && "Reset CommandList");
+
 	_iVbByteSize = (UINT)vertices.size() * sizeof(Vertex);
 	_iIbByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
 
-	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
-	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-
-	HRESULT hr = D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
-	assert(hr == S_OK && "error create blob");
-	CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
-
-	hr = D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
-	assert(hr == S_OK && "error create blob");
-	CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
+	//HRESULT hr = D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
+	//assert(hr == S_OK && "error create blob");
+	//CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
+	//
+	//hr = D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
+	//assert(hr == S_OK && "error create blob");
+	//CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
 
 	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices.data(), _iVbByteSize, _DXVertexBufferUploader);
 	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices.data(), _iIbByteSize, _DXIndexBufferUploader);
@@ -32,6 +41,14 @@ void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 
 	_iIndexBufferByteSize = _iIbByteSize;
 	
 	_iIndexCount = (UINT)indices.size();
+
+	// Execute the resize commands.
+	DXCommandList->Close();
+	ID3D12CommandList* cmdsLists[] = { DXCommandList };
+	DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+
+	// Wait until resize is complete.
+	Engine::Instance()->GetGraphics()->FlushCommandQueue();
 }
 
 D3D12_VERTEX_BUFFER_VIEW Mesh::VertexBufferView()const

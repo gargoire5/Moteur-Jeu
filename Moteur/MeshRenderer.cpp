@@ -29,8 +29,7 @@ void MeshRenderer::Render()
 void MeshRenderer::UpdateWorldPos()
 {
 	ObjectConstants objConstants;
-	XMMATRIX matrix = XMMatrixTranspose(XMLoadFloat4x4(&_pTransform->matrix));
-	XMStoreFloat4x4(&objConstants.WorldMatrix, matrix);
+	XMStoreFloat4x4(&objConstants.WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&_pTransform->matrix)));
 	_DXObjectCB->CopyData(0, objConstants);
 }
 
@@ -38,8 +37,6 @@ void MeshRenderer::SetPosition(float x, float y, float z)
 {
 	_pTransform = new Transform();
 	_pTransform->fPos = { x,y,z };
-	_pTransform->qRot = { 0,0,0,0 };
-	_pTransform->fRight = { 0,0,0 };
-	_pTransform->fUp = { 0,0,0 };
+	_pTransform->Update_mPos();
 
 }

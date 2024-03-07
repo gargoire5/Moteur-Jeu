@@ -16,9 +16,9 @@ public:
 	XMFLOAT4X4 mSca;
 
 	//vecteurs pour stocker les directions
-	XMFLOAT3 fRight;
-	XMFLOAT3 fUp;
-	XMFLOAT3 fDir;
+	XMFLOAT3 fRight;  //x
+	XMFLOAT3 fUp;     //y
+	XMFLOAT3 fDir;    //z
 	XMFLOAT4 qRot;
 	XMFLOAT4X4 mRot;
 

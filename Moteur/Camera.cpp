@@ -8,13 +8,14 @@ void Camera::Init()
 
 	_pTransform = new Transform();
 
-	_pTransform->fPos = { 0,0,0 };
+
+	_pTransform->fPos = { -5,0,10 };
+
 	_pTransform->Update_mPos();
-
-	_pTransform->fRight = { 0,1,0 };
-	_pTransform->fUp = { 0,1,0 };
-
 	_pTransform->Update_WorldMatrix();
+
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, static_cast<float>(1280) / 720, 1.0f, 1000.0f);
+	XMStoreFloat4x4(&_mProj, P);
 }
 
 void Camera::UpdateCam()
@@ -29,9 +30,9 @@ void Camera::UpdateCam()
 	_DXCamCB->CopyData(0, CamConstants);
 }
 
-XMFLOAT4X4 Camera::GetProj()
+XMFLOAT4X4* Camera::GetProj()
 {
-	return _mProj;
+	return &_mProj;
 }
 void Camera::PreRender()
 {
@@ -44,5 +45,4 @@ void Camera::Render()
 	D3D12_GPU_VIRTUAL_ADDRESS GpuAddr = _DXCamCB->GetVirtualAddr();
 
 	DXCommandList->SetGraphicsRootConstantBufferView(1, GpuAddr);
-
 }

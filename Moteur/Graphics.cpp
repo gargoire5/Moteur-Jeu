@@ -205,6 +205,16 @@ Shader* Graphics::GetShader()
 	return _pShader;
 }
 
+ID3D12CommandQueue* Graphics::GetCommandQueue()
+{
+	return _DXCommandQueue;
+}
+
+ID3D12CommandAllocator* Graphics::GetCommandAllocator()
+{
+	return _DXCommandAllocator;
+}
+
 ID3D12Device* Graphics::GetDevice()
 {
 	return _DXDevice;
@@ -404,7 +414,7 @@ void Graphics::OnResize()
 		{
 			if (pComponent->GetID() == Camera::ID)
 			{
-				XMStoreFloat4x4(&dynamic_cast<Camera*>(pComponent)->GetProj(),P);
+				XMStoreFloat4x4(dynamic_cast<Camera*>(pComponent)->GetProj(),P);
 			}
 		}
 	}

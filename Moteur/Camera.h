@@ -14,7 +14,7 @@ public:
 	}
 	void Init();
 	void UpdateCam();
-	XMFLOAT4X4 GetProj();
+	XMFLOAT4X4* GetProj();
 	void PreRender()override;
 	void Render()override;
 

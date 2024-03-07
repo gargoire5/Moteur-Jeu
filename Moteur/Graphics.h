@@ -29,10 +29,12 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
 	Shader* GetShader();
+	ID3D12CommandQueue* GetCommandQueue();
+	ID3D12CommandAllocator* GetCommandAllocator();
+	void FlushCommandQueue();
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	void FlushCommandQueue();
 
 	float _fWindowWidth;
 	float _fWindowHeight;

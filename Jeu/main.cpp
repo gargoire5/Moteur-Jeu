@@ -70,6 +70,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	Mesh pMesh;
 	pMesh.UpLoadMesh(vertices, indices);
 	pMeshTest->SetMesh(&pMesh);
+	pMeshTest->SetPosition(0,0,0);
 
 	pEngine->Run();
 

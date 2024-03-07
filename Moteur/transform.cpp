@@ -10,7 +10,7 @@ using namespace DirectX;
 	void Transform::identity() //pour reset les matrice et vecteurs
 	{
 		fSca = { 1.f,1.f,1.f };
-		//mSca = XMLoadFloat3(&fSca);
+		XMStoreFloat4x4(&mSca,XMMatrixIdentity());
 
 		fDir = { 0.0f,0.0f,1.0f };
 		fRight = { 1.0f,0.0f,0.0f };
@@ -77,16 +77,15 @@ using namespace DirectX;
 
 	void Transform::Update_mPos()
 	{
-		XMVECTOR vPos = XMVectorSet(fPos.x, fPos.y, fPos.z, 1.0f);
-		//XMStoreFloat4(&mPos, vPos);
+		XMMATRIX MatrixPos = XMMatrixTranslation(fPos.x, fPos.y, fPos.z);
+		XMStoreFloat4x4(&mPos, MatrixPos);
 	}
 
 	void Transform::Update_WorldMatrix()
 	{
-		XMVECTOR pos = XMLoadFloat3(&fPos);
-		XMVECTOR right = XMLoadFloat3(&fRight);
-		XMVECTOR up = XMLoadFloat3(&fUp);
-		XMMATRIX mMatrix = XMMatrixLookAtLH(pos, right, up);
-
-		XMStoreFloat4x4(&matrix, mMatrix);
+		XMMATRIX sca = XMLoadFloat4x4(&mSca);
+		XMMATRIX rot = XMLoadFloat4x4(&mRot);
+		XMMATRIX pos = XMLoadFloat4x4(&mPos);
+		
+		XMStoreFloat4x4(&matrix, (sca * rot * pos));
 	}
