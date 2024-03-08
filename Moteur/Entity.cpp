@@ -1,10 +1,17 @@
 #include "Entity.h"
-#include "Graphics.h"
 
-Entity::Entity()
+Entity::Entity(const char* cName)
 {}
 
-void Entity::AttachComponent(ComponentType iType)
+
+
+
+const char* Entity::GetName()
 {
-	
+	return _cName;
+}
+
+std::vector<Component*>& Entity::GetComponents()
+{
+	return _vComponentList;
 }

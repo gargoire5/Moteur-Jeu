@@ -1,15 +1,19 @@
 #pragma once
+#include "Graphics.h"
+#include "Shader.h"
 
-typedef enum ComponentType
-{
-	Mesh,
-	BoxGeo
-};
 class Component
 {
 public:
+	Component();
 
-private:
-	ComponentType _Type;
+	virtual int GetID() = 0;
+
+	virtual void SetShader();
+	virtual void PreRender();
+	virtual void Render();
+
+protected:
+	Shader* _pShader;
 };
 

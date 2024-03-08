@@ -15,7 +15,7 @@ Timer::Timer() {
 float Timer::TotalTime() const
 {
     //si pause stocker le temps dans une autre variable
-    //sinon incrémenter totaltime de deltatime
+    //sinon incrï¿½menter totaltime de deltatime
     return _fTotalTime;
 }
 
@@ -43,8 +43,6 @@ void Timer::Stop()
 
 void Timer::Tick()
 {
-
-
     if (_bStop == false) {
         DWORD  CurrTime = timeGetTime();
         if (_fPrevTime != 0) {
@@ -55,7 +53,6 @@ void Timer::Tick()
         _fPrevTime = CurrTime;
         _fTotalTime += _fDeltaTime;
     }
-
 
     //afficher le temp avec hwnd en param et public dans graph
     /*wstring deltatime = to_wstring(_fDeltaTime);
