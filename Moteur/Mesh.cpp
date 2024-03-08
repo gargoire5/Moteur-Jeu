@@ -4,7 +4,7 @@
 
 Mesh::Mesh()
 {
-
+	
 }
 
 void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
