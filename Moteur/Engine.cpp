@@ -46,10 +46,6 @@ void Engine::Run()
 		{
 			OutputDebugString(L"Touche relaché \n");
 		}
-		if (_pInput->IsKeyHeld(VK_ESCAPE))
-		{
-			OutputDebugString(L"Touche maintenu\n");
-		}
 
 		// Render
 
