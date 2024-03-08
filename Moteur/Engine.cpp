@@ -1,12 +1,15 @@
 #include "Engine.h"
 #include "Graphics.h"
 #include "Timer.h"
+#include "input.h"
 Engine* Engine::_pInstance;
 
 Engine::Engine()
 {
 	_pEntityManager = nullptr;
 	_pGraphics = nullptr;
+	_pTimer = nullptr;
+	_pInput = nullptr;
 }
 
 Engine* Engine::Instance()
@@ -25,14 +28,14 @@ void Engine::Init()
 	_pGraphics->InitWindow();
 	_pGraphics->InitDX();
 	_pGraphics->OnResize();
+	_pTimer = new Timer();
 	_pInput = new Input();
 }
 void Engine::Run()
 {
-	_cTimer = new Timer();
 	bool running = true;
-	_cTimer->Reset();
-	_cTimer->Start();
+	_pTimer->Reset();
+	_pTimer->Start();
 	while (running)
 	{
 		MSG msg = {0};
@@ -44,7 +47,7 @@ void Engine::Run()
 			DispatchMessage(&msg);
 			if (msg.message == WM_QUIT)
 			{
-				_cTimer->Stop();
+				_pTimer->Stop();
 				running = false;
 				break;
 			}
@@ -70,5 +73,10 @@ Graphics* Engine::GetGraphics()
 
 Timer* Engine::GetTimer()
 {
-	return _cTimer;
+	return _pTimer;
+}
+
+Input* Engine::GetInput()
+{
+	return _pInput;
 }

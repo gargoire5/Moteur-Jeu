@@ -20,12 +20,13 @@ public:
 	EntityManager* GetEntityManager();
 	Graphics* GetGraphics();
 	Timer* GetTimer();
+	Input* GetInput();
 
 private:
 	Engine();
 	static Engine* _pInstance;
 	Graphics* _pGraphics;
-	Timer* _cTimer;
+	Timer* _pTimer;
 	EntityManager* _pEntityManager;
 	Input* _pInput;
 };

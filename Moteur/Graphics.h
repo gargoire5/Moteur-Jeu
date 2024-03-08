@@ -34,9 +34,8 @@ public:
 	void FlushCommandQueue();
 
 	HWND _hWindow;
-private:
-	HWND _hWindow;
 
+private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	float _fWindowWidth;

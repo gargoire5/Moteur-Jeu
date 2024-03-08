@@ -3,6 +3,7 @@
 #include "MeshRenderer.h"
 #include "Camera.h"
 #include "Timer.h"
+#include "Input.h"
 
 using namespace DirectX;
 Graphics::Graphics()
@@ -423,8 +424,8 @@ void Graphics::OnResize()
 
 void Graphics::Update()
 {
-	Timer* _cTimer = Engine::Instance()->GetTimer();
-	_cTimer.
+	Engine::Instance()->GetTimer()->Tick();
+	Engine::Instance()->GetInput()->Update();	
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
 	
@@ -437,7 +438,7 @@ void Graphics::Update()
 
 			if (pComponent->GetID() == Camera::ID)
 			{
-				dynamic_cast<Camera*>(pComponent)->UpdateCam(	);
+				dynamic_cast<Camera*>(pComponent)->UpdateCam();
 			}
 
 			if (pComponent->GetID() == MeshRenderer::ID)

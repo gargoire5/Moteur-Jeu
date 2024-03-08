@@ -36,7 +36,7 @@ void Input::Update() {
         }
     }
 
-    /*for (auto& pair : _keyStates) {
+    for (auto& pair : _keyStates) {
 
         wchar_t character;
         UINT scanCode = MapVirtualKey(pair.first, MAPVK_VK_TO_CHAR);
@@ -65,7 +65,7 @@ void Input::Update() {
             OutputDebugString(message.c_str());
             OutputDebugString(L"\n");
         }
-    }*/
+    }
 }
 
 KeyState Input::GetKeyState(int virtualKeyCode) const {
