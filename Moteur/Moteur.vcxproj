@@ -154,8 +154,10 @@
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\UploadBuffer.h" />
     <ClInclude Include="Texture.h" />
+
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
+
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />

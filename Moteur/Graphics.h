@@ -39,7 +39,7 @@ private:
 	float _fWindowWidth;
 	float _fWindowHeight;
 
-	HWND _hWindow;
+	
 
 	IDXGIFactory4* _DXFactory;
 	ID3D12Device* _DXDevice;

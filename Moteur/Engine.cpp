@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Graphics.h"
+#include "Timer.h"
 Engine* Engine::_pInstance;
 
 Engine::Engine()
@@ -27,8 +28,10 @@ void Engine::Init()
 }
 void Engine::Run()
 {
-
+	Timer* _cTime = new Timer();
 	bool running = true;
+	_cTime->Reset();
+	_cTime->Start();
 	while (running)
 	{
 		MSG msg = { 0 };
@@ -38,8 +41,12 @@ void Engine::Run()
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
+
+			_cTime->Tick();
+
 			if (msg.message == WM_QUIT)
 			{
+				_cTime->Stop();
 				running = false;
 				break;
 			}
