@@ -29,38 +29,32 @@ void Engine::Init()
 }
 void Engine::Run()
 {
-	Timer* _cTime = new Timer();
+	_cTimer = new Timer();
 	bool running = true;
-	_cTime->Reset();
-	_cTime->Start();
+	_cTimer->Reset();
+	_cTimer->Start();
 	while (running)
 	{
 		MSG msg = {0};
 
 		// If there are Window messages then process them.
-		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-
-			_cTime->Tick();
-
 			if (msg.message == WM_QUIT)
 			{
-				_cTime->Stop();
+				_cTimer->Stop();
 				running = false;
 				break;
 			}
 		}
-		else
-		{
-			// Update (time, input, gameplay...)
-			_pGraphics->Update();
-			
 
-			// Render
-			_pGraphics->Draw();
-		}
+		// Update (time, input, gameplay...)
+		_pGraphics->Update();
+
+		// Render
+		_pGraphics->Draw();
 		
 	}
 }
@@ -72,4 +66,9 @@ EntityManager* Engine::GetEntityManager()
 Graphics* Engine::GetGraphics()
 {
 	return _pGraphics;
+}
+
+Timer* Engine::GetTimer()
+{
+	return _cTimer;
 }

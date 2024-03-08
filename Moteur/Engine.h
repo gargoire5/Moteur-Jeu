@@ -2,8 +2,10 @@
 //#include "Graphics.h"
 #include "EntityManager.h"
 #include "Graphics.h"
-#include "input.h"
 
+
+class Input;
+class Timer;
 class Engine
 {
 public:
@@ -17,11 +19,13 @@ public:
 
 	EntityManager* GetEntityManager();
 	Graphics* GetGraphics();
+	Timer* GetTimer();
 
 private:
 	Engine();
 	static Engine* _pInstance;
 	Graphics* _pGraphics;
+	Timer* _cTimer;
 	EntityManager* _pEntityManager;
 	Input* _pInput;
 };

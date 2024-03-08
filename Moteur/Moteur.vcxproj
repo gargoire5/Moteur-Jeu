@@ -154,10 +154,8 @@
     <ClInclude Include="Source\stdafx.h" />
     <ClInclude Include="Source\UploadBuffer.h" />
     <ClInclude Include="Texture.h" />
-
     <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
-
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
@@ -178,7 +176,7 @@
     <ClCompile Include="Source\GeometryGenerator.cpp" />
     <ClCompile Include="Source\MathHelper.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="transform.cpp" />
   </ItemGroup>
   <ItemGroup>
