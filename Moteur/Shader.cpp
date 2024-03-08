@@ -95,7 +95,7 @@ void Shader::PreDraw()
 	DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
 }
 
-void Shader::Draw(Mesh* pMeshToRender, Buffer* pBuffer)
+void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 
@@ -111,7 +111,8 @@ void Shader::Draw(Mesh* pMeshToRender, Buffer* pBuffer)
 	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
 	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	DXCommandList->SetGraphicsRootConstantBufferView(0, pBuffer->GetVirtualAddr());
+	DXCommandList->SetGraphicsRootConstantBufferView(0, pBufferObj->GetVirtualAddr());
+	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferCam->GetVirtualAddr());
 
 	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }

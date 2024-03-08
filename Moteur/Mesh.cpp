@@ -7,7 +7,7 @@ Mesh::Mesh()
 	
 }
 
-void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices)
+void Mesh::UpLoadMesh(Vertex* vertices, int vertexCount, std::uint16_t* indices, int indexCount)
 {
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
@@ -21,8 +21,8 @@ void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 
 	// Reusing the command list reuses memory.
 	assert(DXCommandList->Reset(DXCommandAllocator, nullptr) == S_OK && "Reset CommandList");
 
-	_iVbByteSize = (UINT)vertices.size() * sizeof(Vertex);
-	_iIbByteSize = (UINT)indices.size() * sizeof(std::uint16_t);
+	_iVbByteSize = (UINT)vertexCount * sizeof(Vertex);
+	_iIbByteSize = (UINT)indexCount * sizeof(std::uint16_t);
 
 	//HRESULT hr = D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
 	//assert(hr == S_OK && "error create blob");
@@ -32,15 +32,15 @@ void Mesh::UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 
 	//assert(hr == S_OK && "error create blob");
 	//CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
 
-	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices.data(), _iVbByteSize, _DXVertexBufferUploader);
-	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices.data(), _iIbByteSize, _DXIndexBufferUploader);
+	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices, _iVbByteSize, _DXVertexBufferUploader);
+	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices, _iIbByteSize, _DXIndexBufferUploader);
 
 	_iVertexByteStride = sizeof(Vertex);
 	_iVertexBufferByteSize = _iVbByteSize;
 	_DXIndexFormat = DXGI_FORMAT_R16_UINT;
 	_iIndexBufferByteSize = _iIbByteSize;
 	
-	_iIndexCount = (UINT)indices.size();
+	_iIndexCount = (UINT)indexCount;
 
 	// Execute the resize commands.
 	DXCommandList->Close();

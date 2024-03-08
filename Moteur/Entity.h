@@ -3,30 +3,33 @@
 #include "Component.h"
 #include "Mesh.h"
 
+class Camera;
 class Entity
 {
 public:
-	Entity(const char* cName);
+	Entity();
+	void Update();
+	void SetPos(float x, float y, float z);
 
 	template <class T>
 	T* AttachComponent();
-
 	template <class T>
 	void DetachComponent();
 
-	const char* GetName();
-
 	std::vector<Component*>& GetComponents();
+	void SetCurrCam();
+
+
 
 private:
-	const char* _cName;
 	std::vector<Component*> _vComponentList;
+	Transform* _pTransform;
+	Camera* _pCurrCam;
 };
 
 template <class T>
 T* Entity::AttachComponent()
 {
-	
 	for (Component* pComponent : _vComponentList)
 	{
 		if (pComponent->GetID() == T::ID)

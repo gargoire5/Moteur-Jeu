@@ -13,15 +13,15 @@ public:
 		return ID;
 	}
 	void Init();
-	void UpdateCam();
-	XMFLOAT4X4* GetProj();
 	void PreRender()override;
 	void Render()override;
+	void Update()override;
+
+	XMFLOAT4X4* GetProj();
 
 	
 private:
 	XMFLOAT4X4 _mProj = MathHelper::Identity4x4();
 	UploadBuffer<CamConstants>* _DXCamCB = nullptr;
-	Transform* _pTransform;
 };
 

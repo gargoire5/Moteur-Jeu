@@ -13,7 +13,7 @@ class Mesh
 public:
 	Mesh();
 
-	void UpLoadMesh(std::array<Vertex, 8> vertices, std::array<std::uint16_t, 36> indices);
+	void UpLoadMesh(Vertex* vertices, int vertexCount, std::uint16_t* indices, int indexCount);
 
 	D3D12_VERTEX_BUFFER_VIEW Mesh::VertexBufferView()const;
 	D3D12_INDEX_BUFFER_VIEW Mesh::IndexBufferView()const;

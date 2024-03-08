@@ -62,6 +62,11 @@ void Engine::Run()
 	}
 }
 
+void Engine::SetMainCam(Camera* pCam)
+{
+	_pCurrCamera = pCam;
+}
+
 EntityManager* Engine::GetEntityManager()
 {
 	return _pEntityManager;
@@ -79,4 +84,9 @@ Timer* Engine::GetTimer()
 Input* Engine::GetInput()
 {
 	return _pInput;
+}
+
+Camera* Engine::GetCurrCam()
+{
+	return _pCurrCamera;
 }

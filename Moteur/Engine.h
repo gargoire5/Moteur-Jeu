@@ -4,6 +4,7 @@
 #include "Graphics.h"
 
 
+class Camera;
 class Input;
 class Timer;
 class Engine
@@ -16,11 +17,13 @@ public:
 	void Resume();
 	void Exit();
 	void Update();
+	void SetMainCam(Camera* pCam);
 
 	EntityManager* GetEntityManager();
 	Graphics* GetGraphics();
 	Timer* GetTimer();
 	Input* GetInput();
+	Camera* GetCurrCam();
 
 private:
 	Engine();
@@ -29,5 +32,6 @@ private:
 	Timer* _pTimer;
 	EntityManager* _pEntityManager;
 	Input* _pInput;
+	Camera* _pCurrCamera;
 };
 

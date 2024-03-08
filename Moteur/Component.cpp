@@ -4,7 +4,7 @@
 
 Component::Component()
 {
-
+	_pShader = nullptr;
 }
 
 void Component::PreRender()
@@ -15,6 +15,10 @@ void Component::PreRender()
 void Component::Render()
 {
 
+}
+
+void Component::Update()
+{
 }
 
 void Component::SetShader()

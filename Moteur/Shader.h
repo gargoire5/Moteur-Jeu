@@ -15,7 +15,7 @@ public:
 	void Initialize();
 	void Purge();
 	void PreDraw();
-	void Draw(Mesh* pMeshToRender, Buffer* pBuffer);
+	void Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam);
 
 private:
 	ID3DBlob* serializedRootSig = nullptr;

@@ -9,6 +9,7 @@ public:
 
 	virtual int GetID() = 0;
 
+	virtual void Update();
 	virtual void SetShader();
 	virtual void PreRender();
 	virtual void Render();

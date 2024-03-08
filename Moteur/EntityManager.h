@@ -5,10 +5,9 @@ class EntityManager
 {
 public:
 	EntityManager();
-	Entity* CreateEntity(const char* cName);
+	Entity* CreateEntity();
 	std::vector<Entity*> GetEntityList();
-	Entity* GetEntityNamed(const char* cName);
-	void DeleteEntity(const char* cName);
+	void DeleteEntity(Entity* pEntity);
 
 private:
 	std::vector<Entity*> _vEntityList;

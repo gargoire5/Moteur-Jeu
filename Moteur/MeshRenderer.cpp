@@ -23,7 +23,7 @@ void MeshRenderer::PreRender()
 
 void MeshRenderer::Render()
 {
-	_pShader->Draw(_pMeshToRender, _DXObjectCB);
+	_pShader->Draw(_pMeshToRender, _DXObjectCB, _DXObjectCam);
 }
 
 void MeshRenderer::UpdateWorldPos()
