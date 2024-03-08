@@ -25,6 +25,7 @@ void Engine::Init()
 	_pGraphics->InitWindow();
 	_pGraphics->InitDX();
 	_pGraphics->OnResize();
+	_pInput = new Input();
 }
 void Engine::Run()
 {
@@ -34,7 +35,7 @@ void Engine::Run()
 	_cTime->Start();
 	while (running)
 	{
-		MSG msg = { 0 };
+		MSG msg = {0};
 
 		// If there are Window messages then process them.
 		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
@@ -55,6 +56,7 @@ void Engine::Run()
 		{
 			// Update (time, input, gameplay...)
 			_pGraphics->Update();
+			
 
 			// Render
 			_pGraphics->Draw();

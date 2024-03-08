@@ -1,23 +1,30 @@
 #pragma once
+#include <unordered_map>
+#include "Incl.h"
 
-#include <dinput.h>
+enum class KeyState {
+    None,
+    Down,
+    Up,
+    Held,
+    Inactive
+};
 
-class Input
-{
-private:
-
-	LPDIRECTINPUT8 _Input;
-	LPDIRECTINPUTDEVICE8 _KeyboardDevice;
-	char _KeyboardState[256];
-
+class Input {
 public:
 
-	Input(HWND hWnd);
+    Input();
+    void Update();
+    KeyState GetKeyState(int virtualKeyCode) const;
+    bool IsKeyDown(int virtualKeyCode) const;
+    bool IsKeyUp(int virtualKeyCode) const;
+    bool IsKeyHeld(int virtualKeyCode) const;
+    int GetKeyPressed() const;
 
-	~Input();
+private:
 
-	void Update();
+    std::unordered_map<int, KeyState> _keyStates;
+    std::unordered_map<int, KeyState> prevKeyStates;
 
-	bool IsKeyPressed(unsigned char keyCode) const;
 };
 

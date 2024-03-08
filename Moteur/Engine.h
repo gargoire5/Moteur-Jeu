@@ -2,6 +2,8 @@
 //#include "Graphics.h"
 #include "EntityManager.h"
 #include "Graphics.h"
+#include "input.h"
+
 class Engine
 {
 public:
@@ -11,6 +13,7 @@ public:
 	void Pause();
 	void Resume();
 	void Exit();
+	void Update();
 
 	EntityManager* GetEntityManager();
 	Graphics* GetGraphics();
@@ -20,5 +23,6 @@ private:
 	static Engine* _pInstance;
 	Graphics* _pGraphics;
 	EntityManager* _pEntityManager;
+	Input* _pInput;
 };
 
