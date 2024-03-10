@@ -56,14 +56,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	Vertex vertices[] =
 	{
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::White) }),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(Colors::Black) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4(Colors::Red) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::Green) }),
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Blue) }),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Yellow) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Cyan) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Magenta) })
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) })
 	};
 
 

@@ -52,6 +52,8 @@ private:
 
 	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS _DXQualityLevels;
 
+	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
+
 	D3D12_COMMAND_QUEUE_DESC _DXCommandQueueDesc = {};
 	ID3D12CommandQueue* _DXCommandQueue;
 	ID3D12CommandAllocator* _DXCommandAllocator;
@@ -76,8 +78,8 @@ private:
 	D3D12_VIEWPORT _DXViewPort;
 	tagRECT _DXScissorRect;
 
-	D3D12_DESCRIPTOR_HEAP_DESC _DXCbvHeapDesc;
-	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC _DXSrvHeapDesc;
+	ID3D12DescriptorHeap* _DXSrvHeap = nullptr;
 
 	ID3D12PipelineState* _DXPSO = nullptr;
 

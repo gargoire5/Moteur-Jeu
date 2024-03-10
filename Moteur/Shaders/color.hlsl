@@ -4,6 +4,9 @@
 // Transforms and colors geometry.
 //***************************************************************************************
 
+Texture2D g_texture : register(t0); // Texture bound to t0, register space 0
+SamplerState g_sampler : register(s0); // Sampler bound to s0, register space 0
+
 cbuffer cbPerObject : register(b0)
 {
 	float4x4 gWorld; 
@@ -16,13 +19,15 @@ cbuffer cbPerPass : register(b1)
 struct VertexIn
 {
 	float3 PosL  : POSITION;
-    float4 Color : COLOR;
+    //float4 Color : COLOR;
+    float2 TexC : TEXCOORD;
 };
 
 struct VertexOut
 {
 	float4 PosH  : SV_POSITION;
-    float4 Color : COLOR;
+    //float4 Color : COLOR;
+    float2 TexC : TEXCOORD;
 };
 
 VertexOut VS(VertexIn vin)
@@ -34,14 +39,16 @@ VertexOut VS(VertexIn vin)
     vout.PosH = mul(vout.PosH, gViewProj);
 	
 	// Just pass vertex color into the pixel shader.
-    vout.Color = vin.Color;
-    
+    //vout.Color = vin.Color;
+    vout.TexC = vin.TexC;
+
     return vout;
 }
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    return pin.Color;
+    return float4(1, 0, 0, 1);
+    //return g_texture.Sample(g_sampler, pin.TexC);
 }
 
 
