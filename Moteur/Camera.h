@@ -17,9 +17,10 @@ public:
 	void Render()override;
 	void Update()override;
 
+
+	UploadBuffer<CamConstants>* GetConstBufferCam();
 	XMFLOAT4X4* GetProj();
 
-	
 private:
 	XMFLOAT4X4 _mProj = MathHelper::Identity4x4();
 	UploadBuffer<CamConstants>* _DXCamCB = nullptr;

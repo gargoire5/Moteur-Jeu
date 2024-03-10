@@ -1,10 +1,29 @@
 #include "../Moteur/Engine.h"
 #include "../Moteur/MeshRenderer.h"
 #include "../Moteur/Camera.h"
+#include "../Moteur/input.h"
+#include "../Moteur/timer.h"
+#include "MovementScript.h"
 
 #ifdef _DEBUG
 #include <crtdbg.h>
 #endif
+
+void MovementScript::Update()
+{
+	Engine* pEngine = Engine::Instance();
+	Input* pInput = pEngine->GetInput();
+	float deltaTime = pEngine->GetTimer()->DeltaTime();
+	pInput->Update();
+
+	KeyState state = pInput->ListenToKey(0x5A);
+	if ((state == KeyState::Down) || (state == KeyState::Held))
+	{
+		OutputDebugStringW(L"test");
+		XMFLOAT3 fCurrPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
+		pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x , fCurrPos.y, fCurrPos.z + (-0.5 * deltaTime));
+	}	
+};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
@@ -19,16 +38,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
 
-	Entity* cam = pEntityManager->CreateEntity("camera");
-	Camera* pcamera = cam->AttachComponent<Camera>();
-	pcamera->Init();
-	pcamera->SetShader();
+	Entity* pCamEntity = pEntityManager->CreateEntity();
+	Camera* pCamComponent = pCamEntity->AttachComponent<Camera>();
+	pCamComponent->SetEntity(pCamEntity);
+	pCamComponent->Init();
+	pCamComponent->SetShader();
+	pCamEntity->SetPos(-3, 0, 10);
 
-	Entity* pTest = pEntityManager->CreateEntity("test");
-	MeshRenderer* pMeshTest = pTest->AttachComponent<MeshRenderer>();
-	pMeshTest->SetShader();
+	pEngine->SetMainCam(pCamComponent);
 
-	std::array<Vertex, 8> vertices =
+	Entity* pCubeEntity = pEntityManager->CreateEntity();
+	MeshRenderer* pCubeComponent = pCubeEntity->AttachComponent<MeshRenderer>();
+	pCubeComponent->SetEntity(pCubeEntity);
+	pCubeComponent->SetShader();
+	pCubeComponent->GetEntity()->SetCurrCam();
+	pCubeEntity->SetPos(0,0,0);
+
+	Vertex vertices[] =
 	{
 		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(Colors::White) }),
 		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4(Colors::Black) }),
@@ -40,7 +66,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Magenta) })
 	};
 
-	std::array<std::uint16_t, 36> indices =
+
+	uint16_t indices[] =
 	{
 		// front face
 		0, 1, 2,
@@ -68,9 +95,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	};
 
 	Mesh pMesh;
-	pMesh.UpLoadMesh(vertices, indices);
-	pMeshTest->SetMesh(&pMesh);
-	pMeshTest->SetPosition(0,0,0);
+	int i = sizeof(vertices);
+	int y = sizeof(indices);
+	pMesh.UpLoadMesh(vertices, 8, indices, 36);
+	pCubeComponent->SetMesh(&pMesh);
+
+	MovementScript* pMovementScript = new MovementScript();
+	pEngine->AddScript(pMovementScript);
 
 	pEngine->Run();
 

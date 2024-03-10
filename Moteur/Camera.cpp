@@ -12,7 +12,7 @@ void Camera::Init()
 
 void Camera::Update()
 {
-	XMMATRIX mView = XMLoadFloat4x4(&_pTransform->matrix);
+	XMMATRIX mView = XMLoadFloat4x4(&_pEntity->GetTransform()->matrix);
 	XMMATRIX mProj = XMLoadFloat4x4(&_mProj);
 	XMMATRIX mViewProj = mView * mProj;
 
@@ -21,10 +21,16 @@ void Camera::Update()
 	_DXCamCB->CopyData(0, CamConstants);
 }
 
+UploadBuffer<CamConstants>* Camera::GetConstBufferCam()
+{
+	return _DXCamCB;
+}
+
 XMFLOAT4X4* Camera::GetProj()
 {
 	return &_mProj;
 }
+
 void Camera::PreRender()
 {
 	_pShader->PreDraw();

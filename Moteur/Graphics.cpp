@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Timer.h"
 #include "Input.h"
+#include "Script.h"
 
 using namespace DirectX;
 Graphics::Graphics()
@@ -254,7 +255,7 @@ void Graphics::Draw()
 
 	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
 	{
-		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponentsList();
 		for (Component* pComponent : vCompoList)
 		{
 			pComponent->PreRender();
@@ -411,7 +412,7 @@ void Graphics::OnResize()
 	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, static_cast<float>(_iWindowWidth) / _iWindowHeight, 1.0f, 1000.0f);
 	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
 	{
-		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponentsList();
 		for (Component* pComponent : vCompoList)
 		{
 			if (pComponent->GetID() == Camera::ID)
@@ -425,29 +426,22 @@ void Graphics::OnResize()
 void Graphics::Update()
 {
 	Engine::Instance()->GetTimer()->Tick();
-	Engine::Instance()->GetInput()->Update();	
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+
+	for (Script* script : Engine::Instance()->GetScriptList())
+	{
+		script->Update();
+	}
 	
 	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
 	{
-		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponents();
+		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponentsList();
 		for (Component* pComponent : vCompoList)
 		{
-			//pComponent->UpdateCam();
-
-			if (pComponent->GetID() == Camera::ID)
-			{
-				dynamic_cast<Camera*>(pComponent)->UpdateCam();
-			}
-
-			if (pComponent->GetID() == MeshRenderer::ID)
-			{
-				dynamic_cast<MeshRenderer*>(pComponent)->UpdateWorldPos();
-			}
+			pComponent->Update();
 		}
 	}
-
 }
 
 ID3D12GraphicsCommandList* Graphics::GetCommandList()

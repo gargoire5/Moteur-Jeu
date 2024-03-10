@@ -17,6 +17,16 @@ void Component::Render()
 
 }
 
+void Component::SetEntity(Entity* pEntity)
+{
+	_pEntity = pEntity;
+}
+
+Entity* Component::GetEntity()
+{
+	return _pEntity;
+}
+
 void Component::Update()
 {
 }

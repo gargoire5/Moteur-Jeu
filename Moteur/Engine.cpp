@@ -90,3 +90,13 @@ Camera* Engine::GetCurrCam()
 {
 	return _pCurrCamera;
 }
+
+void Engine::AddScript(Script* pScript)
+{
+	_vScriptList.push_back(pScript);
+}
+
+std::vector<Script*> Engine::GetScriptList()
+{
+	return _vScriptList;
+}

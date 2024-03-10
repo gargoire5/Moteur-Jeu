@@ -19,11 +19,10 @@ public:
 	//void SetTexture(Texture* pMesh);
 	void PreRender()override;
 	void Render()override;
-	void UpdateWorldPos();
-	void SetPosition(float x, float y, float z);
+	void Update();
+
 private:
 	Mesh* _pMeshToRender;
 	//Texture*;
-	Transform* _pTransform;
 	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
 };

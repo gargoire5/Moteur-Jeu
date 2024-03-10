@@ -19,7 +19,7 @@ float Timer::TotalTime() const
     return _fTotalTime;
 }
 
-float Timer::DeltaTime() const
+float Timer::DeltaTime()
 {
     return _fDeltaTime;
 }
@@ -44,11 +44,11 @@ void Timer::Stop()
 void Timer::Tick()
 {
     if (_bStop == false) {
-        DWORD  CurrTime = timeGetTime();
+        float CurrTime = timeGetTime();
         if (_fPrevTime != 0) {
+            float deltaTimeinMS = (CurrTime-_fPrevTime);
             _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
         }
-        
 
         _fPrevTime = CurrTime;
         _fTotalTime += _fDeltaTime;

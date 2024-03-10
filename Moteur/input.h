@@ -10,21 +10,26 @@ enum class KeyState {
     Inactive
 };
 
+struct KeyMsg
+{
+    char KeyPressed;
+    KeyState State;
+};
+struct KeyWithState
+{
+    int KeyPressed;
+    KeyState State;
+};
+
 class Input {
 public:
 
     Input();
     void Update();
-    KeyState GetKeyState(int virtualKeyCode) const;
-    bool IsKeyDown(int virtualKeyCode) const;
-    bool IsKeyUp(int virtualKeyCode) const;
-    bool IsKeyHeld(int virtualKeyCode) const;
-    int GetKeyPressed() const;
+    KeyState ListenToKey(int iVirtualKey);
 
 private:
 
-    std::unordered_map<int, KeyState> _keyStates;
-    std::unordered_map<int, KeyState> prevKeyStates;
-
+    KeyState _vKeyList[256];
 };
 

@@ -3,8 +3,8 @@
 #include "EntityManager.h"
 #include "Graphics.h"
 
-
-class Camera;
+class Script;
+class Entity;
 class Input;
 class Timer;
 class Engine
@@ -16,7 +16,6 @@ public:
 	void Pause();
 	void Resume();
 	void Exit();
-	void Update();
 	void SetMainCam(Camera* pCam);
 
 	EntityManager* GetEntityManager();
@@ -24,6 +23,9 @@ public:
 	Timer* GetTimer();
 	Input* GetInput();
 	Camera* GetCurrCam();
+
+	void AddScript(Script* pScript);
+	std::vector<Script*> GetScriptList();
 
 private:
 	Engine();
@@ -33,5 +35,6 @@ private:
 	EntityManager* _pEntityManager;
 	Input* _pInput;
 	Camera* _pCurrCamera;
+	std::vector<Script*> _vScriptList;
 };
 

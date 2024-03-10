@@ -1,7 +1,8 @@
 #pragma once
 #include "Graphics.h"
-#include "Shader.h"
 
+class Shader;
+class Entity;
 class Component
 {
 public:
@@ -14,7 +15,10 @@ public:
 	virtual void PreRender();
 	virtual void Render();
 
+	void SetEntity(Entity* pEntity);
+	Entity* GetEntity();
+
 protected:
 	Shader* _pShader;
+	Entity* _pEntity;
 };
-
