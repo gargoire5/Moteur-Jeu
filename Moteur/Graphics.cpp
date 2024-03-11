@@ -308,6 +308,14 @@ void Graphics::FlushCommandQueue()
 	}
 }
 
+POINT Graphics::GetWindowSize()
+{
+	POINT WindowPos;
+	WindowPos.x = _iWindowWidth;
+	WindowPos.y = _iWindowHeight;
+	return WindowPos;
+}
+
 void Graphics::OnResize()
 {
 	assert(_DXDevice);
@@ -425,7 +433,87 @@ void Graphics::OnResize()
 
 void Graphics::Update()
 {
-	Engine::Instance()->GetTimer()->Tick();
+	Engine* pEngine = Engine::Instance();
+	Input* pInput = pEngine->GetInput();
+	float deltaTime = pEngine->GetTimer()->DeltaTime();
+
+	pEngine->GetTimer()->Tick();
+	pInput->Update();
+
+	KeyState state = pInput->ListenToKey(27);
+	if ((state == KeyState::Down))
+	{
+		if (pEngine->FPS == false)
+		{
+			OutputDebugStringW(L"test");
+			pEngine->FPS = true;
+		}
+		else
+		{
+			OutputDebugStringW(L"test");
+			pEngine->FPS = false;
+		}
+	}
+
+	if (Engine::Instance()->FPS == true)
+	{
+		Camera* pCam = pEngine->GetCurrCam();
+		POINT vWindowSize = pEngine->GetGraphics()->GetWindowSize();
+		RECT rect = { NULL };
+		GetWindowRect(pEngine->GetGraphics()->_hWindow, &rect);
+		POINT CurrPos;
+		POINT WindowCenter;
+		WindowCenter.x = rect.left + (vWindowSize.x / 2);
+		WindowCenter.y = rect.top + (vWindowSize.y / 2);
+		GetCursorPos(&CurrPos);
+
+		POINT Rotation;
+		Rotation.x = CurrPos.x - WindowCenter.x;
+		Rotation.y = CurrPos.y - WindowCenter.y;
+
+		pCam->yaw += (Rotation.x / 10.0f);
+		pCam->pitch += (Rotation.y / 10.0f);
+
+		XMFLOAT4 rot = pCam->GetEntity()->GetTransform()->qRot;
+
+		Transform* t = pCam->GetEntity()->GetTransform();
+
+		std::vector<Entity*> list = pEngine->GetEntityManager()->GetEntityList();
+
+		pCam->GetEntity()->GetTransform()->identityRot();
+		pCam->GetEntity()->GetTransform()->rotate(-pCam->yaw, -pCam->pitch, 0.0f);
+
+		SetCursorPos(WindowCenter.x, WindowCenter.y);
+
+		/*KeyState state = pInput->ListenToKey(0x5A);
+		if ((state == KeyState::Down) || (state == KeyState::Held))
+		{
+			OutputDebugStringW(L"test");
+			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
+			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x, fCurrPos.y, fCurrPos.z + (-5 * deltaTime));
+		}
+		state = pInput->ListenToKey(83);
+		if ((state == KeyState::Down) || (state == KeyState::Held))
+		{
+			OutputDebugStringW(L"test");
+			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
+			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x, fCurrPos.y, fCurrPos.z + (5 * deltaTime));
+		}
+		state = pInput->ListenToKey(81);
+		if ((state == KeyState::Down) || (state == KeyState::Held))
+		{
+			OutputDebugStringW(L"test");
+			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
+			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x + (5 * deltaTime), fCurrPos.y, fCurrPos.z);
+		}
+		state = pInput->ListenToKey(68);
+		if ((state == KeyState::Down) || (state == KeyState::Held))
+		{
+			OutputDebugStringW(L"test");
+			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
+			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x + (-5 * deltaTime), fCurrPos.y, fCurrPos.z);
+		}*/
+	}
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
 
@@ -434,9 +522,11 @@ void Graphics::Update()
 		script->Update();
 	}
 	
-	for (int i = 0; i < pEntityManager->GetEntityList().size(); i++)
+	for (Entity* pEntity : pEntityManager->GetEntityList())
 	{
-		std::vector<Component*> vCompoList = pEntityManager->GetEntityList()[i]->GetComponentsList();
+		pEntity->GetTransform()->Update_WorldMatrix();
+		std::vector<Component*> vCompoList = pEntity->GetComponentsList();
+
 		for (Component* pComponent : vCompoList)
 		{
 			pComponent->Update();

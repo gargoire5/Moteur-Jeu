@@ -16,9 +16,9 @@ public:
 	XMFLOAT4X4 mSca;
 
 	//vecteurs pour stocker les directions
-	XMFLOAT3 fRight;  //x
-	XMFLOAT3 fUp;     //y
-	XMFLOAT3 fDir;    //z
+	XMFLOAT3 fRight;  
+	XMFLOAT3 fUp;     
+	XMFLOAT3 fDir;    
 	XMFLOAT4 qRot;
 	XMFLOAT4X4 mRot;
 
@@ -29,10 +29,10 @@ public:
 	XMFLOAT4X4 matrix; //matrice world
 
 	void identity(); //pour reset les matrice et vecteurs
+	void identityRot();
 
 	void rotate(float yaw, float pitch, float roll); //fonction pour tourner la matrice sur elle meme     yaw = x, pitch = y , roll = z
 
 	void Update_mPos();
-
 	void Update_WorldMatrix();
 };

@@ -27,6 +27,8 @@ public:
 	void AddScript(Script* pScript);
 	std::vector<Script*> GetScriptList();
 
+	bool FPS = false;
+
 private:
 	Engine();
 	static Engine* _pInstance;
@@ -36,5 +38,6 @@ private:
 	Input* _pInput;
 	Camera* _pCurrCamera;
 	std::vector<Script*> _vScriptList;
+	
 };
 

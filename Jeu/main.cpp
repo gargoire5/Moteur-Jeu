@@ -12,33 +12,7 @@
 
 void MovementScript::Update()
 {
-	Engine* pEngine = Engine::Instance();
-	Input* pInput = pEngine->GetInput();
-	float deltaTime = pEngine->GetTimer()->DeltaTime();
-	pInput->Update();
 
-	//RECT rect;
-	//GetClientRect(hWnd, &rect);
-
-	//POINT center;
-	//center.x = (rect.left + rect.right) / 2;
-	//center.y = (rect.top + rect.bottom) / 2;
-
-	//// Convertir les coordonnées du client en coordonnées de l'écran
-	//ClientToScreen(hWnd, &center);
-
-	//POINT pCursor;
-	//bool hr = GetCursorPos(&pCursor);
-	////SetCursorPos(0, 0);
-	
-
-	KeyState state = pInput->ListenToKey(0x5A);
-	if ((state == KeyState::Down) || (state == KeyState::Held))
-	{
-		OutputDebugStringW(L"test");
-		XMFLOAT3 fCurrPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
-		pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x , fCurrPos.y, fCurrPos.z + (-0.5 * deltaTime));
-	}
 };
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
@@ -59,6 +33,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	pCamComponent->SetEntity(pCamEntity);
 	pCamComponent->Init();
 	pCamComponent->SetShader();
+	pCamComponent->GetEntity()->SetCurrCam();
 	pCamEntity->SetPos(-3, 0, 10);
 
 	pEngine->SetMainCam(pCamComponent);
@@ -67,7 +42,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	MeshRenderer* pCubeComponent = pCubeEntity->AttachComponent<MeshRenderer>();
 	pCubeComponent->SetEntity(pCubeEntity);
 	pCubeComponent->SetShader();
-	pCubeComponent->GetEntity()->SetCurrCam();
 	pCubeEntity->SetPos(0,0,0);
 
 	Vertex vertices[] =
@@ -80,9 +54,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Yellow) }),
 		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4(Colors::Cyan) }),
 		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4(Colors::Magenta) })
+
 	};
-
-
 	uint16_t indices[] =
 	{
 		// front face
@@ -118,6 +91,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 
 	MovementScript* pMovementScript = new MovementScript();
 	pEngine->AddScript(pMovementScript);
+
+	pEngine->FPS = true;
 
 	pEngine->Run();
 

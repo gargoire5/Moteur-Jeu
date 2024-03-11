@@ -37,9 +37,9 @@ void Camera::PreRender()
 }
 void Camera::Render()
 {
-	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+	/*ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 
 	D3D12_GPU_VIRTUAL_ADDRESS GpuAddr = _DXCamCB->GetVirtualAddr();
 
-	DXCommandList->SetGraphicsRootConstantBufferView(1, GpuAddr);
+	DXCommandList->SetGraphicsRootConstantBufferView(1, GpuAddr);*/
 }

@@ -33,6 +33,8 @@ public:
 	ID3D12CommandAllocator* GetCommandAllocator();
 	void FlushCommandQueue();
 
+	POINT GetWindowSize();
+
 	HWND _hWindow;
 
 private:
@@ -95,4 +97,7 @@ private:
 
 	int _iWindowWidth = 1280;
 	int _iWindowHeight = 720;
+
+	float _yaw = 0.0f;
+	float _pitch = 0.0f;
 };
