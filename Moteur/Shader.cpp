@@ -15,17 +15,9 @@ Shader::~Shader()
 
 void Shader::Initialize()
 {
-
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-	ID3D12DescriptorHeap* DXSrvHeap = Engine::Instance()->GetGraphics()->GetCbvHeap();
-
-	Texture2D* texture = new Texture2D();
-	std::string name = "bricks";
-	std::wstring filename = L"../texture/bricks.dds";
-	UINT TypeHeap = DXDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	texture->LoadTexture(TabTex.size(), name, filename, DXCommandList, DXDevice, DXSrvHeap, TypeHeap);
-	TabTex.push_back(*texture);
+	ID3D12DescriptorHeap* DXSrvHeap = Engine::Instance()->GetGraphics()->GetSrvHeap();
 
 	CD3DX12_DESCRIPTOR_RANGE texTable;
 	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
@@ -113,28 +105,32 @@ void Shader::PreDraw()
 	DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
 }
 
+
 void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-
 	
 	ID3D12RootSignature* pRootSignature = _DXRootSignature;
 
-	ID3D12DescriptorHeap* _DXSrvHeap = Engine::Instance()->GetGraphics()->GetCbvHeap();
-	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(_DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
+	ID3D12DescriptorHeap* _DXSrvHeap = Engine::Instance()->GetGraphics()->GetSrvHeap();
+	
 
 	//DXCommandList->SetGraphicsRootConstantBufferView(1, pBuffer->GetVirtualAddr());
 
 	DXCommandList->SetPipelineState(_DXPSO);
 
+
+
 	DXCommandList->IASetVertexBuffers(0, 1, &pMeshToRender->VertexBufferView());
 	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
 	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//DXCommandList->SetGraphicsRootSignature(pRootSignature);//?
+	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(_DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
+
 	DXCommandList->SetGraphicsRootDescriptorTable(0, tex);
 	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferObj->GetVirtualAddr());
 	DXCommandList->SetGraphicsRootConstantBufferView(2, pBufferCam->GetVirtualAddr());
+	//DXCommandList->SetGraphicsRootSignature(pRootSignature);//?
 
 	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }

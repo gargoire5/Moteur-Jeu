@@ -25,7 +25,7 @@ public:
 
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
-	ID3D12DescriptorHeap* GetCbvHeap();
+	ID3D12DescriptorHeap* GetSrvHeap();
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
@@ -41,6 +41,8 @@ private:
 
 	float _fWindowWidth;
 	float _fWindowHeight;
+
+	std::vector<Texture2D> TabTex;
 
 	IDXGIFactory4* _DXFactory;
 	ID3D12Device* _DXDevice;

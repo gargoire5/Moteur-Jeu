@@ -24,6 +24,6 @@ private:
 	ID3DBlob* _PixelShader = nullptr;
 	ID3D12RootSignature* _DXRootSignature = nullptr;
 	ID3D12PipelineState* _DXPSO = nullptr;
-	std::vector<Texture2D> TabTex;
+	
 	std::vector<D3D12_INPUT_ELEMENT_DESC> _vInputLayout;
 };

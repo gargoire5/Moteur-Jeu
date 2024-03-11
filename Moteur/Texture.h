@@ -8,7 +8,7 @@ class Texture2D
 {
 public:
 	Texture2D();
-	void LoadTexture(int index, std::string Name, std::wstring Filename, ID3D12GraphicsCommandList* CommandList, ID3D12Device* device, ID3D12DescriptorHeap* SrvHeap, UINT TypeHeap);
+	void LoadTexture(int index, std::string Name, std::wstring Filename);
 private:
 	std::string _sName;
 	std::wstring _sFilename;

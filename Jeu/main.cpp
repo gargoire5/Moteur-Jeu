@@ -25,6 +25,9 @@ void MovementScript::Update()
 	}
 };
 
+
+
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
 	//#ifdef _DEBUG
@@ -57,13 +60,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	Vertex vertices[] =
 	{
 		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f,0.0f)}),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(-0.5f,-0.5f) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(-0.5f,0.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(-0.5f,0.5f) }),
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0.0f,0.5f) }),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0.5f,0.5f) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(0.5f,0.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(0.5f,-0.5f) })
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1.0f,0.0f) }),
+
+		//Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(0.0f,0.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f,1.0f) }),
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0.0f,0.0f) }),
+
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1.0f,0.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1.0f,1.0f) })
 	};
 
 

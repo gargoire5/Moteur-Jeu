@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Timer.h"
 #include "Input.h"
+#include "Texture.h"
 #include "Script.h"
 
 using namespace DirectX;
@@ -180,6 +181,20 @@ void Graphics::InitDX()
 	_pShader = new Shader();
 	_pShader->Initialize();
 	//-------------------------------------------------------------------------------------------------------------------------------------//
+
+	HRESULT hr = _DXCommandAllocator->Reset();
+	_DXCommandList->Reset(_DXCommandAllocator, nullptr);
+
+	Texture2D* texture = new Texture2D();
+	std::string name = "bricks";
+	std::wstring filename = L"../texture/bricks.dds";
+	texture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(*texture);
+
+
+	_DXCommandList->Close();
+	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+	FlushCommandQueue();
 }
 
 LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -460,7 +475,7 @@ ID3D12GraphicsCommandList* Graphics::GetCommandList()
 {
 	return _DXCommandList;
 }
-ID3D12DescriptorHeap* Graphics::GetCbvHeap()
+ID3D12DescriptorHeap* Graphics::GetSrvHeap()
 {
 	return _DXSrvHeap;
 }
