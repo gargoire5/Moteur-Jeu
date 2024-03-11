@@ -30,7 +30,6 @@ void MovementScript::Update()
 	//POINT pCursor;
 	//bool hr = GetCursorPos(&pCursor);
 	////SetCursorPos(0, 0);
-
 	
 
 	KeyState state = pInput->ListenToKey(0x5A);
