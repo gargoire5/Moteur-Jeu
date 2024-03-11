@@ -1,3 +1,4 @@
+
 #include "../Moteur/Engine.h"
 #include "../Moteur/MeshRenderer.h"
 #include "../Moteur/Camera.h"
@@ -65,54 +66,54 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	Vertex vertices[] =
 	{
 		Vertex({ XMFLOAT3(d1, d1, d2), XMFLOAT2(0.0f, 0.0f) }), //0
-		Vertex({ XMFLOAT3(d2, d1, d1), XMFLOAT2(1.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(d1, d1, d1), XMFLOAT2(0.0f, 1.0f) }), //2
+		Vertex({ XMFLOAT3(d2, d1, d1), XMFLOAT2(1.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(d1, d1, d1), XMFLOAT2(1.0f, 0.0f) }), //2
 
-		Vertex({ XMFLOAT3(-0.5f, 1.0f, d2), XMFLOAT2(0.5f, 0.5f) }),
+		Vertex({ XMFLOAT3(-0.5f, 1.0f, d2), XMFLOAT2(1.0f, 1.0f) }),
 
 		Vertex({ XMFLOAT3(d1, +0.5f, d2), XMFLOAT2(0.0f, 1.0f) }),
 		Vertex({ XMFLOAT3(+0.5f, d1, d2), XMFLOAT2(1.0f, 0.0f)}), //5
 		Vertex({ XMFLOAT3(+0.5f, +0.5f, d2), XMFLOAT2(1.0f, 1.0f) }),
 		Vertex({ XMFLOAT3(+0.75f, +0.75f, d3), XMFLOAT2(0.0f, 0.0f) }),
 
-		Vertex({ XMFLOAT3(d1, +0.0f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(+0.0f, d1, d2), XMFLOAT2(0.0f, 0.0f)}), //9
-		Vertex({ XMFLOAT3(+0.0f, +0.5f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(+0.25f, +0.75f, d3), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(d1, +0.0f, d2), XMFLOAT2(1.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(+0.0f, d1, d2), XMFLOAT2(0.0f, 1.0f)}), //9
+		Vertex({ XMFLOAT3(+0.0f, +0.5f, d2), XMFLOAT2(1.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(+0.25f, +0.75f, d3), XMFLOAT2(1.0f, 0.0f) }),
 
-		Vertex({ XMFLOAT3(0.5f, -0.5f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(-0.5f, -0.5f, d2), XMFLOAT2(0.0f, 0.0f) }), //13
-		Vertex({ XMFLOAT3(+0.5f, -0.5f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(0.0f, -0.25f, -1.75f),XMFLOAT2(0.0f, 0.0f) }),//15
-		Vertex({ XMFLOAT3(-0.5f, +0.5f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(+0.75f, +0.25f, d3), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(0.5f, -0.5f, d2), XMFLOAT2(0.0f,1.0f) }),
+		Vertex({ XMFLOAT3(-0.5f, -0.5f, d2), XMFLOAT2(1.0f, 0.0f) }), //13
+		Vertex({ XMFLOAT3(+0.5f, -0.5f, d2), XMFLOAT2(1.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(0.0f, -0.25f, -1.75f),XMFLOAT2(1.0f, 0.0f) }),//15
+		Vertex({ XMFLOAT3(-0.5f, +0.5f, d2), XMFLOAT2(0.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(+0.75f, +0.25f, d3), XMFLOAT2(1.0f, 1.0f) }),
 
-		Vertex({ XMFLOAT3(d1, +0.0f, d2), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(+0.5f, +0.0f, d2), XMFLOAT2(0.0f, 0.0f) }), //19
+		Vertex({ XMFLOAT3(d1, +0.0f, d2), XMFLOAT2(1.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(+0.5f, +0.0f, d2), XMFLOAT2(0.0f, 1.0f) }), //19
 
-		Vertex({ XMFLOAT3(d1, d1, -0.5f), XMFLOAT2(0.0f, 0.0f)}),
-		Vertex({ XMFLOAT3(d1, +0.0f, -0.5f), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(d1, d1, 0.0f), XMFLOAT2(0.0f, 0.0f) }), //22
-		Vertex({ XMFLOAT3(d1, 0.0f, 0.0f), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(d1, d1, -0.5f), XMFLOAT2(1.0f, 1.0f)}),
+		Vertex({ XMFLOAT3(d1, +0.0f, -0.5f), XMFLOAT2(1.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(d1, d1, 0.0f), XMFLOAT2(0.0f, 1.0f) }), //22
+		Vertex({ XMFLOAT3(d1, 0.0f, 0.0f), XMFLOAT2(1.0f, 1.0f) }),
 
-		Vertex({ XMFLOAT3(1.5f, d1, 0.5f), XMFLOAT2(0.0f, 0.0f)}),
-		Vertex({ XMFLOAT3(d1, -0.5f, 0.75f), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(d1, 1.5f, d1), XMFLOAT2(0.0f, 0.0f) }), //26
-		Vertex({ XMFLOAT3(0.0f, 0.5f, d1), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(1.5f, d1, 0.5f), XMFLOAT2(1.0f, 0.0f)}),
+		Vertex({ XMFLOAT3(d1, -0.5f, 0.75f), XMFLOAT2(0.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(d1, 1.5f, d1), XMFLOAT2(1.0f, 1.0f) }), //26
+		Vertex({ XMFLOAT3(0.0f, 0.5f, d1), XMFLOAT2(1.0f, 0.0f) }),
 
-		Vertex({ XMFLOAT3(d1, d1, 0.75f),XMFLOAT2(0.0f, 0.0f)}),
-		Vertex({ XMFLOAT3(0.0f, -0.5f, d1), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(0.0f, 1.0f, 1.50f), XMFLOAT2(0.0f, 0.0f) }), //30
-		Vertex({ XMFLOAT3(d2, -1.0f, d1), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(d1, d1, 0.75f),XMFLOAT2(0.0f, 1.0f)}),
+		Vertex({ XMFLOAT3(0.0f, -0.5f, d1), XMFLOAT2(1.0f,1.0f) }),
+		Vertex({ XMFLOAT3(0.0f, 1.0f, 1.50f), XMFLOAT2(1.0f, 0.0f) }), //30
+		Vertex({ XMFLOAT3(d2, -1.0f, d1), XMFLOAT2(0.0f, 1.0f) }),
 
-		Vertex({ XMFLOAT3(-1.0f, 0.5f, 0.5f), XMFLOAT2(0.0f, 0.0f)}),
-		Vertex({ XMFLOAT3(-0.75f, -0.75f, -0.25f), XMFLOAT2(0.0f, 0.0f) }), //33
-		Vertex({ XMFLOAT3(-1.0f, d1, 0.0f), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(-0.5f, 0.0f, -0.75f), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(-1.0f, 0.5f, 0.5f), XMFLOAT2(1.0f, 1.0f)}),
+		Vertex({ XMFLOAT3(-0.75f, -0.75f, -0.25f), XMFLOAT2(1.0f, 0.0f) }), //33
+		Vertex({ XMFLOAT3(-1.0f, d1, 0.0f), XMFLOAT2(0.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(-0.5f, 0.0f, -0.75f), XMFLOAT2(1.0f, 1.0f) }),
 
-		Vertex({ XMFLOAT3(+0.0f, 1.25f, d1), XMFLOAT2(0.0f, 0.0f) }), //36
-		Vertex({ XMFLOAT3(+0.0f, 0.5f, 0.0f), XMFLOAT2(0.0f, 0.0f) }),
-		Vertex({ XMFLOAT3(+0.0f, -1.25f, -0.5f), XMFLOAT2(0.0f, 0.0f) }),
+		Vertex({ XMFLOAT3(+0.0f, 1.25f, d1), XMFLOAT2(1.0f, 0.0f) }), //36
+		Vertex({ XMFLOAT3(+0.0f, 0.5f, 0.0f), XMFLOAT2(0.0f, 1.0f) }),
+		Vertex({ XMFLOAT3(+0.0f, -1.25f, -0.5f), XMFLOAT2(1.0f, 1.0f) }),
 
 	};
 
