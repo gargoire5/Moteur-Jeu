@@ -6,6 +6,7 @@
 struct ObjectConstants
 {
 	DirectX::XMFLOAT4X4 WorldMatrix = MathHelper::Identity4x4();
+	//XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
 };
 struct CamConstants
 {

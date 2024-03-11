@@ -21,17 +21,17 @@ void MovementScript::Update()
 	{
 		OutputDebugStringW(L"test");
 		XMFLOAT3 fCurrPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
-		pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x , fCurrPos.y, fCurrPos.z + (-0.5 * deltaTime));
-	}	
+		pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x, fCurrPos.y, fCurrPos.z + (-0.5 * deltaTime));
+	}
 };
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-//#ifdef _DEBUG
-//	_CrtMemState memStateInit;
-//	_CrtMemCheckpoint(&memStateInit);
-//#endif
-	//------------------------------------------------------
+	//#ifdef _DEBUG
+	//	_CrtMemState memStateInit;
+	//	_CrtMemCheckpoint(&memStateInit);
+	//#endif
+		//------------------------------------------------------
 
 	Engine* pEngine = Engine::Instance();
 	pEngine->Init();
@@ -52,18 +52,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	pCubeComponent->SetEntity(pCubeEntity);
 	pCubeComponent->SetShader();
 	pCubeComponent->GetEntity()->SetCurrCam();
-	pCubeEntity->SetPos(0,0,0);
+	pCubeEntity->SetPos(0, 0, 0);
 
 	Vertex vertices[] =
 	{
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) }),
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f),XMFLOAT2(1.0f,1.0f) })
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f,0.0f)}),
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(-0.5f,-0.5f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(-0.5f,0.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(-0.5f,0.5f) }),
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0.0f,0.5f) }),
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0.5f,0.5f) }),
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(0.5f,0.0f) }),
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(0.5f,-0.5f) })
 	};
 
 

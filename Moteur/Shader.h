@@ -8,7 +8,6 @@ class Texture2D;
 
 class Shader
 {
-
 public:
 	Shader();
 	~Shader();

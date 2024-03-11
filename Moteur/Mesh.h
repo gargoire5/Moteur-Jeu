@@ -6,7 +6,8 @@ using namespace DirectX;
 struct Vertex
 {
 	XMFLOAT3 Pos;
-	XMFLOAT2 Text;
+	//XMFLOAT4 Color;
+	XMFLOAT2 TexC;
 };
 class Mesh
 {

@@ -31,19 +31,19 @@ void Shader::Initialize()
 	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
 
 
-	CD3DX12_ROOT_PARAMETER slotRootParameter[2];
+	CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 
 	auto staticSamplers = GetStaticSamplers();
 
 	// Create a single descriptor table of CBVs.
 	//CD3DX12_DESCRIPTOR_RANGE cbvTable;
 	//cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-	//slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
-	slotRootParameter[0].InitAsConstantBufferView(0);
-	slotRootParameter[1].InitAsConstantBufferView(1);
+	slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
+	slotRootParameter[1].InitAsConstantBufferView(0);
+	slotRootParameter[2].InitAsConstantBufferView(1);
 
 	// A root signature is an array of root parameters.
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(2, slotRootParameter, (UINT)staticSamplers.size(), staticSamplers.data(),
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter, (UINT)staticSamplers.size(), staticSamplers.data(),
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
@@ -63,7 +63,7 @@ void Shader::Initialize()
 	_vInputLayout =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		// { "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		//{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 	//-------------------------------------------------------------------------------------------------------------------------------------//
@@ -123,7 +123,6 @@ void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 	ID3D12DescriptorHeap* _DXSrvHeap = Engine::Instance()->GetGraphics()->GetCbvHeap();
 	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(_DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
 
-	//DXCommandList->SetGraphicsRootSignature(pRootSignature);
 	//DXCommandList->SetGraphicsRootConstantBufferView(1, pBuffer->GetVirtualAddr());
 
 	DXCommandList->SetPipelineState(_DXPSO);
@@ -132,9 +131,10 @@ void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
 	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	//DXCommandList->SetGraphicsRootSignature(pRootSignature);//?
 	DXCommandList->SetGraphicsRootDescriptorTable(0, tex);
-	DXCommandList->SetGraphicsRootConstantBufferView(0, pBufferObj->GetVirtualAddr());
-	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferCam->GetVirtualAddr());
+	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferObj->GetVirtualAddr());
+	DXCommandList->SetGraphicsRootConstantBufferView(2, pBufferCam->GetVirtualAddr());
 
 	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }

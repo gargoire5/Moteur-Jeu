@@ -10,6 +10,7 @@ SamplerState g_sampler : register(s0); // Sampler bound to s0, register space 0
 cbuffer cbPerObject : register(b0)
 {
 	float4x4 gWorld; 
+    //float4x4 gTexTransform;
 };
 cbuffer cbPerPass : register(b1)
 {
@@ -40,6 +41,7 @@ VertexOut VS(VertexIn vin)
 	
 	// Just pass vertex color into the pixel shader.
     //vout.Color = vin.Color;
+    //vout.TexC = mul(float4(vin.TexC, 0.0f, 1.0f), gTexTransform);
     vout.TexC = vin.TexC;
 
     return vout;
@@ -47,8 +49,9 @@ VertexOut VS(VertexIn vin)
 
 float4 PS(VertexOut pin) : SV_Target
 {
-    return float4(1, 0, 0, 1);
-    //return g_texture.Sample(g_sampler, pin.TexC);
+    //return float4(1, 0, 0, 1);
+    //return pin.Color;
+    return g_texture.Sample(g_sampler, pin.TexC);
 }
 
 
