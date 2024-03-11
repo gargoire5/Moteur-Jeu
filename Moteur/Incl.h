@@ -10,6 +10,8 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "winmm.lib")
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <windows.h>
 
 #include <dxgi1_6.h>

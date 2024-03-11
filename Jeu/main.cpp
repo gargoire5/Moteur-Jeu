@@ -5,6 +5,7 @@
 #include "../Moteur/timer.h"
 #include "MovementScript.h"
 
+
 #ifdef _DEBUG
 #include <crtdbg.h>
 #endif
@@ -16,13 +17,29 @@ void MovementScript::Update()
 	float deltaTime = pEngine->GetTimer()->DeltaTime();
 	pInput->Update();
 
+	//RECT rect;
+	//GetClientRect(hWnd, &rect);
+
+	//POINT center;
+	//center.x = (rect.left + rect.right) / 2;
+	//center.y = (rect.top + rect.bottom) / 2;
+
+	//// Convertir les coordonnées du client en coordonnées de l'écran
+	//ClientToScreen(hWnd, &center);
+
+	//POINT pCursor;
+	//bool hr = GetCursorPos(&pCursor);
+	////SetCursorPos(0, 0);
+
+	
+
 	KeyState state = pInput->ListenToKey(0x5A);
 	if ((state == KeyState::Down) || (state == KeyState::Held))
 	{
 		OutputDebugStringW(L"test");
 		XMFLOAT3 fCurrPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
 		pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x , fCurrPos.y, fCurrPos.z + (-0.5 * deltaTime));
-	}	
+	}
 };
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
