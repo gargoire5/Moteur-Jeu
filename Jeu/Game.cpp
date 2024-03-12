@@ -107,8 +107,6 @@ void Game::Run()
 		Vertex({ XMFLOAT3(+0.0f, -1.25f, -0.5f), XMFLOAT2(0.0f, 0.0f) }),
 
 	};
-
-
 	uint16_t indices[] =
 	{
 		//triangles first face
@@ -205,6 +203,76 @@ void Game::Run()
 	pCubeComponent->SetMesh(&pMesh);
 	pCubeComponent2->SetMesh(&pMesh);
 
+	Vertex vertices1[] =
+	{
+		// Front face
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+
+		// Bac
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+
+		// Lef
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+
+		// Rig
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+
+		// Top
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+
+		// Bote
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) })  // Bottom-right
+	};
+
+	uint16_t indices1[] =
+	{
+		// Front face
+		0, 1, 2,
+		0, 2, 3,
+
+		// Back face
+		4, 6, 5,
+		4, 7, 6,
+
+		// Left face
+		8, 10, 9,
+		8, 11, 10,
+
+		// Right face
+		12, 13, 14,
+		12, 14, 15,
+
+		// Top face
+		16, 17, 18,
+		16, 18, 19,
+
+		// Bottom face
+		20, 22, 21,
+		20, 23, 22
+	};
+
+	;
+	i = sizeof(vertices1);
+	y = sizeof(indices1);
+	_pBulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
 	MovementScript* pMovementScript = new MovementScript();
 	pEngine->AddScript(pMovementScript);

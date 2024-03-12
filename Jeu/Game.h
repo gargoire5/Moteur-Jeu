@@ -4,6 +4,7 @@ class Engine;
 class Input;
 class EntityManager;
 class Timer;
+
 class Game
 {
 public:
@@ -15,5 +16,6 @@ public:
 private:
 	Game();
 	static Game* _pInstance;
+	Mesh _pBulletMesh;
 };
 
