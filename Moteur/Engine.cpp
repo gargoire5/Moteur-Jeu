@@ -20,7 +20,6 @@ Engine* Engine::Instance()
 	}
 	return _pInstance;
 }
-#include "../Moteur/MeshRenderer.h"
 void Engine::Init()
 {
 	_pEntityManager = new EntityManager();
