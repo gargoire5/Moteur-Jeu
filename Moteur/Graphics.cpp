@@ -198,6 +198,13 @@ void Graphics::InitDX()
 	IronTexture->LoadTexture(TabTex.size(), name, filename);
 	TabTex.push_back(IronTexture);
 
+	Texture2D* NightTexture = new Texture2D();
+	name = "night";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/night.dds";
+	NightTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(NightTexture);
+
 	_DXCommandList->Close();
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 	FlushCommandQueue();
