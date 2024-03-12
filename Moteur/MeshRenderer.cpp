@@ -23,7 +23,7 @@ void MeshRenderer::PreRender()
 void MeshRenderer::Render()
 {
 	UploadBuffer<CamConstants>* ConstCamBuffer = _pEntity->GetCurrCam()->GetConstBufferCam();
-	_pShader->Draw(_pMeshToRender, _DXObjectCB, ConstCamBuffer);
+	_pShader->Draw(_pMeshToRender, _DXObjectCB, ConstCamBuffer, _pTexture);
 }
 
 void MeshRenderer::Update()
@@ -31,6 +31,11 @@ void MeshRenderer::Update()
 	ObjectConstants objConstants;
 	XMStoreFloat4x4(&objConstants.WorldMatrix, XMMatrixTranspose(XMLoadFloat4x4(&_pEntity->GetTransform()->matrix)));
 	_DXObjectCB->CopyData(0, objConstants);
+}
+
+void MeshRenderer::SetTexture2D(Texture2D* pTexture)
+{
+	_pTexture = pTexture;
 }
 
 

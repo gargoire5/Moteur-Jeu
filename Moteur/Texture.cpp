@@ -16,10 +16,8 @@ void Texture2D::LoadTexture(int index, std::string Name, std::wstring Filename)
 
 	_sName = Name;
 	_sFilename = Filename;
-	ThrowIfFailed(DirectX::CreateDDSTextureFromFile12(DXDevice, DXCommandList, _sFilename.c_str(), _Resource, _UploadHeap));
-
-
-
+	HRESULT hr = DirectX::CreateDDSTextureFromFile12(DXDevice, DXCommandList, _sFilename.c_str(), _Resource, _UploadHeap);
+	assert(hr == S_OK);
 	CD3DX12_CPU_DESCRIPTOR_HANDLE hDescriptor(DXSrvHeap->GetCPUDescriptorHandleForHeapStart());
 	hDescriptor.Offset(index, TypeHeap);
 
@@ -32,7 +30,8 @@ void Texture2D::LoadTexture(int index, std::string Name, std::wstring Filename)
 	srvDesc.Texture2D.ResourceMinLODClamp = 0.0f;
 	DXDevice->CreateShaderResourceView(_Resource.Get(), &srvDesc, hDescriptor);
 
-	//CD3DX12_GPU_DESCRIPTOR_HANDLE md(SrvHeap->GetGPUDescriptorHandleForHeapStart());
-	//md.Offset(index , TypeHeap);
+	_md = CD3DX12_GPU_DESCRIPTOR_HANDLE(DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
+	_md.Offset(index , TypeHeap);
+
 
 }

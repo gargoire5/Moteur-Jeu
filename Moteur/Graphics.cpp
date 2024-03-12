@@ -185,12 +185,18 @@ void Graphics::InitDX()
 	HRESULT hr = _DXCommandAllocator->Reset();
 	_DXCommandList->Reset(_DXCommandAllocator, nullptr);
 
-	Texture2D* texture = new Texture2D();
-	std::string name = "bricks";
-	std::wstring filename = L"../texture/bricks.dds";
-	texture->LoadTexture(TabTex.size(), name, filename);
-	TabTex.push_back(*texture);
+	Texture2D* RockTexture = new Texture2D();
+	std::string name = "rock";
+	std::wstring filename = L"../texture/rock.dds";
+	RockTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(RockTexture);
 
+	Texture2D* IronTexture = new Texture2D();
+	name = "grass";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/grass.dds";
+	IronTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(IronTexture);
 
 	_DXCommandList->Close();
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
@@ -245,6 +251,11 @@ ID3D12CommandAllocator* Graphics::GetCommandAllocator()
 	return _DXCommandAllocator;
 }
 
+Texture2D* Graphics::GetTextureList(int i)
+{
+	return TabTex[i];
+}
+
 ID3D12Device* Graphics::GetDevice()
 {
 	return _DXDevice;
@@ -269,7 +280,7 @@ void Graphics::Draw()
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET));
 
 	// Clear the back buffer and depth buffer.
-	_DXCommandList->ClearRenderTargetView(GetCurrentBackBufferView(), DirectX::Colors::Aquamarine, 0, nullptr);
+	_DXCommandList->ClearRenderTargetView(GetCurrentBackBufferView(), DirectX::Colors::Black, 0, nullptr);
 	_DXCommandList->ClearDepthStencilView(GetDepthStencilView(), D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, nullptr);
 
 	// Specify the buffers we are going to render to.

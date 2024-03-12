@@ -106,7 +106,7 @@ void Shader::PreDraw()
 }
 
 
-void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
+void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam, Texture2D* pTexture)
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 	
@@ -119,15 +119,11 @@ void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 
 	DXCommandList->SetPipelineState(_DXPSO);
 
-
-
 	DXCommandList->IASetVertexBuffers(0, 1, &pMeshToRender->VertexBufferView());
 	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
 	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(_DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
-
-	DXCommandList->SetGraphicsRootDescriptorTable(0, tex);
+	DXCommandList->SetGraphicsRootDescriptorTable(0, pTexture->_md);
 	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferObj->GetVirtualAddr());
 	DXCommandList->SetGraphicsRootConstantBufferView(2, pBufferCam->GetVirtualAddr());
 	//DXCommandList->SetGraphicsRootSignature(pRootSignature);//?

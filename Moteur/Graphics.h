@@ -23,6 +23,7 @@ public:
 	void Update();
 	void Draw();
 
+	Texture2D* GetTextureList(int i);
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
 	ID3D12DescriptorHeap* GetSrvHeap();
@@ -44,7 +45,7 @@ private:
 	float _fWindowWidth;
 	float _fWindowHeight;
 
-	std::vector<Texture2D> TabTex;
+	std::vector<Texture2D*> TabTex;
 
 	IDXGIFactory4* _DXFactory;
 	ID3D12Device* _DXDevice;

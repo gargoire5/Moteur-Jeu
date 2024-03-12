@@ -15,7 +15,7 @@ public:
 	void Initialize();
 	void Purge();
 	void PreDraw();
-	void Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam);
+	void Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam, Texture2D* pTexture);
 	std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> GetStaticSamplers();
 private:
 	ID3DBlob* serializedRootSig = nullptr;

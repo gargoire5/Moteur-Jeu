@@ -9,6 +9,7 @@ class Texture2D
 public:
 	Texture2D();
 	void LoadTexture(int index, std::string Name, std::wstring Filename);
+	CD3DX12_GPU_DESCRIPTOR_HANDLE _md;
 private:
 	std::string _sName;
 	std::wstring _sFilename;

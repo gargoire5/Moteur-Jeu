@@ -20,9 +20,11 @@ public:
 	void PreRender()override;
 	void Render()override;
 	void Update();
+	void SetTexture2D(Texture2D* pTexture);
 
 private:
 	Mesh* _pMeshToRender;
 	//Texture*;
 	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
+	Texture2D* _pTexture;
 };
