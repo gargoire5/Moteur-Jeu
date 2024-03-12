@@ -440,8 +440,7 @@ void Graphics::Update()
 	pEngine->GetTimer()->Tick();
 	pInput->Update();
 
-	KeyState state = pInput->ListenToKey(27);
-	if ((state == KeyState::Down))
+	if (pInput->IsKeyDown(VK_ESCAPE))
 	{
 		if (pEngine->FPS == false)
 		{
@@ -471,48 +470,82 @@ void Graphics::Update()
 		Rotation.x = CurrPos.x - WindowCenter.x;
 		Rotation.y = CurrPos.y - WindowCenter.y;
 
-		pCam->yaw += (Rotation.x / 10.0f);
-		pCam->pitch += (Rotation.y / 10.0f);
+		pCam->yaw += (Rotation.x / 20.0f);
+		pCam->pitch += (Rotation.y / 20.0f);
 
-		XMFLOAT4 rot = pCam->GetEntity()->GetTransform()->qRot;
-
-		Transform* t = pCam->GetEntity()->GetTransform();
-
-		std::vector<Entity*> list = pEngine->GetEntityManager()->GetEntityList();
+		if (pCam->pitch > 90.0f)
+		{
+			pCam->pitch = 90.0f;
+		}
+		else if (pCam->pitch < -90.0f)
+		{
+			pCam->pitch = -90.0f;
+		}
 
 		pCam->GetEntity()->GetTransform()->identityRot();
-		pCam->GetEntity()->GetTransform()->rotate(-pCam->yaw, -pCam->pitch, 0.0f);
+		pCam->GetEntity()->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
+		pCam->GetEntity()->GetTransform()->Update_WorldMatrix();
 
 		SetCursorPos(WindowCenter.x, WindowCenter.y);
 
-		/*KeyState state = pInput->ListenToKey(0x5A);
-		if ((state == KeyState::Down) || (state == KeyState::Held))
+		if (pInput->IsKey('Z'))
 		{
-			OutputDebugStringW(L"test");
-			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
-			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x, fCurrPos.y, fCurrPos.z + (-5 * deltaTime));
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+			
+			float fSpeed = 50.0f;
+			float fDistance = fSpeed * deltaTime;
+			
+			float x = sinf(XMConvertToRadians(pCam->yaw)) * fDistance;
+			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
+			
+			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+
 		}
-		state = pInput->ListenToKey(83);
-		if ((state == KeyState::Down) || (state == KeyState::Held))
+
+		if (pInput->IsKey('S'))
 		{
-			OutputDebugStringW(L"test");
-			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
-			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x, fCurrPos.y, fCurrPos.z + (5 * deltaTime));
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+		
+			float fSpeed = 50.0f;
+			float fDistance = fSpeed * deltaTime;
+			
+			float x = sinf(XMConvertToRadians(pCam->yaw)) * fDistance;
+			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
+			
+			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
-		state = pInput->ListenToKey(81);
-		if ((state == KeyState::Down) || (state == KeyState::Held))
+		if (pInput->IsKey('D'))
 		{
-			OutputDebugStringW(L"test");
-			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
-			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x + (5 * deltaTime), fCurrPos.y, fCurrPos.z);
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+		
+			float fSpeed = 50.0f;
+			float fDistance = fSpeed * deltaTime;
+		
+			float x = sinf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
+			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
+		
+			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 		}
-		state = pInput->ListenToKey(68);
-		if ((state == KeyState::Down) || (state == KeyState::Held))
+		if (pInput->IsKey('Q'))
 		{
-			OutputDebugStringW(L"test");
-			XMFLOAT3 fCurrPos = pCam->GetEntity()->GetTransform()->fPos;
-			pEngine->GetCurrCam()->GetEntity()->SetPos(fCurrPos.x + (-5 * deltaTime), fCurrPos.y, fCurrPos.z);
-		}*/
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+		
+			float fSpeed = 50.0f;
+			float fDistance = fSpeed * deltaTime;
+		
+			float x = sinf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
+			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
+		
+			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+		}
+		
+
+		/*
+		*/
 	}
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();

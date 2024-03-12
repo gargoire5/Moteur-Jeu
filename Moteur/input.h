@@ -7,7 +7,6 @@ enum class KeyState {
     Down,
     Up,
     Held,
-    Inactive
 };
 
 struct KeyMsg
@@ -26,7 +25,9 @@ public:
 
     Input();
     void Update();
-    KeyState ListenToKey(int iVirtualKey);
+
+    bool IsKey(int iVirtualKey);
+    bool IsKeyDown(int iVirtualKey);
 
 private:
 

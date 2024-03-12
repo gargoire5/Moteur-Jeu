@@ -6,13 +6,15 @@ void Camera::Init()
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	_DXCamCB = new UploadBuffer<CamConstants>(DXDevice, 1, true);
 
-	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, static_cast<float>(1280) / 720, 1.0f, 1000.0f);
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f * MathHelper::Pi, 1280.0f/720.0f, 1.0f, 1000.0f);
 	XMStoreFloat4x4(&_mProj, P);
 }
 
 void Camera::Update()
 {
 	XMMATRIX mView = XMLoadFloat4x4(&_pEntity->GetTransform()->matrix);
+	mView = XMMatrixInverse(nullptr, mView);
+
 	XMMATRIX mProj = XMLoadFloat4x4(&_mProj);
 	XMMATRIX mViewProj = mView * mProj;
 

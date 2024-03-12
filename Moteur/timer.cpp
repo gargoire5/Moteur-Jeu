@@ -46,7 +46,6 @@ void Timer::Tick()
     if (_bStop == false) {
         float CurrTime = timeGetTime();
         if (_fPrevTime != 0) {
-            float deltaTimeinMS = (CurrTime-_fPrevTime);
             _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
         }
 
