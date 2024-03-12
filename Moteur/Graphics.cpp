@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Timer.h"
 #include "Input.h"
+#include "Texture.h"
 #include "Script.h"
 
 using namespace DirectX;
@@ -158,16 +159,42 @@ void Graphics::InitDX()
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//-----------------Create CbvHeap--------------------------------------------------------------------------------------------------------------------//	
-	_DXCbvHeapDesc.NumDescriptors = 1;
-	_DXCbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	_DXCbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	_DXCbvHeapDesc.NodeMask = 0;
-	_DXDevice->CreateDescriptorHeap(&_DXCbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
+	//-----------------Create CbvHeap--------------------------------------------------------------------------------------------------------------------//	
+	//_DXCbvHeapDesc.NumDescriptors = 1;
+	//_DXCbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	//_DXCbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	//_DXCbvHeapDesc.NodeMask = 0;
+	//_DXDevice->CreateDescriptorHeap(&_DXCbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
+
+	_ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(_DXDevice, 1, true);
+
+	//-----------------Create SrvHeap--------------------------------------------------------------------------------------------------------------------//
+
+	_DXSrvHeapDesc.NumDescriptors = 100;
+	_DXSrvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	_DXSrvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	_DXSrvHeapDesc.NodeMask = 0;
+	ThrowIfFailed(_DXDevice->CreateDescriptorHeap(&_DXSrvHeapDesc, IID_PPV_ARGS(&_DXSrvHeap)));
+
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//------------------Shader Calling-------------------------------------------------------------------------------------------------------------------//
 	_pShader = new Shader();
 	_pShader->Initialize();
 	//-------------------------------------------------------------------------------------------------------------------------------------//
+
+	HRESULT hr = _DXCommandAllocator->Reset();
+	_DXCommandList->Reset(_DXCommandAllocator, nullptr);
+
+	Texture2D* texture = new Texture2D();
+	std::string name = "bricks";
+	std::wstring filename = L"../texture/bricks.dds";
+	texture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(*texture);
+
+
+	_DXCommandList->Close();
+	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
+	FlushCommandQueue();
 }
 
 LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -248,7 +275,7 @@ void Graphics::Draw()
 	// Specify the buffers we are going to render to.
 	_DXCommandList->OMSetRenderTargets(1, &GetCurrentBackBufferView(), true, &GetDepthStencilView());
 
-	ID3D12DescriptorHeap* descriptorHeaps[] = { _DXCbvHeap };
+	ID3D12DescriptorHeap* descriptorHeaps[] = { _DXSrvHeap };
 	_DXCommandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
@@ -459,9 +486,9 @@ ID3D12GraphicsCommandList* Graphics::GetCommandList()
 {
 	return _DXCommandList;
 }
-ID3D12DescriptorHeap* Graphics::GetCbvHeap()
+ID3D12DescriptorHeap* Graphics::GetSrvHeap()
 {
-	return _DXCbvHeap;
+	return _DXSrvHeap;
 }
 
 

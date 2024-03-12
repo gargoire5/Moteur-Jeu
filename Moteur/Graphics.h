@@ -6,6 +6,7 @@
 struct ObjectConstants
 {
 	DirectX::XMFLOAT4X4 WorldMatrix = MathHelper::Identity4x4();
+	//XMFLOAT4X4 TexTransform = MathHelper::Identity4x4();
 };
 struct CamConstants
 {
@@ -24,7 +25,7 @@ public:
 
 	ID3D12Device* GetDevice();
 	ID3D12GraphicsCommandList* GetCommandList();
-	ID3D12DescriptorHeap* GetCbvHeap();
+	ID3D12DescriptorHeap* GetSrvHeap();
 	ID3D12Resource* GetCurrentBackBuffer()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentBackBufferView()const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetDepthStencilView()const;
@@ -43,6 +44,8 @@ private:
 	float _fWindowWidth;
 	float _fWindowHeight;
 
+	std::vector<Texture2D> TabTex;
+
 	IDXGIFactory4* _DXFactory;
 	ID3D12Device* _DXDevice;
 
@@ -53,6 +56,8 @@ private:
 	UINT _iDsvDescriptorSize;
 
 	D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS _DXQualityLevels;
+
+	std::unique_ptr<UploadBuffer<ObjectConstants>> _ObjectCB = nullptr;
 
 	D3D12_COMMAND_QUEUE_DESC _DXCommandQueueDesc = {};
 	ID3D12CommandQueue* _DXCommandQueue;
@@ -78,8 +83,8 @@ private:
 	D3D12_VIEWPORT _DXViewPort;
 	tagRECT _DXScissorRect;
 
-	D3D12_DESCRIPTOR_HEAP_DESC _DXCbvHeapDesc;
-	ID3D12DescriptorHeap* _DXCbvHeap = nullptr;
+	D3D12_DESCRIPTOR_HEAP_DESC _DXSrvHeapDesc;
+	ID3D12DescriptorHeap* _DXSrvHeap = nullptr;
 
 	ID3D12PipelineState* _DXPSO = nullptr;
 

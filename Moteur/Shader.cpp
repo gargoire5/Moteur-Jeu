@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Shader.h"
 #include "Graphics.h"
+#include "Texture.h"
 
 Shader::Shader()
 {
@@ -14,19 +15,27 @@ Shader::~Shader()
 
 void Shader::Initialize()
 {
-
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
+	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
+	ID3D12DescriptorHeap* DXSrvHeap = Engine::Instance()->GetGraphics()->GetSrvHeap();
 
-	CD3DX12_ROOT_PARAMETER slotRootParameter[2];
+	CD3DX12_DESCRIPTOR_RANGE texTable;
+	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
+
+
+	CD3DX12_ROOT_PARAMETER slotRootParameter[3];
+
+	auto staticSamplers = GetStaticSamplers();
 
 	// Create a single descriptor table of CBVs.
 	//CD3DX12_DESCRIPTOR_RANGE cbvTable;
 	//cbvTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 1, 0);
-	slotRootParameter[0].InitAsConstantBufferView(0);
-	slotRootParameter[1].InitAsConstantBufferView(1);
+	slotRootParameter[0].InitAsDescriptorTable(1, &texTable, D3D12_SHADER_VISIBILITY_PIXEL);
+	slotRootParameter[1].InitAsConstantBufferView(0);
+	slotRootParameter[2].InitAsConstantBufferView(1);
 
 	// A root signature is an array of root parameters.
-	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(2, slotRootParameter, 0, nullptr,
+	CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc(3, slotRootParameter, (UINT)staticSamplers.size(), staticSamplers.data(),
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 	// create a root signature with a single slot which points to a descriptor range consisting of a single constant buffer
@@ -46,7 +55,8 @@ void Shader::Initialize()
 	_vInputLayout =
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+		//{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 	//-------------------------------------------------------------------------------------------------------------------------------------//
 	//--------------------Build PSO-----------------------------------------------------------------------------------------------------------------//
@@ -95,25 +105,89 @@ void Shader::PreDraw()
 	DXCommandList->SetGraphicsRootSignature(_DXRootSignature);
 }
 
+
 void Shader::Draw(Mesh* pMeshToRender, Buffer* pBufferObj, Buffer* pBufferCam)
 {
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-
 	
 	ID3D12RootSignature* pRootSignature = _DXRootSignature;
 
-	//DXCommandList->SetGraphicsRootSignature(pRootSignature);
+	ID3D12DescriptorHeap* _DXSrvHeap = Engine::Instance()->GetGraphics()->GetSrvHeap();
+	
+
 	//DXCommandList->SetGraphicsRootConstantBufferView(1, pBuffer->GetVirtualAddr());
 
 	DXCommandList->SetPipelineState(_DXPSO);
+
+
 
 	DXCommandList->IASetVertexBuffers(0, 1, &pMeshToRender->VertexBufferView());
 	DXCommandList->IASetIndexBuffer(&pMeshToRender->IndexBufferView());
 	DXCommandList->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	DXCommandList->SetGraphicsRootConstantBufferView(0, pBufferObj->GetVirtualAddr());
-	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferCam->GetVirtualAddr());
+	CD3DX12_GPU_DESCRIPTOR_HANDLE tex(_DXSrvHeap->GetGPUDescriptorHandleForHeapStart());
+
+	DXCommandList->SetGraphicsRootDescriptorTable(0, tex);
+	DXCommandList->SetGraphicsRootConstantBufferView(1, pBufferObj->GetVirtualAddr());
+	DXCommandList->SetGraphicsRootConstantBufferView(2, pBufferCam->GetVirtualAddr());
+	//DXCommandList->SetGraphicsRootSignature(pRootSignature);//?
 
 	DXCommandList->DrawIndexedInstanced(pMeshToRender->_iIndexCount, 1, 0, 0, 0);
 }
 
+std::array<const CD3DX12_STATIC_SAMPLER_DESC, 6> Shader::GetStaticSamplers()
+{
+	// Applications usually only need a handful of samplers.  So just define them all up front
+	// and keep them available as part of the root signature.  
+
+	const CD3DX12_STATIC_SAMPLER_DESC pointWrap(
+		0, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC pointClamp(
+		1, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_POINT, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearWrap(
+		2, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC linearClamp(
+		3, // shaderRegister
+		D3D12_FILTER_MIN_MAG_MIP_LINEAR, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP); // addressW
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicWrap(
+		4, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_WRAP,  // addressW
+		0.0f,                             // mipLODBias
+		8);                               // maxAnisotropy
+
+	const CD3DX12_STATIC_SAMPLER_DESC anisotropicClamp(
+		5, // shaderRegister
+		D3D12_FILTER_ANISOTROPIC, // filter
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressU
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressV
+		D3D12_TEXTURE_ADDRESS_MODE_CLAMP,  // addressW
+		0.0f,                              // mipLODBias
+		8);                                // maxAnisotropy
+
+	return {
+		pointWrap, pointClamp,
+		linearWrap, linearClamp,
+		anisotropicWrap, anisotropicClamp };
+}

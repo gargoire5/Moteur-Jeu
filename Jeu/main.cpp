@@ -12,11 +12,11 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)
 {
-//#ifdef _DEBUG
-//	_CrtMemState memStateInit;
-//	_CrtMemCheckpoint(&memStateInit);
-//#endif
-	//------------------------------------------------------
+	//#ifdef _DEBUG
+	//	_CrtMemState memStateInit;
+	//	_CrtMemCheckpoint(&memStateInit);
+	//#endif
+		//------------------------------------------------------
 
 	Game::Instance()->Run();
 
