@@ -1,23 +1,36 @@
 #pragma once
+#include <unordered_map>
+#include "Incl.h"
 
-#include <dinput.h>
+enum class KeyState {
+    None,
+    Down,
+    Up,
+    Held,
+};
 
-class Input
+struct KeyMsg
 {
-private:
+    char KeyPressed;
+    KeyState State;
+};
+struct KeyWithState
+{
+    int KeyPressed;
+    KeyState State;
+};
 
-	LPDIRECTINPUT8 _Input;
-	LPDIRECTINPUTDEVICE8 _KeyboardDevice;
-	char _KeyboardState[256];
-
+class Input {
 public:
 
-	Input(HWND hWnd);
+    Input();
+    void Update();
 
-	~Input();
+    bool IsKey(int iVirtualKey);
+    bool IsKeyDown(int iVirtualKey);
 
-	void Update();
+private:
 
-	bool IsKeyPressed(unsigned char keyCode) const;
+    KeyState _vKeyList[256];
 };
 

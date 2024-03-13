@@ -3,20 +3,34 @@
 
 using namespace DirectX;
 
+	Transform::Transform()
+	{
+		identity();
+	}
 	void Transform::identity() //pour reset les matrice et vecteurs
 	{
 		fSca = { 1.f,1.f,1.f };
-		mSca = XMLoadFloat3(&fSca);
+		XMStoreFloat4x4(&mSca,XMMatrixIdentity());
 
-		fDir = { 1.0f,1.0f,1.0f };
-		fRight = { 1.0f,1.0f,1.0f };
-		fUp = { 1.0f,1.0f,1.0f };
+		fDir = { 0.0f,0.0f,1.0f };
+		fRight = { 1.0f,0.0f,0.0f };
+		fUp = { 0.0f,1.0f,0.0f };
 		qRot = { 0.0f,0.0f,0.0f,1.0f };
-		mRot = XMLoadFloat4(&qRot);
+		mRot = mSca;
 
 		fPos = { 0.0f,0.0f,0.0f };
-		mPos = XMLoadFloat3(&fPos);
+		mPos = mSca;
 
+		matrix = mSca;
+	}
+
+	void Transform::identityRot() //pour reset les matrice et vecteurs
+	{
+		fDir = { 0.0f,0.0f,1.0f };
+		fRight = { 1.0f,0.0f,0.0f };
+		fUp = { 0.0f,1.0f,0.0f };
+		qRot = { 0.0f,0.0f,0.0f,1.0f };
+		XMStoreFloat4x4(&mRot, XMMatrixIdentity());
 	}
 
 	void Transform::rotate(float yaw, float pitch, float roll) //fonction pour tourner la matrice sur elle meme     pitch = x, yaw = y , roll = z
@@ -26,36 +40,30 @@ using namespace DirectX;
 		pitch = XMConvertToRadians(pitch);
 		roll = XMConvertToRadians(roll);
 
-
-		// Créer un quaternion pour chaque rotation (delta)
-		const XMFLOAT3 _dir = fDir;
-		const XMFLOAT3 _right = fRight;
-		const XMFLOAT3 _up = fUp;
-
-
 		//XMFLOAT4 quat1;
+		XMVECTOR quatCurrentRot;
+		quatCurrentRot = XMLoadFloat4(&qRot);
+
 		XMVECTOR quat;
 		XMVECTOR quatRot;
-		XMVECTOR quatCurrentRot = XMLoadFloat4(&qRot);
 
-		quat = XMQuaternionRotationAxis(XMLoadFloat3(&_dir), roll);
+		quat = XMQuaternionRotationAxis(XMLoadFloat3(&fDir), roll);
 		quatRot = quat;
-		quat = XMQuaternionRotationAxis(XMLoadFloat3(&_right), pitch);
-		quatRot *= quat;
-		quat = XMQuaternionRotationAxis(XMLoadFloat3(&_up), yaw);
-		quatRot *= quat;
 
-		// Ajouter la rotation delta à la rotation actuelle de l’objet
-		quatCurrentRot *= quatRot;
+		quat = XMQuaternionRotationAxis(XMLoadFloat3(&fRight), pitch);
+		quatRot = XMQuaternionMultiply(quatRot, quat);
+
+		quat = XMQuaternionRotationAxis(XMLoadFloat3(&fUp), yaw);
+		quatRot = XMQuaternionMultiply(quatRot, quat);
+
+		quatCurrentRot = XMQuaternionMultiply(quatCurrentRot, quatRot);
 
 		XMStoreFloat4(&qRot, quatCurrentRot);
 
 		// Convertir le quaternion en une matrice de rotation (magique)
 		XMMATRIX matRot;
 		matRot = XMMatrixRotationQuaternion(quatRot);
-		XMFLOAT4X4 mRot;
 		XMStoreFloat4x4(&mRot, matRot);
-
 
 		// Mettre à jour les axes de notre objet (3 vecteurs)
 		fRight.x = mRot._11;
@@ -68,4 +76,19 @@ using namespace DirectX;
 		fDir.y = mRot._32;
 		fDir.z = mRot._33;
 
+	}
+
+	void Transform::Update_mPos()
+	{
+		XMMATRIX MatrixPos = XMMatrixTranslation(fPos.x, fPos.y, fPos.z);
+		XMStoreFloat4x4(&mPos, MatrixPos);
+	}
+
+	void Transform::Update_WorldMatrix()
+	{
+		XMMATRIX sca = XMLoadFloat4x4(&mSca);
+		XMMATRIX rot = XMLoadFloat4x4(&mRot);
+		XMMATRIX pos = XMLoadFloat4x4(&mPos);
+		
+		XMStoreFloat4x4(&matrix, (sca * rot * pos));
 	}
