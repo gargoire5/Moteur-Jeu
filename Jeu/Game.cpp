@@ -219,6 +219,7 @@ void Game::Run()
 	Vertex verticesCube[] =
 	{
 		// Front face
+		// 
 		//Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(0.0f,ycase2) }), // Bottom-left
 		//Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(0.0f, ycase1) }), // Top-left
 		//Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, ycase1) }), // Top-right
@@ -251,16 +252,20 @@ void Game::Run()
 		//Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase1, ycase1) }), // Top-left
 		//Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4 * 2.f, ycase1) }), // Top-right
 		//Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4 * 2.f, 0.0f) }), // Bottom-right
-		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(xcase2, ycase1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f),  XMFLOAT2(xcase2,0.0f)}) , // Top-left
-		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase1, 0.0f) }), // Top-right
-		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, ycase1)  }), // Bottom-right
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, 0.0f) }), // Bottom-left rouge
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f),  XMFLOAT2(xcase1,ycase1)}) , // Top-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, ycase1) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, 0.0f)  }), // Bottom-right
 
 		// Bottom face
-		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1, 1.0f) }), // Bottom-left
-		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase1,ycase2) }), // Top-left
-		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,ycase2) }), // Top-right
-		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(xcase2, 1.0f) })  // Bottom-right
+		//Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1, ycase2) }), // Bottom-left
+		//Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase1,1.0f) }), // Top-left
+		//Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,1.0f) }), // Top-right
+		//Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(xcase2, ycase2) })  // Bottom-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1, 1.0f) }), // Bottom
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1,ycase2) }),
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,ycase2) }),
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2, 1.0f) })  // Bottom
 	};
 
 	uint16_t indicesCube[] =
