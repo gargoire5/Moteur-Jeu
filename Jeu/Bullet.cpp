@@ -20,6 +20,9 @@ void Bullet::Init()
 	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
 	pMeshComponent->SetMesh(Game::Instance()->GetBulletMesh());
 
+	_pColider = _pEntity->AttachComponent<BoxColider>();
+	_pColider->Init(Game::Instance()->GetBulletMesh());
+	_pColider->SetEntity(_pEntity);
 
 	Transform* pPlayerTransform = pEngine->GetCurrCam()->GetEntity()->GetTransform();
 
@@ -61,8 +64,14 @@ XMFLOAT3 Bullet::GetStartPos()
 	return _fStartPos;
 }
 
+BoxColider* Bullet::GetColider()
+{
+	return _pColider;
+}
+
 Bullet::~Bullet()
 {
+
 	Engine::Instance()->GetEntityManager()->DeleteEntity(_pEntity);
 }
 

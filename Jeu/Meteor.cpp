@@ -21,6 +21,10 @@ void Meteor::Init(float x, float y, float z)
 	_pEntity->SetPos(x, y, z);
 
 	pCubeComponent->SetMesh(Game::Instance()->GetMeteorMesh());
+
+	_pColider = _pEntity->AttachComponent<BoxColider>();
+	_pColider->Init(Game::Instance()->GetMeteorMesh());
+	_pColider->SetEntity(_pEntity);
 }
 
 void Meteor::Update()
@@ -44,4 +48,22 @@ void Meteor::Update()
 Entity* Meteor::GetEntity()
 {
 	return _pEntity;
+}
+
+BoxColider* Meteor::GetColider()
+{
+	return _pColider;
+}
+
+void Meteor::TakeDamage(int i)
+{
+	_iHp -= i;
+}
+int Meteor::GetIHP()
+{
+	return _iHp;
+}
+Meteor::~Meteor()
+{
+	Engine::Instance()->GetEntityManager()->DeleteEntity(_pEntity);
 }

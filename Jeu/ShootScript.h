@@ -8,6 +8,7 @@ class ShootScript : public Script
 public:
 	ShootScript();
 	void Update()override;
+	std::vector<Bullet*>* GetBulletList();
 
 private:
 	std::vector<Bullet*> _vBulletList;

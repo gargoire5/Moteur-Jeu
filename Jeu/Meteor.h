@@ -7,9 +7,13 @@ public:
 	void Init(float x, float y, float z);
 	void Update();
 	Entity* GetEntity();
-	//~Meteor();
+	BoxColider* GetColider();
+	void TakeDamage(int i);
+	int GetIHP();
+	~Meteor();
 private:
 	int _iHp;
 	Entity* _pEntity;
+	BoxColider* _pColider;
 };
 

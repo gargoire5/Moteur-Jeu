@@ -31,12 +31,6 @@ void Game::Run()
 	Player* pPlayer = new Player();
 	pPlayer->Init();
 
-	Meteor* pMeteor1 = new Meteor();
-	pMeteor1->Init(-15, 0, 0);
-
-	Meteor* pMeteor2 = new Meteor();
-	pMeteor1->Init(0, 0, 15);	
-
 	//------------------------------Upload Mesh---------------------------------------
 	float d1 = +1.0f;
 	float d2 = -1.0f;
@@ -254,16 +248,14 @@ void Game::Run()
 	y = sizeof(indices1);
 	_BulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
-	MovementScript* pMovementScript = new MovementScript();
-	pEngine->AddScript(pMovementScript);
-	ShootScript* pShootScript = new ShootScript();
-	pEngine->AddScript(pShootScript);
-
-	GameLogicScript* pGameLogicScript = new GameLogicScript();
-	pGameLogicScript->SpawnRandomMeteor();
-	pEngine->AddScript(pGameLogicScript);
 
 	//--------------------------------------------------------------------------------
+	_pMovementScript = new MovementScript();
+	pEngine->AddScript(_pMovementScript);
+	_pShootScript = new ShootScript();
+	pEngine->AddScript(_pShootScript);
+	_pGameLogicScript = new GameLogicScript();
+	pEngine->AddScript(_pGameLogicScript);
 
 	Game::Instance()->_bFPS = true;
 	ShowCursor(false);
@@ -279,6 +271,21 @@ Mesh* Game::GetBulletMesh()
 Mesh* Game::GetMeteorMesh()
 {
 	return &_MeteorMesh;
+}
+
+MovementScript* Game::GetMovementScript()
+{
+	return _pMovementScript;
+}
+
+ShootScript* Game::GetShootScript()
+{
+	return _pShootScript;
+}
+
+GameLogicScript* Game::GetGameLogicScript()
+{
+	return _pGameLogicScript;
 }
 
 

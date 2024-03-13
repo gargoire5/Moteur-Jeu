@@ -9,6 +9,9 @@ Mesh::Mesh()
 
 void Mesh::UpLoadMesh(Vertex* vertices, int vertexCount, std::uint16_t* indices, int indexCount)
 {
+	_pVertices = vertices;
+	_pindices = indices;
+
 	ID3D12Device* DXDevice = Engine::Instance()->GetGraphics()->GetDevice();
 	ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
 	ID3D12CommandQueue* DXCommandQueue = Engine::Instance()->GetGraphics()->GetCommandQueue();
@@ -41,6 +44,7 @@ void Mesh::UpLoadMesh(Vertex* vertices, int vertexCount, std::uint16_t* indices,
 	_iIndexBufferByteSize = _iIbByteSize;
 	
 	_iIndexCount = (UINT)indexCount;
+	_iVertexCount = (UINT)vertexCount;
 
 	// Execute the resize commands.
 	DXCommandList->Close();

@@ -43,3 +43,8 @@ void ShootScript::Update()
 		}
 	}
 }
+
+std::vector<Bullet*>* ShootScript::GetBulletList()
+{
+	return &_vBulletList;
+}

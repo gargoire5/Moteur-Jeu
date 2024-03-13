@@ -313,7 +313,8 @@ void Graphics::Draw()
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 
 	// swap the back and front buffers
-	assert(_DXSwapChain->Present(0, 0) == S_OK && "error present buffer");
+	hr = _DXSwapChain->Present(0, 0);
+	assert(hr == S_OK && "error present buffer");
 	_iCurrBackBuffer = (_iCurrBackBuffer + 1) % _iBufferCount;
 
 	// Wait until frame commands are complete.  This waiting is inefficient and is

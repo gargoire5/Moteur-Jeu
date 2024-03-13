@@ -35,9 +35,13 @@ public:
 	UINT _iIndexBufferByteSize = 0;
 
 	UINT _iIndexCount = 0;
+	UINT _iVertexCount = 0;
 
+	Vertex* _pVertices;
+	std::uint16_t* _pindices;
 private:
 	UINT _iVbByteSize = 0;
 	UINT _iIbByteSize = 0;
+
 };
 
