@@ -20,7 +20,7 @@ std::vector<Entity*> EntityManager::GetEntityList()
 
 void EntityManager::DeleteEntity(Entity* pEntity)
 {
-	for (int i = 0; i < sizeof(_vEntityList); i++)
+	for (int i = 0; i < _vEntityList.size(); i++)
 	{
 		if (_vEntityList[i] == pEntity)
 		{

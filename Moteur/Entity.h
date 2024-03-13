@@ -10,6 +10,7 @@ public:
 	Entity();
 	void Update();
 	void SetPos(float x, float y, float z);
+	void SetSca(float x, float y, float z);
 	Transform* GetTransform();
 
 	template <class T>

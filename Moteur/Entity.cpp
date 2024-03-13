@@ -36,6 +36,13 @@ void Entity::SetPos(float x, float y, float z)
 	_pTransform->Update_WorldMatrix();
 }
 
+void Entity::SetSca(float x, float y, float z)
+{
+	_pTransform->fSca = { x,y,z };
+	_pTransform->Update_mSca();
+	_pTransform->Update_WorldMatrix();
+}
+
 Transform* Entity::GetTransform()
 {
 	return _pTransform;

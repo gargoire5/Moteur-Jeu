@@ -114,6 +114,26 @@ void MovementScript::Update()
 
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
+		if (pInput->IsKey(VK_SPACE))
+		{
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+
+			float fSpeed = 20.0f;
+			float fDistance = fSpeed * fDeltaTime;
+
+			pCam->GetEntity()->SetPos(Pos.x, Pos.y + fDistance, Pos.z);
+		}
+		if (pInput->IsKey(VK_LSHIFT))
+		{
+			Transform* pTransform = pCam->GetEntity()->GetTransform();
+			XMFLOAT3 Pos = pTransform->fPos;
+
+			float fSpeed = 20.0f;
+			float fDistance = fSpeed * fDeltaTime;
+
+			pCam->GetEntity()->SetPos(Pos.x, Pos.y - fDistance, Pos.z);
+		}
 	}
 	
 };

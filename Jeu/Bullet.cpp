@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "Incl.h"
+#include "Game.h"
 
 Bullet::Bullet()
 {
@@ -16,6 +17,7 @@ void Bullet::Init()
 	pMeshComponent->SetEntity(_pEntity);
 	pMeshComponent->SetShader();
 	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
+	pMeshComponent->SetMesh(Game::Instance()->GetBulletMesh());
 
 	Transform* pPlayerTransform = pEngine->GetCurrCam()->GetEntity()->GetTransform();
 
@@ -24,6 +26,10 @@ void Bullet::Init()
 	_pEntity->GetTransform()->rotate(pEngine->GetCurrCam()->yaw, pEngine->GetCurrCam()->pitch, 0.0f);
 
 	_fStartPos = _pEntity->GetTransform()->fPos;
+
+	_yaw = pEngine->GetCurrCam()->yaw;
+	_pitch = pEngine->GetCurrCam()->pitch;
+
 }
 
 void Bullet::Update()
@@ -33,25 +39,28 @@ void Bullet::Update()
 
 	XMFLOAT3 Pos = _pEntity->GetTransform()->fPos;
 
-	float fSpeed = 50.0f;
+	float fSpeed = 100.0f;
 	float fDistance = fSpeed * fDeltaTime;
 
-	float x = sinf(XMConvertToRadians(pCam->yaw)) * fDistance;
-	float y = sinf(XMConvertToRadians(pCam->pitch)) * fDistance;
-	float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
+	float x = sinf(XMConvertToRadians(_yaw)) * fDistance;
+	float y = -sinf(XMConvertToRadians(_pitch)) * fDistance;
+	float z = cosf(XMConvertToRadians(_yaw)) * fDistance;
 
 	_pEntity->SetPos(Pos.x + x, Pos.y + y, Pos.z + z);
-
-	XMFLOAT3 vCurrPos = _pEntity->GetTransform()->fPos;
-
-	XMFLOAT3 vTotalDistance = vCurrPos - _fStartPos;
-
-	//XMVector3Normalize()
-	//XMLoadFloat3(&vTotalDistance)
-
-
-	//if ( > 10)
-	//{
-
-	//}
 }
+
+Entity* Bullet::GetEntity()
+{
+	return _pEntity;
+}
+
+XMFLOAT3 Bullet::GetStartPos()
+{
+	return _fStartPos;
+}
+
+Bullet::~Bullet()
+{
+	Engine::Instance()->GetEntityManager()->DeleteEntity(_pEntity);
+}
+

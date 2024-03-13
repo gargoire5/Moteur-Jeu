@@ -34,5 +34,6 @@ public:
 	void rotate(float yaw, float pitch, float roll); //fonction pour tourner la matrice sur elle meme     yaw = x, pitch = y , roll = z
 
 	void Update_mPos();
+	void Update_mSca();
 	void Update_WorldMatrix();
 };

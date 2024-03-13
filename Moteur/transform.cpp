@@ -83,6 +83,11 @@ using namespace DirectX;
 		XMMATRIX MatrixPos = XMMatrixTranslation(fPos.x, fPos.y, fPos.z);
 		XMStoreFloat4x4(&mPos, MatrixPos);
 	}
+	void Transform::Update_mSca()
+	{
+		XMMATRIX MatrixSca = XMMatrixTranslation(fSca.x, fSca.y, fSca.z);
+		XMStoreFloat4x4(&mSca, MatrixSca);
+	}
 
 	void Transform::Update_WorldMatrix()
 	{

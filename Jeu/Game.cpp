@@ -1,6 +1,11 @@
 #include "Game.h"
 #include "Incl.h"
+#include "Player.h";
+#include "Meteor.h"
+
 #include "MovementScript.h"
+#include "ShootScript.h"
+#include "GameLogicScript.h"
 
 Game* Game::_pInstance;
 
@@ -21,39 +26,21 @@ void Game::Run()
 
 	Engine* pEngine = Engine::Instance();
 	pEngine->Init();
-
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
 
-	Entity* pCamEntity = pEntityManager->CreateEntity();
-	Camera* pCamComponent = pCamEntity->AttachComponent<Camera>();
-	pCamComponent->SetEntity(pCamEntity);
-	pCamComponent->Init();
-	pCamComponent->SetShader();
-	pCamComponent->GetEntity()->SetCurrCam();
-	pCamEntity->SetPos(0, 5, 0);
+	Player* pPlayer = new Player();
+	pPlayer->Init();
 
-	pEngine->SetMainCam(pCamComponent);
+	Meteor* pMeteor1 = new Meteor();
+	pMeteor1->Init(-15, 0, 0);
 
-	Entity* pCubeEntity = pEntityManager->CreateEntity();
-	MeshRenderer* pCubeComponent = pCubeEntity->AttachComponent<MeshRenderer>();
-	pCubeComponent->SetEntity(pCubeEntity);
-	pCubeComponent->SetShader();
-	pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(0));
-	pCubeEntity->SetPos(-15, 0, 0);
+	Meteor* pMeteor2 = new Meteor();
+	pMeteor1->Init(0, 0, 15);	
 
-	Entity* pCubeEntity2 = pEntityManager->CreateEntity();
-	MeshRenderer* pCubeComponent2 = pCubeEntity2->AttachComponent<MeshRenderer>();
-	pCubeComponent2->SetEntity(pCubeEntity2);
-	pCubeComponent2->SetShader();
-	pCubeComponent2->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
-	pCubeEntity2->SetPos(0, 0, 15);
-
-	
-
+	//------------------------------Upload Mesh---------------------------------------
 	float d1 = +1.0f;
 	float d2 = -1.0f;
 	float d3 = -1.25f;
-
 	Vertex vertices[] =
 	{
 		Vertex({ XMFLOAT3(d1, d1, d2), XMFLOAT2(1.0f, 1.0f) }), //0
@@ -195,13 +182,9 @@ void Game::Run()
 		31, 33, 13,
 
 	};
-
-	Mesh pMesh;
 	int i = sizeof(vertices);
 	int y = sizeof(indices);
-	pMesh.UpLoadMesh(vertices, i/20, indices, y/2);
-	pCubeComponent->SetMesh(&pMesh);
-	pCubeComponent2->SetMesh(&pMesh);
+	_MeteorMesh.UpLoadMesh(vertices, i/20, indices, y/2);
 
 	Vertex vertices1[] =
 	{
@@ -241,7 +224,6 @@ void Game::Run()
 		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
 		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) })  // Bottom-right
 	};
-
 	uint16_t indices1[] =
 	{
 		// Front face
@@ -268,18 +250,33 @@ void Game::Run()
 		20, 22, 21,
 		20, 23, 22
 	};
-
-	;
 	i = sizeof(vertices1);
 	y = sizeof(indices1);
-	_pBulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
+	_BulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
 	MovementScript* pMovementScript = new MovementScript();
 	pEngine->AddScript(pMovementScript);
+	ShootScript* pShootScript = new ShootScript();
+	pEngine->AddScript(pShootScript);
+	GameLogicScript* pGameLogicScript = new GameLogicScript();
+	pGameLogicScript->SpawnRandomMeteor();
+	//pEngine->AddScript(pShootScript);
+
+	//--------------------------------------------------------------------------------
 
 	Game::Instance()->_bFPS = true;
 
 	pEngine->Run();
+}
+
+Mesh* Game::GetBulletMesh()
+{
+	return &_BulletMesh;
+}
+
+Mesh* Game::GetMeteorMesh()
+{
+	return &_MeteorMesh;
 }
 
 

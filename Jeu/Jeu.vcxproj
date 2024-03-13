@@ -131,15 +131,21 @@
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameLogicScript.cpp" />
     <ClCompile Include="Incl.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Meteor.cpp" />
     <ClCompile Include="MovementScript.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShootScript.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameLogicScript.h" />
+    <ClInclude Include="Meteor.h" />
     <ClInclude Include="MovementScript.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ShootScript.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
