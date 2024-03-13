@@ -10,12 +10,18 @@ void ShootScript::Update()
 {
 	Engine* pEngine = Engine::Instance();
 	Input* pInput = pEngine->GetInput();
+	Timer* pTimer = pEngine->GetTimer();
 
-	if (pInput->IsKeyDown(VK_LBUTTON))
+	if (pInput->IsKey(VK_LBUTTON))
 	{
-		Bullet* pBullet = new Bullet();
-		pBullet->Init();
-		_vBulletList.push_back(pBullet);
+		float fCurrTime = pTimer->TotalTime();
+		if (fCurrTime - _fLastShootTime >=0.3f)
+		{
+			Bullet* pBullet = new Bullet();
+			pBullet->Init();
+			_vBulletList.push_back(pBullet);
+			_fLastShootTime = fCurrTime;
+		}
 	}
 
 	for (int i = 0; i < _vBulletList.size(); i++)

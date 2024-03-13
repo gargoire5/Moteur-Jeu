@@ -12,12 +12,14 @@ void Bullet::Init()
 	Engine* pEngine = Engine::Instance();
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
 	_pEntity = pEntityManager->CreateEntity();
+	_pEntity->SetSca(0.3, 0.3, 1);
 
 	MeshRenderer* pMeshComponent = _pEntity->AttachComponent<MeshRenderer>();
 	pMeshComponent->SetEntity(_pEntity);
 	pMeshComponent->SetShader();
 	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
 	pMeshComponent->SetMesh(Game::Instance()->GetBulletMesh());
+
 
 	Transform* pPlayerTransform = pEngine->GetCurrCam()->GetEntity()->GetTransform();
 

@@ -45,6 +45,7 @@ T* Entity::AttachComponent()
 	}
 	T* pComponent = new T();
 	_vComponentList.push_back(pComponent);
+	
 	return pComponent;
 }
 

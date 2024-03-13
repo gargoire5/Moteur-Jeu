@@ -6,6 +6,6 @@ public:
 	void Init();
 	~Player();
 private:
-
+	int _iHp;
 };
 

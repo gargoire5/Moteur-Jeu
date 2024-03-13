@@ -1,6 +1,7 @@
 #include "Incl.h"
 #include "timer.h"
-using Microsoft::WRL::ComPtr;
+#include "Engine.h"
+
 using namespace std;
 using namespace DirectX;
 
@@ -46,19 +47,16 @@ void Timer::Tick()
     if (_bStop == false) {
         float CurrTime = timeGetTime();
         if (_fPrevTime != 0) {
-            _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
+            if (Engine::Instance()->bSlowMotion == true)
+            {
+                _fDeltaTime = ((CurrTime - _fPrevTime) / 1000)/2.5;
+            }
+            else
+            {
+                _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
+            }
         }
-
         _fPrevTime = CurrTime;
         _fTotalTime += _fDeltaTime;
     }
-
-    //afficher le temp avec hwnd en param et public dans graph
-    /*wstring deltatime = to_wstring(_fDeltaTime);
-    wstring totaltime = to_wstring(_fTotalTime);
-
-    wstring windowText = L" hello" + deltatime + L"+" + totaltime;
-
-    SetWindowText(hWnd, windowText.c_str());*/
-    
 }

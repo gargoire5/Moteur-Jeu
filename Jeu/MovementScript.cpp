@@ -7,7 +7,6 @@ MovementScript::MovementScript()
 
 void MovementScript::Update()
 {
-	
 	Engine* pEngine = Engine::Instance();
 	Input* pInput = pEngine->GetInput();
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
@@ -19,10 +18,12 @@ void MovementScript::Update()
 		if (Game::Instance()->_bFPS == false)
 		{
 			Game::Instance()->_bFPS = true;
+			ShowCursor(false);
 		}
 		else
 		{
 			Game::Instance()->_bFPS = false;
+			ShowCursor(true);
 		}
 	}
 
@@ -133,6 +134,13 @@ void MovementScript::Update()
 			float fDistance = fSpeed * fDeltaTime;
 
 			pCam->GetEntity()->SetPos(Pos.x, Pos.y - fDistance, Pos.z);
+		}
+		if (pInput->IsKeyDown(VK_RBUTTON))
+		{
+			if (Engine::Instance()->bSlowMotion == true)
+				Engine::Instance()->bSlowMotion = false;
+			else
+				Engine::Instance()->bSlowMotion = true;
 		}
 	}
 	

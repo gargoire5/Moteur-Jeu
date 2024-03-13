@@ -194,7 +194,7 @@ void Graphics::InitDX()
 	Texture2D* IronTexture = new Texture2D();
 	name = "grass";
 	//filename = L"../texture/iron.dds";
-	filename = L"../texture/grass.dds";
+	filename = L"../texture/laser.dds";
 	IronTexture->LoadTexture(TabTex.size(), name, filename);
 	TabTex.push_back(IronTexture);
 

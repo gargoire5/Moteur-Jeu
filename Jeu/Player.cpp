@@ -3,6 +3,7 @@
 
 Player::Player()
 {
+	_iHp = 5;
 }
 
 void Player::Init()

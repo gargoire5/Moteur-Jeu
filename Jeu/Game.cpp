@@ -258,13 +258,15 @@ void Game::Run()
 	pEngine->AddScript(pMovementScript);
 	ShootScript* pShootScript = new ShootScript();
 	pEngine->AddScript(pShootScript);
+
 	GameLogicScript* pGameLogicScript = new GameLogicScript();
 	pGameLogicScript->SpawnRandomMeteor();
-	//pEngine->AddScript(pShootScript);
+	pEngine->AddScript(pGameLogicScript);
 
 	//--------------------------------------------------------------------------------
 
 	Game::Instance()->_bFPS = true;
+	ShowCursor(false);
 
 	pEngine->Run();
 }

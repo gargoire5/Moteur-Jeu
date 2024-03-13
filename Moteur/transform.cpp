@@ -85,7 +85,7 @@ using namespace DirectX;
 	}
 	void Transform::Update_mSca()
 	{
-		XMMATRIX MatrixSca = XMMatrixTranslation(fSca.x, fSca.y, fSca.z);
+		XMMATRIX MatrixSca = XMMatrixScaling(fSca.x, fSca.y, fSca.z);
 		XMStoreFloat4x4(&mSca, MatrixSca);
 	}
 

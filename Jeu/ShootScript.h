@@ -11,6 +11,7 @@ public:
 
 private:
 	std::vector<Bullet*> _vBulletList;
+	float _fLastShootTime = 0;
 };
 
 

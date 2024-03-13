@@ -4,20 +4,44 @@
 
 Meteor::Meteor()
 {
+	_iHp = 3;
 }
 
 void Meteor::Init(float x, float y, float z)
 {
 	Engine* pEngine = Engine::Instance();
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
-	Entity* pCubeEntity = pEntityManager->CreateEntity();
-	pCubeEntity->SetSca(1, 1, 1);
+	_pEntity = pEntityManager->CreateEntity();
+	_pEntity->SetSca(3, 3, 3);
 
-	MeshRenderer* pCubeComponent = pCubeEntity->AttachComponent<MeshRenderer>();
-	pCubeComponent->SetEntity(pCubeEntity);
+	MeshRenderer* pCubeComponent = _pEntity->AttachComponent<MeshRenderer>();
+	pCubeComponent->SetEntity(_pEntity);
 	pCubeComponent->SetShader();
 	pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(0));
-	pCubeEntity->SetPos(x, y, z);
+	_pEntity->SetPos(x, y, z);
 
 	pCubeComponent->SetMesh(Game::Instance()->GetMeteorMesh());
+}
+
+void Meteor::Update()
+{
+	Engine* pEngine = Engine::Instance();
+	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
+
+	float fSpeed = 20.0f;
+	float fDistance = fSpeed * fDeltaTime;
+
+	XMFLOAT3 vPlayerPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
+	XMFLOAT3 vCurrPos = _pEntity->GetTransform()->fPos;
+
+	XMFLOAT3 vDirection;
+	XMStoreFloat3(&vDirection, XMVector3Normalize(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vCurrPos)));
+
+	_pEntity->SetPos(vCurrPos.x + vDirection.x * fDistance, vCurrPos.y + vDirection.y *fDistance, vCurrPos.z + vDirection.z * fDistance);
+}
+
+Entity* Meteor::GetEntity()
+{
+	return _pEntity;
 }
