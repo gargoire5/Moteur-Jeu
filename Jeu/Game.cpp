@@ -54,7 +54,7 @@ void Game::Run()
 	pCubeComponent3->SetEntity(pCubeEntity3);
 	pCubeComponent3->SetShader();
 	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
-	pCubeEntity3->SetPos(10,0, 0);
+	pCubeEntity3->SetPos(0,5, 0);
 
 	float d1 = +1.0f;
 	float d2 = -1.0f;
@@ -215,67 +215,67 @@ void Game::Run()
 	Vertex verticesCube[] =
 	{
 		// Front face
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(0.0f, 1.0f / 3 * 2.f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(0.0f, 1.0f / 3.f) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4.f, 1.0f / 3.f) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f / 4.f, 1.0f / 3 * 2.f) }), // Bottom-right
 
 		// Back face
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f / 4*2.f, 1.0f / 3 * 2.f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4*2.f, 1.0f / 3.f) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4*3.f, 1.0f / 3.f) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f / 4*3.f, 1.0f / 3 * 2.f) }), // Bottom-right
 
 		// Left face
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f / 4.f, 1.0f / 3 * 2.f) }), // Bottom-front
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4.f,1.0f / 3.f) }), // Top-front
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4 * 2.f, 1.0f / 3.f) }), // Top-back
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f / 4 * 2.f, 1.0f / 3 * 2.f) }), // Bottom-back
 
 		// Right face
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f / 4 * 3.f,1.0f / 3 * 2.f) }), // Bottom-front(1.0f / 4.f, 1.0f/3*2.f)
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4 * 3.f, 1.0f / 3.f) }), // Top-front(1.0f / 4.f,1.0f / 3.f)
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f, 1.0f / 3.f) }), // Top-back(1.0f / 4*2.f, 1.0f / 3.f)
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f, 1.0f / 3 * 2.f) }), // Bottom-back(1.0f / 4*2.f, 1.0f / 3*2.f)
 
 		// Top face
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4.f, 1.0f / 3.f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4.f, 0.0f) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(1.0f / 4*2.f, 0.0f) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f / 4*2.f, 1.0f / 3.f) }), // Bottom-right
 
 		// Bottom face
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) })  // Bottom-right
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f / 4.f, 1.0f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f / 4.f, 1.0f / 3 * 2.f) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(1.0f / 4*2.f, 1.0f / 3 * 2.f) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f / 4*2.f, 1.0f) })  // Bottom-right
 	};
 
 	uint16_t indicesCube[] =
 	{
 		// Front face
-		0, 1, 2,
-		0, 2, 3,
+		2, 1, 0,
+		3, 2, 0,
 
 		// Back face
-		4, 6, 5,
-		4, 7, 6,
+		5, 6, 4,
+		6, 7, 4,
 
 		// Left face
-		8, 10, 9,
-		8, 11, 10,
+		9, 10, 8,
+		10, 11, 8,
 
 		// Right face
-		12, 13, 14,
-		12, 14, 15,
+		14, 13, 12,
+		15, 14, 12,
 
 		// Top face
-		16, 17, 18,
-		16, 18, 19,
+		18, 17, 16,
+		19, 18, 16,
 
 		// Bottom face
-		20, 22, 21,
-		20, 23, 22
+		21, 22, 20,
+		22, 23, 20
 	};
 
 	Mesh pMeshCube;
