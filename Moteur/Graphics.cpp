@@ -542,10 +542,6 @@ void Graphics::Update()
 		
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
-		
-
-		/*
-		*/
 	}
 
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
@@ -575,5 +571,3 @@ ID3D12DescriptorHeap* Graphics::GetCbvHeap()
 {
 	return _DXCbvHeap;
 }
-
-
