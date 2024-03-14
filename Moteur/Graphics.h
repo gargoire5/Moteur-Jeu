@@ -37,10 +37,14 @@ public:
 
 	POINT GetWindowSize();
 
+	HWND GetWindow();
+	std::wstring GetWindowTitle();
+
 	HWND _hWindow;
 
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	std::wstring _mainWndCaption = L"Window"; 
 
 	float _fWindowWidth;
 	float _fWindowHeight;

@@ -10,6 +10,8 @@ public:
 	void Update()override;
 	void SpawnRandomMeteor();
 
+	void UpdateTitle();
+
 	int iMaxEnemie;
 
 private:

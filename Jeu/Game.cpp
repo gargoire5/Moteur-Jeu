@@ -8,6 +8,10 @@
 #include "ShootScript.h"
 #include "GameLogicScript.h"
 
+#include <tchar.h>
+#include <conio.h>
+#include <strsafe.h>
+
 Game* Game::_pInstance;
 
 Game::Game()
@@ -24,7 +28,6 @@ Game* Game::Instance()
 
 void Game::Run()
 {
-
 	Engine* pEngine = Engine::Instance();
 	pEngine->Init();
 	EntityManager* pEntityManager = pEngine->GetEntityManager();

@@ -25,8 +25,9 @@ void Graphics::InitWindow()
 	windowClass.lpszClassName = L"Window";
 	RegisterClassEx(&windowClass);
 
-	_hWindow = CreateWindow(windowClass.lpszClassName, L"Window", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, _iWindowWidth, _iWindowHeight, nullptr, nullptr, GetModuleHandle(NULL), NULL);
+	_hWindow = CreateWindow(windowClass.lpszClassName, _mainWndCaption.c_str(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, _iWindowWidth, _iWindowHeight, nullptr, nullptr, GetModuleHandle(NULL), NULL);
 	ShowWindow(_hWindow, SW_NORMAL);
+	
 }
 
 void Graphics::InitDX()
@@ -510,4 +511,12 @@ ID3D12DescriptorHeap* Graphics::GetSrvHeap()
 	return _DXSrvHeap;
 }
 
+HWND Graphics::GetWindow()
+{
+	return &_hWindow;
+}
 
+std::wstring Graphics::GetWindowTitle()
+{
+	return _mainWndCaption;
+}

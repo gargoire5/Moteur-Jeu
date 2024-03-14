@@ -21,7 +21,7 @@ void GameLogicScript::Update()
 
 	float fTotalTime = pTimer->TotalTime();
 
-	/*if (fTotalTime < 60)
+	if (fTotalTime < 60)
 	{
 		iMaxEnemie = 4;
 	}
@@ -40,7 +40,7 @@ void GameLogicScript::Update()
 	else if (fTotalTime > 240 && fTotalTime < 300)
 	{
 		iMaxEnemie = 8;
-	}*/
+	}
 
 	if (_vMeteorList.size() < iMaxEnemie)
 	{
@@ -98,6 +98,7 @@ void GameLogicScript::Update()
 		delete tmp;
 	}
 	_vMeteorToDestroy.clear();
+
 }
 
 void GameLogicScript::SpawnRandomMeteor()
@@ -124,3 +125,41 @@ void GameLogicScript::SpawnRandomMeteor()
 	_vMeteorList.push_back(pMeteor);
 }
 
+void GameLogicScript::UpdateTitle()
+{
+	Timer* pTimer = Engine::Instance()->GetTimer();
+	float fTotalTime = pTimer->TotalTime();
+	float fDeltaTime = pTimer->DeltaTime();
+
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+	frameCnt++;
+
+
+	// Compute averages over one second period.
+	if ((fDeltaTime) >= 1.0f)
+	{
+
+
+		// Reset for next average.
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+		int score = 0;
+		int life = 0;
+		float fps = (float)frameCnt;
+
+		std::wstring timeStr = std::to_wstring(fTotalTime);
+		std::wstring scorefStr = std::to_wstring(score);
+		std::wstring fpsfStr = std::to_wstring(fps);
+
+		std::wstring windowText = /*GraphicsGetWindowTitle()*/ +
+			L"    time: " + timeStr +
+			L"   score: " + scorefStr +
+			L"    fps:  " + fpsfStr;
+
+		SetWindowText( /*Graphics::GetWindow()*/, windowText.c_str());
+
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
+}
