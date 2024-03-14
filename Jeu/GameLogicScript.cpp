@@ -5,15 +5,23 @@
 #include "Game.h"
 #include "ShootScript.h"
 #include "Bullet.h"
+#include "LifeBar.h"
 
 GameLogicScript::GameLogicScript()
 {
+	_LifeBar = new LifeBar();
+	_LifeBar->Init();
 }
 
 void GameLogicScript::Update()
 {
 	Game* pGame = Game::Instance();
 	Timer* pTimer = Engine::Instance()->GetTimer();
+	
+
+	
+	_LifeBar->Update();
+
 	for (int i = 0; i < _vMeteorList.size(); i++)
 	{
 		_vMeteorList[i]->Update();

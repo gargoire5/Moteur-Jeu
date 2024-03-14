@@ -22,6 +22,11 @@ void Player::Init()
 
 }
 
+int Player::GetHp()
+{
+	return _iHp;
+}
+
 Player::~Player()
 {
 }

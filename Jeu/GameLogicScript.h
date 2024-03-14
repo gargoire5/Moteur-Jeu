@@ -3,6 +3,7 @@
 #include <vector>
 class Meteor;
 class Bullet;
+class LifeBar;
 class GameLogicScript : public Script
 {
 public:
@@ -16,5 +17,6 @@ private:
 	std::vector<Meteor*> _vMeteorList;
 	std::vector<Bullet*> _vBulletToDestroy;
 	std::vector<Meteor*> _vMeteorToDestroy;
+	LifeBar* _LifeBar;
 };
 

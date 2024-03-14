@@ -7,6 +7,7 @@ class Script;
 class Entity;
 class Input;
 class Timer;
+class Player;
 class Engine
 {
 public:

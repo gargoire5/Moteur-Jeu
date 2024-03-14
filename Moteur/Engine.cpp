@@ -90,6 +90,7 @@ Camera* Engine::GetCurrCam()
 	return _pCurrCamera;
 }
 
+
 void Engine::AddScript(Script* pScript)
 {
 	_vScriptList.push_back(pScript);

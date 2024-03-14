@@ -3,6 +3,7 @@
 #include "Incl.h"
 #include "Player.h";
 #include "Meteor.h"
+#include "Player.h"
 
 #include "MovementScript.h"
 #include "ShootScript.h"
@@ -29,8 +30,8 @@ void Game::Run()
 	pEngine->Init();
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
 
-	Player* pPlayer = new Player();
-	pPlayer->Init();
+	_pPlayer = new Player();
+	_pPlayer->Init();
 
 
 	_pSkyBox = pEntityManager->CreateEntity();
@@ -257,6 +258,24 @@ void Game::Run()
 	y = sizeof(indices1);
 	_BulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
+
+
+//--------------------------lifeBar
+	Vertex verticesLife[] = {
+		Vertex({ XMFLOAT3(-1.0f, -1.85f, +5.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, -1.55f, +5.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, -1.55f, +5.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.85f, +5.0f), XMFLOAT2(1, 1) }), // Bottom-right
+
+	};
+	uint16_t indicesLife[] = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+	int ilife = sizeof(verticesLife);
+	int ylife = sizeof(indicesLife);
+	_LifeBar.UpLoadMesh(verticesLife, ilife / 20, indicesLife, ylife / 2);
+
 	float xcase1 = 0.25f;
 	float xcase2 = 0.50f;
 	float xcase3 = 0.75f;
@@ -379,4 +398,16 @@ Entity* Game::GetSkyBox()
 	return _pSkyBox;
 }
 
+Entity* Game::GetLifeEntity()
+{
+	return _pLifeEntity;
+}
 
+Mesh* Game::GetLifeMesh()
+{
+	return &_LifeBar;
+}
+
+Player* Game::GetPlayer() {
+	return _pPlayer;
+}

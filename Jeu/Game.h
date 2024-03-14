@@ -1,6 +1,7 @@
 #pragma once
 #include "../Moteur/Mesh.h"
 
+class Player;
 class Engine;
 class Input;
 class EntityManager;
@@ -16,6 +17,7 @@ public:
 	void Run();
 	Mesh* GetBulletMesh();
 	Mesh* GetMeteorMesh();
+	Mesh* GetLifeMesh();
 
 	bool _bFPS = false;
 
@@ -23,16 +25,20 @@ public:
 	ShootScript* GetShootScript();
 	GameLogicScript* GetGameLogicScript();
 	Entity* GetSkyBox();
+	Entity* GetLifeEntity();
+	Player* GetPlayer();
 
 private:
 	Game();
 	static Game* _pInstance;
 	Mesh _BulletMesh;
 	Mesh _MeteorMesh;
-
+	Mesh _LifeBar;
 	Entity* _pSkyBox;
+	Entity* _pLifeEntity;
 	MovementScript* _pMovementScript;
 	ShootScript* _pShootScript;
 	GameLogicScript* _pGameLogicScript;
+	Player* _pPlayer;
 };
 

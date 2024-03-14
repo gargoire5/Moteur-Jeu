@@ -11,7 +11,10 @@ void MovementScript::Update()
 	Input* pInput = pEngine->GetInput();
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
 
+
+	Entity* LifeBar = Game::Instance()->GetLifeEntity();
 	Entity* CubeNight = Game::Instance()->GetSkyBox();
+
 	Camera* pCam = pEngine->GetCurrCam();
 	std::vector<Entity*> entityList = pEngine->GetEntityManager()->GetEntityList();
 	if (pInput->IsKeyDown(VK_ESCAPE))
@@ -58,9 +61,9 @@ void MovementScript::Update()
 		}
 
 		pCam->GetEntity()->GetTransform()->identityRot();
-		//CubeNight->GetTransform()->identityRot();
+		//LifeBar->GetTransform()->identityRot();
 		pCam->GetEntity()->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
-		//CubeNight->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
+		//LifeBar->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
 		SetCursorPos(WindowCenter.x, WindowCenter.y);
 
 		if (pInput->IsKey('Z'))
@@ -76,6 +79,7 @@ void MovementScript::Update()
 
 			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+			
 		}
 
 		if (pInput->IsKey('S'))
@@ -91,6 +95,7 @@ void MovementScript::Update()
 
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			//LifeBar->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
 		if (pInput->IsKey('D'))
 		{
@@ -105,6 +110,7 @@ void MovementScript::Update()
 
 			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+			//LifeBar->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 		}
 		if (pInput->IsKey('Q'))
 		{
@@ -119,6 +125,7 @@ void MovementScript::Update()
 
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			//LifeBar->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
 		if (pInput->IsKey(VK_SPACE))
 		{
@@ -129,6 +136,7 @@ void MovementScript::Update()
 			float fDistance = fSpeed * fDeltaTime;
 
 			pCam->GetEntity()->SetPos(Pos.x, Pos.y + fDistance, Pos.z);
+			CubeNight->SetPos(Pos.x, Pos.y + fDistance, Pos.z);
 		}
 		if (pInput->IsKey(VK_LSHIFT))
 		{
@@ -139,6 +147,8 @@ void MovementScript::Update()
 			float fDistance = fSpeed * fDeltaTime;
 
 			pCam->GetEntity()->SetPos(Pos.x, Pos.y - fDistance, Pos.z);
+			CubeNight->SetPos(Pos.x, Pos.y - fDistance, Pos.z);
+
 		}
 		if (pInput->IsKeyDown(VK_RBUTTON))
 		{

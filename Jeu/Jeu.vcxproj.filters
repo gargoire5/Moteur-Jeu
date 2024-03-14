@@ -54,6 +54,9 @@
     <ClCompile Include="GameLogicScript.cpp">
       <Filter>Fichiers sources\script</Filter>
     </ClCompile>
+    <ClCompile Include="LifeBar.cpp">
+      <Filter>Fichiers sources\class</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="GameLogicScript.h">
       <Filter>Fichiers d%27en-tête\script</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBar.h">
+      <Filter>Fichiers d%27en-tête\class</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
