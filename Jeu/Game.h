@@ -22,6 +22,7 @@ public:
 	MovementScript* GetMovementScript();
 	ShootScript* GetShootScript();
 	GameLogicScript* GetGameLogicScript();
+	Entity* GetSkyBox();
 
 private:
 	Game();
@@ -29,6 +30,7 @@ private:
 	Mesh _BulletMesh;
 	Mesh _MeteorMesh;
 
+	Entity* _pSkyBox;
 	MovementScript* _pMovementScript;
 	ShootScript* _pShootScript;
 	GameLogicScript* _pGameLogicScript;

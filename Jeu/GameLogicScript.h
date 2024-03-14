@@ -10,7 +10,7 @@ public:
 	void Update()override;
 	void SpawnRandomMeteor();
 
-	int iMaxEnemie = 4;
+	int iMaxEnemie;
 
 private:
 	std::vector<Meteor*> _vMeteorList;

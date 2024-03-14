@@ -33,12 +33,12 @@ void Game::Run()
 	pPlayer->Init();
 
 
-	Entity* pCubeEntity3 = pEntityManager->CreateEntity();
-	MeshRenderer* pCubeComponent3 = pCubeEntity3->AttachComponent<MeshRenderer>();
-	pCubeComponent3->SetEntity(pCubeEntity3);
+	_pSkyBox = pEntityManager->CreateEntity();
+	MeshRenderer* pCubeComponent3 = _pSkyBox->AttachComponent<MeshRenderer>();
+	pCubeComponent3->SetEntity(_pSkyBox);
 	pCubeComponent3->SetShader();
 	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
-	pCubeEntity3->SetPos(0,5, 0);
+	_pSkyBox->SetPos(0,5, 0);
 
 	//------------------------------Upload Mesh---------------------------------------
 	float d1 = +1.0f;
@@ -372,6 +372,11 @@ ShootScript* Game::GetShootScript()
 GameLogicScript* Game::GetGameLogicScript()
 {
 	return _pGameLogicScript;
+}
+
+Entity* Game::GetSkyBox()
+{
+	return _pSkyBox;
 }
 
 

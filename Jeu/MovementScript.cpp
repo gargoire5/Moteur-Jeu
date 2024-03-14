@@ -11,9 +11,9 @@ void MovementScript::Update()
 	Input* pInput = pEngine->GetInput();
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
 
+	Entity* CubeNight = Game::Instance()->GetSkyBox();
 	Camera* pCam = pEngine->GetCurrCam();
 	std::vector<Entity*> entityList = pEngine->GetEntityManager()->GetEntityList();
-	Entity* CubeNight = entityList[3];
 	if (pInput->IsKeyDown(VK_ESCAPE))
 	{
 		if (Game::Instance()->_bFPS == false)
