@@ -17,7 +17,7 @@ void Bullet::Init()
 	MeshRenderer* pMeshComponent = _pEntity->AttachComponent<MeshRenderer>();
 	pMeshComponent->SetEntity(_pEntity);
 	pMeshComponent->SetShader();
-	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
+	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
 	pMeshComponent->SetMesh(Game::Instance()->GetBulletMesh());
 
 	_pColider = _pEntity->AttachComponent<BoxColider>();
@@ -51,7 +51,14 @@ void Bullet::Update()
 	float y = -sinf(XMConvertToRadians(_pitch)) * fDistance;
 	float z = cosf(XMConvertToRadians(_yaw)) * fDistance;
 
+	_roll += 17;
+	_pEntity->GetTransform()->identityRot();
+	_pEntity->GetTransform()->rotate(_yaw, _pitch, _roll);
 	_pEntity->SetPos(Pos.x + x, Pos.y + y, Pos.z + z);
+
+	
+
+	
 }
 
 Entity* Bullet::GetEntity()

@@ -11,7 +11,10 @@ void MovementScript::Update()
 	Input* pInput = pEngine->GetInput();
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
 
+
+	Entity* LifeBar = Game::Instance()->GetLifeEntity();
 	Entity* CubeNight = Game::Instance()->GetSkyBox();
+
 	Camera* pCam = pEngine->GetCurrCam();
 	std::vector<Entity*> entityList = pEngine->GetEntityManager()->GetEntityList();
 	if (pInput->IsKeyDown(VK_ESCAPE))
@@ -58,9 +61,9 @@ void MovementScript::Update()
 		}
 
 		pCam->GetEntity()->GetTransform()->identityRot();
-		//CubeNight->GetTransform()->identityRot();
+		//LifeBar->GetTransform()->identityRot();
 		pCam->GetEntity()->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
-		//CubeNight->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
+		//LifeBar->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
 		SetCursorPos(WindowCenter.x, WindowCenter.y);
 
 		Transform* pTransform = pCam->GetEntity()->GetTransform();

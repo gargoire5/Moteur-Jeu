@@ -3,6 +3,7 @@
 #include "Incl.h"
 #include "Player.h";
 #include "Meteor.h"
+#include "Player.h"
 
 #include "MovementScript.h"
 #include "ShootScript.h"
@@ -36,7 +37,7 @@ void Game::Run()
 	MeshRenderer* pCubeComponent3 = _pSkyBox->AttachComponent<MeshRenderer>();
 	pCubeComponent3->SetEntity(_pSkyBox);
 	pCubeComponent3->SetShader();
-	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
+	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(3));
 	_pSkyBox->SetPos(0,5, 0);
 
 	//------------------------------Upload Mesh---------------------------------------
@@ -256,6 +257,24 @@ void Game::Run()
 	y = sizeof(indices1);
 	_BulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
+
+
+//--------------------------lifeBar
+	Vertex verticesLife[] = {
+		Vertex({ XMFLOAT3(-1.0f, -1.85f, +5.0f), XMFLOAT2(0, 1) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, -1.55f, +5.0f), XMFLOAT2(0, 0) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, -1.55f, +5.0f), XMFLOAT2(1, 0) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.85f, +5.0f), XMFLOAT2(1, 1) }), // Bottom-right
+
+	};
+	uint16_t indicesLife[] = {
+		0, 1, 2,
+		0, 2, 3,
+	};
+	int ilife = sizeof(verticesLife);
+	int ylife = sizeof(indicesLife);
+	_LifeBar.UpLoadMesh(verticesLife, ilife / 20, indicesLife, ylife / 2);
+
 	float xcase1 = 0.25f;
 	float xcase2 = 0.50f;
 	float xcase3 = 0.75f;
@@ -382,6 +401,7 @@ Player* Game::GetPlayer()
 	return _pPlayer;
 }
 
-
-
-
+Mesh* Game::GetLifeMesh()
+{
+	return &_LifeBar;
+}

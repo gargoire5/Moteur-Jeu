@@ -21,6 +21,7 @@ public:
 	void Render()override;
 	void Update();
 	void SetTexture2D(Texture2D* pTexture);
+	~MeshRenderer();
 
 private:
 	Mesh* _pMeshToRender;

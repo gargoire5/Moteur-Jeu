@@ -12,11 +12,14 @@ public:
 	int GetIHP();
 	~Meteor();
 private:
+	float fDuration =0;
 	int _iHp;
+	bool _bHit;
 	Entity* _pEntity;
+	MeshRenderer* pCubeComponent;
+	//Texture2D* texture;
 	BoxColider* _pColider;
 	float _fYaw;
 	float _fPitch;
 	XMFLOAT3 _RDirection;
 };
-

@@ -45,6 +45,11 @@ int Player::GetIHp()
 	return _iHp;
 }
 
+int Player::GetHp()
+{
+	return _iHp;
+}
+
 Player::~Player()
 {
 }

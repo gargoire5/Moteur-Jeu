@@ -191,12 +191,18 @@ void Graphics::InitDX()
 	RockTexture->LoadTexture(TabTex.size(), name, filename);
 	TabTex.push_back(RockTexture);
 
-	Texture2D* IronTexture = new Texture2D();
-	name = "grass";
+	Texture2D* HitTexture = new Texture2D();
+	name = "hit";
+	filename = L"../texture/hit.dds";
+	HitTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(HitTexture);
+
+	Texture2D* LaserTexture = new Texture2D();
+	name = "laser";
 	//filename = L"../texture/iron.dds";
 	filename = L"../texture/laser.dds";
-	IronTexture->LoadTexture(TabTex.size(), name, filename);
-	TabTex.push_back(IronTexture);
+	LaserTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(LaserTexture);
 
 	Texture2D* NightTexture = new Texture2D();
 	name = "night";
@@ -204,6 +210,48 @@ void Graphics::InitDX()
 	filename = L"../texture/night.dds";
 	NightTexture->LoadTexture(TabTex.size(), name, filename);
 	TabTex.push_back(NightTexture);
+
+	Texture2D* FiveHpTexture = new Texture2D();
+	name = "5Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/5Hp.dds";
+	FiveHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(FiveHpTexture);
+
+	Texture2D* FourHpTexture = new Texture2D();
+	name = "4Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/4Hp.dds";
+	FourHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(FourHpTexture);
+
+	Texture2D* ThreeHpTexture = new Texture2D();
+	name = "3Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/3Hp.dds";
+	ThreeHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(ThreeHpTexture);
+
+	Texture2D* TwoHpTexture = new Texture2D();
+	name = "2Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/2Hp.dds";
+	TwoHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(TwoHpTexture);
+
+	Texture2D* OneHpTexture = new Texture2D();
+	name = "1Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/1Hp.dds";
+	OneHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(OneHpTexture);
+
+	Texture2D* ZeroHpTexture = new Texture2D();
+	name = "0Hp";
+	//filename = L"../texture/iron.dds";
+	filename = L"../texture/0Hp.dds";
+	ZeroHpTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(ZeroHpTexture);
 
 	_DXCommandList->Close();
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);

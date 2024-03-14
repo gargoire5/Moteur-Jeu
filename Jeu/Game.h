@@ -1,6 +1,7 @@
 #pragma once
 #include "../Moteur/Mesh.h"
 
+class Player;
 class Engine;
 class Input;
 class EntityManager;
@@ -17,14 +18,13 @@ public:
 	void Run();
 	Mesh* GetBulletMesh();
 	Mesh* GetMeteorMesh();
+	Mesh* GetLifeMesh();
 
 	MovementScript* GetMovementScript();
 	ShootScript* GetShootScript();
 	GameLogicScript* GetGameLogicScript();
 	Entity* GetSkyBox();
 	Player* GetPlayer();
-
-
 
 private:
 	Game();
@@ -39,5 +39,6 @@ private:
 
 	Mesh _BulletMesh;
 	Mesh _MeteorMesh;
+	Mesh _LifeBar;
 };
 
