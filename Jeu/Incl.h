@@ -5,4 +5,5 @@
 #include "../Moteur/input.h"
 #include "../Moteur/timer.h"
 #include "../Moteur/Mesh.h"
+#include "../Moteur/Graphics.h"
 #include "MovementScript.h"

@@ -13,6 +13,7 @@ public:
 	void UpdateTitle();
 
 	int iMaxEnemie;
+	int score;
 
 private:
 	std::vector<Meteor*> _vMeteorList;

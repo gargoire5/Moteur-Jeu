@@ -24,8 +24,7 @@ void EntityManager::DeleteEntity(Entity* pEntity)
 	{
 		if (_vEntityList[i] == pEntity)
 		{
-			_vEntityList.erase(_vEntityList.begin() + i);
-			
+			_vEntityList.erase(_vEntityList.begin() + i);			
 		}
 	}
 }

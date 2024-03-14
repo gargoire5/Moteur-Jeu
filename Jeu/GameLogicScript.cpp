@@ -8,6 +8,7 @@
 
 GameLogicScript::GameLogicScript()
 {
+	score = 0;
 }
 
 void GameLogicScript::Update()
@@ -110,7 +111,7 @@ void GameLogicScript::SpawnRandomMeteor()
 	float z = rand() % 200 + 30;
 	float y = rand() % 20;
 
-	bool val = (rand() % 2)==1;
+	bool val = (rand() % 2) == 1;
 	if (val)
 		x = -x;
 	val = (rand() % 2) == 1;
@@ -128,6 +129,7 @@ void GameLogicScript::SpawnRandomMeteor()
 void GameLogicScript::UpdateTitle()
 {
 	Timer* pTimer = Engine::Instance()->GetTimer();
+	Graphics* pGraphics = Graphics::Instance();
 	float fTotalTime = pTimer->TotalTime();
 	float fDeltaTime = pTimer->DeltaTime();
 
@@ -140,24 +142,24 @@ void GameLogicScript::UpdateTitle()
 	if ((fDeltaTime) >= 1.0f)
 	{
 
-
 		// Reset for next average.
 		frameCnt = 0;
 		timeElapsed += 1.0f;
-		int score = 0;
 		int life = 0;
 		float fps = (float)frameCnt;
 
 		std::wstring timeStr = std::to_wstring(fTotalTime);
 		std::wstring scorefStr = std::to_wstring(score);
 		std::wstring fpsfStr = std::to_wstring(fps);
+		std::wstring lifeStr = std::to_wstring(life);
 
-		std::wstring windowText = /*GraphicsGetWindowTitle()*/ +
+		std::wstring windowText =  +
 			L"    time: " + timeStr +
 			L"   score: " + scorefStr +
-			L"    fps:  " + fpsfStr;
-
-		SetWindowText( /*Graphics::GetWindow()*/, windowText.c_str());
+			L"    fps:  " + fpsfStr +
+			L"	 life:  " + lifeStr;
+				
+		SetWindowText(pGraphics->GetWindow(), windowText.c_str());
 
 		frameCnt = 0;
 		timeElapsed += 1.0f;

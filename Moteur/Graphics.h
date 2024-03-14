@@ -17,6 +17,7 @@ class Graphics
 {
 public:
 	Graphics();
+	static Graphics* Instance();
 	void InitWindow();
 	void InitDX();
 	void OnResize();
@@ -41,8 +42,9 @@ public:
 	std::wstring GetWindowTitle();
 
 	HWND _hWindow;
-
+	static Graphics* _pInstance;
 private:
+	
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	std::wstring _mainWndCaption = L"Window"; 
 

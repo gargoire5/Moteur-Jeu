@@ -14,6 +14,14 @@ Graphics::Graphics()
 	_fWindowHeight = 100.f;
 }
 
+Graphics* Graphics::Instance() {
+	if (!_pInstance)
+	{
+		_pInstance = new Graphics();
+	}
+	return _pInstance;
+}
+
 void Graphics::InitWindow()
 {
 	WNDCLASSEX windowClass = { 0 };
@@ -513,7 +521,7 @@ ID3D12DescriptorHeap* Graphics::GetSrvHeap()
 
 HWND Graphics::GetWindow()
 {
-	return &_hWindow;
+	return _hWindow;
 }
 
 std::wstring Graphics::GetWindowTitle()
