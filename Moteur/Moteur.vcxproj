@@ -101,14 +101,19 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>
+      </SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <FxCompile>
+      <ShaderType>Effect</ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -127,7 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BoxGeo.h" />
+    <ClInclude Include="BoxColider.h" />
+    <ClInclude Include="Buffer.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Engine.h" />
@@ -135,34 +141,59 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Incl.h" />
-    <ClInclude Include="input.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="Script.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Source\d3dApp.h" />
+    <ClInclude Include="Source\d3dUtil.h" />
+    <ClInclude Include="Source\d3dx12.h" />
+    <ClInclude Include="Source\DDSTextureLoader.h" />
+    <ClInclude Include="Source\GameTimer.h" />
+    <ClInclude Include="Source\GeometryGenerator.h" />
+    <ClInclude Include="Source\MathHelper.h" />
+    <ClInclude Include="Source\stdafx.h" />
+    <ClInclude Include="Source\UploadBuffer.h" />
     <ClInclude Include="Texture.h" />
-
-    <ClInclude Include="timer.h" />
-    <ClInclude Include="transform.h" />
-
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BoxGeo.cpp" />
+    <ClCompile Include="BoxColider.cpp" />
+    <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="input.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Source\d3dApp.cpp" />
+    <ClCompile Include="Source\d3dUtil.cpp" />
+    <ClCompile Include="Source\DDSTextureLoader.cpp" />
+    <ClCompile Include="Source\GameTimer.cpp" />
+    <ClCompile Include="Source\GeometryGenerator.cpp" />
+    <ClCompile Include="Source\MathHelper.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="timer.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="transform.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Text Include="Shaders\color.hlsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color_ps.cso" />
+    <None Include="Shaders\color_vs.cso" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

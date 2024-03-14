@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="BoxGeo.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -22,10 +19,7 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Input.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
@@ -40,48 +34,78 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="timer.cpp">
+    <ClCompile Include="Timer.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="transform.cpp">
+    <ClCompile Include="Transform.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\d3dApp.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\d3dUtil.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\DDSTextureLoader.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameTimer.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GeometryGenerator.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MathHelper.cpp">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxColider.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="transform.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxGeo.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
+    <ClInclude Include="Transform.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Engine.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Incl.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Source\d3dApp.h">
+      <Filter>Fichiers de ressources\Source</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Source\d3dUtil.h">
+      <Filter>Fichiers de ressources\Source</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
+    <ClInclude Include="Source\d3dx12.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DDSTextureLoader.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GameTimer.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\GeometryGenerator.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MathHelper.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\stdafx.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UploadBuffer.h">
+      <Filter>Fichiers de ressources\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
@@ -90,7 +114,37 @@
     <ClInclude Include="Texture.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="timer.h">
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxColider.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -129,9 +183,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="BoxGeo.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <Filter Include="Fichiers d%27en-tête">
@@ -143,5 +194,24 @@
     <Filter Include="Fichiers de ressources">
       <UniqueIdentifier>{a249f3a6-2c34-49c6-818b-9e59730a346e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\Source">
+      <UniqueIdentifier>{6846d96e-6bba-422d-8ac4-0d0d67bead8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\Shader">
+      <UniqueIdentifier>{bfe214e1-d663-41d0-9d18-cbb04786bcf9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color_vs.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
+    <None Include="Shaders\color_ps.cso">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Shaders\color.hlsl">
+      <Filter>Fichiers de ressources\Shader</Filter>
+    </Text>
   </ItemGroup>
 </Project>

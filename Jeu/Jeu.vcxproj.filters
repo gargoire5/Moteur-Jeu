@@ -13,10 +13,69 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\class">
+      <UniqueIdentifier>{b04cb46c-93f4-4e1b-a09c-3ffd912702f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\class">
+      <UniqueIdentifier>{c36a6827-0c19-402f-8e66-bcada9f47295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\script">
+      <UniqueIdentifier>{6be58a4f-eb9e-414a-8b16-d8e71cfd3f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\script">
+      <UniqueIdentifier>{84c58bae-7fa9-450c-bc4e-e1f0ca697dba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Incl.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Fichiers sources\class</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementScript.cpp">
+      <Filter>Fichiers sources\script</Filter>
+    </ClCompile>
+    <ClCompile Include="ShootScript.cpp">
+      <Filter>Fichiers sources\script</Filter>
+    </ClCompile>
+    <ClCompile Include="Meteor.cpp">
+      <Filter>Fichiers sources\class</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Fichiers sources\class</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogicScript.cpp">
+      <Filter>Fichiers sources\script</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Fichiers d%27en-tête\class</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementScript.h">
+      <Filter>Fichiers d%27en-tête\script</Filter>
+    </ClInclude>
+    <ClInclude Include="ShootScript.h">
+      <Filter>Fichiers d%27en-tête\script</Filter>
+    </ClInclude>
+    <ClInclude Include="Meteor.h">
+      <Filter>Fichiers d%27en-tête\class</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Fichiers d%27en-tête\class</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogicScript.h">
+      <Filter>Fichiers d%27en-tête\script</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

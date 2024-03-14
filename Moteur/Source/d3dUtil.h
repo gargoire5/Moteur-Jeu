@@ -114,14 +114,14 @@ public:
 
     static Microsoft::WRL::ComPtr<ID3DBlob> LoadBinary(const std::wstring& filename);
 
-    static Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(
+    static ID3D12Resource* CreateDefaultBuffer(
         ID3D12Device* device,
         ID3D12GraphicsCommandList* cmdList,
         const void* initData,
         UINT64 byteSize,
-        Microsoft::WRL::ComPtr<ID3D12Resource>& uploadBuffer);
+        ID3D12Resource* uploadBuffer);
 
-	static Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
+	static ID3DBlob* CompileShader(
 		const std::wstring& filename,
 		const D3D_SHADER_MACRO* defines,
 		const std::string& entrypoint,
@@ -182,7 +182,7 @@ struct MeshGeometry
 	// A MeshGeometry may store multiple geometries in one vertex/index buffer.
 	// Use this container to define the Submesh geometries so we can draw
 	// the Submeshes individually.
-	std::unordered_map<std::string, SubmeshGeometry> DrawArgs;
+	std::unordered_map<std::string, SubmeshGeometry> _DrawArgs;
 
 	D3D12_VERTEX_BUFFER_VIEW VertexBufferView()const
 	{

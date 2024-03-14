@@ -1,41 +1,101 @@
 #include "Engine.h"
+#include "Graphics.h"
 #include "Timer.h"
-Engine::Engine(HINSTANCE hInstance)
+#include "input.h"
+Engine* Engine::_pInstance;
+
+Engine::Engine()
 {
-	_hInstance = hInstance;
+	_pEntityManager = nullptr;
+	_pGraphics = nullptr;
+	_pTimer = nullptr;
+	_pInput = nullptr;
 }
 
+Engine* Engine::Instance()
+{
+	if (!_pInstance)
+	{
+		_pInstance = new Engine();
+	}
+	return _pInstance;
+}
+void Engine::Init()
+{
+	_pEntityManager = new EntityManager();
+	_pGraphics = new Graphics();
+	_pGraphics->InitWindow();
+	_pGraphics->InitDX();
+	_pGraphics->OnResize();
+	_pTimer = new Timer();
+	_pInput = new Input();
+}
 void Engine::Run()
 {
-	_pGraphics = new Graphics();
-	_pGraphics->InitWindow(_hInstance);
-	_pGraphics->InitDX();
-	Timer* _cTime = new Timer();
 	bool running = true;
-	_cTime->Reset();
-	_cTime->Start();
+	_pTimer->Reset();
+	_pTimer->Start();
 	while (running)
 	{
-		MSG msg = { 0 };
+		MSG msg = {0};
 
 		// If there are Window messages then process them.
 		while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-
-			_cTime->Tick();
-
 			if (msg.message == WM_QUIT)
 			{
-				_cTime->Stop();
+				_pTimer->Stop();
 				running = false;
 				break;
 			}
 		}
 
 		// Update (time, input, gameplay...)
+		_pGraphics->Update();
 
 		// Render
+		_pGraphics->Draw();
+		
 	}
+}
+
+void Engine::SetMainCam(Camera* pCam)
+{
+	_pCurrCamera = pCam;
+}
+
+EntityManager* Engine::GetEntityManager()
+{
+	return _pEntityManager;
+}
+Graphics* Engine::GetGraphics()
+{
+	return _pGraphics;
+}
+
+Timer* Engine::GetTimer()
+{
+	return _pTimer;
+}
+
+Input* Engine::GetInput()
+{
+	return _pInput;
+}
+
+Camera* Engine::GetCurrCam()
+{
+	return _pCurrCamera;
+}
+
+void Engine::AddScript(Script* pScript)
+{
+	_vScriptList.push_back(pScript);
+}
+
+std::vector<Script*> Engine::GetScriptList()
+{
+	return _vScriptList;
 }
