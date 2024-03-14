@@ -385,4 +385,9 @@ Entity* Game::GetSkyBox()
 	return _pSkyBox;
 }
 
+Player* Game::GetPlayer()
+{
+	return nullptr;
+}
+
 

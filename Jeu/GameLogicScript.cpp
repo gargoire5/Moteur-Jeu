@@ -15,7 +15,6 @@ void GameLogicScript::Update()
 {
 	Game* pGame = Game::Instance();
 	Timer* pTimer = Engine::Instance()->GetTimer();
-	Player* pPlayer = new Player();
 
 	for (int i = 0; i < _vMeteorList.size(); i++)
 	{
@@ -113,18 +112,15 @@ void GameLogicScript::Update()
 	if ((Engine::Instance()->GetTimer()->TotalTime() - timeElapsed) >= 1.0f)
 	{
 		float fps = (float)frameCnt;
-		int hpPlayer = pPlayer->_iHp;
 		int pScore = score;
 		int pTotaltime = Engine::Instance()->GetTimer()->TotalTime();
 
 		std::wstring fpsStr = std::to_wstring(fps);
-		std::wstring hpPlayerStr = std::to_wstring(hpPlayer);
 		std::wstring scoreStr = std::to_wstring(pScore);
 		std::wstring totaltimeStr = std::to_wstring(pTotaltime);
 
 		std::wstring windowText = Engine::Instance()->GetGraphics()->mMainWndCaption +
 			L"    FPS: " + fpsStr +
-			L"    HP:  " + hpPlayerStr +
 			L"    Score:  " + scoreStr +
 			L"    Temps restant:  " + totaltimeStr;
 

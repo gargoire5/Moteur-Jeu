@@ -8,6 +8,7 @@ class Timer;
 class MovementScript;
 class ShootScript;
 class GameLogicScript;
+class Player;
 
 class Game
 {
@@ -23,6 +24,7 @@ public:
 	ShootScript* GetShootScript();
 	GameLogicScript* GetGameLogicScript();
 	Entity* GetSkyBox();
+	Player* GetPlayer();
 
 private:
 	Game();
@@ -34,5 +36,6 @@ private:
 	MovementScript* _pMovementScript;
 	ShootScript* _pShootScript;
 	GameLogicScript* _pGameLogicScript;
+	Player* _pPlayer;
 };
 
