@@ -7,6 +7,10 @@
 #include "Bullet.h"
 #include "Player.h"
 
+
+static int frameCnt = 0;
+static float timeElapsed = 0.0f;
+
 GameLogicScript::GameLogicScript()
 {
 }
@@ -104,11 +108,7 @@ void GameLogicScript::Update()
 	}
 	_vMeteorToDestroy.clear();
 
-	static int frameCnt = 0;
-	static float timeElapsed = 0.0f;
-
 	frameCnt++;
-
 	if ((Engine::Instance()->GetTimer()->TotalTime() - timeElapsed) >= 1.0f)
 	{
 		float fps = (float)frameCnt;
@@ -122,7 +122,7 @@ void GameLogicScript::Update()
 		std::wstring windowText = Engine::Instance()->GetGraphics()->mMainWndCaption +
 			L"    FPS: " + fpsStr +
 			L"    Score:  " + scoreStr +
-			L"    Temps restant:  " + totaltimeStr;
+			L"    Temps:  " + totaltimeStr;
 
 		SetWindowText(Engine::Instance()->GetGraphics()->_hWindow, windowText.c_str());
 

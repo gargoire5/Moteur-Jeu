@@ -13,9 +13,11 @@ public:
 
 	int iMaxEnemie;
 	int score = 0;
+	
 private:
 	std::vector<Meteor*> _vMeteorList;
 	std::vector<Bullet*> _vBulletToDestroy;
 	std::vector<Meteor*> _vMeteorToDestroy;
+	
 };
 
