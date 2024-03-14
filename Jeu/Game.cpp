@@ -37,7 +37,7 @@ void Game::Run()
 	MeshRenderer* pCubeComponent3 = _pSkyBox->AttachComponent<MeshRenderer>();
 	pCubeComponent3->SetEntity(_pSkyBox);
 	pCubeComponent3->SetShader();
-	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
+	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(3));
 	_pSkyBox->SetPos(0,5, 0);
 
 	//------------------------------Upload Mesh---------------------------------------

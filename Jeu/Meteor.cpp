@@ -42,7 +42,7 @@ void Meteor::Update()
 	if (_bHit == true) {
 		fDuration += fDeltaTime;
 		pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
-		if (fDuration >= 0.5f) {
+		if (fDuration >= 0.2f) {
 			_bHit = false;
 			fDuration = 0;
 		}

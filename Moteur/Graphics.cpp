@@ -191,12 +191,18 @@ void Graphics::InitDX()
 	RockTexture->LoadTexture(TabTex.size(), name, filename);
 	TabTex.push_back(RockTexture);
 
-	Texture2D* IronTexture = new Texture2D();
-	name = "grass";
+	Texture2D* HitTexture = new Texture2D();
+	name = "hit";
+	filename = L"../texture/hit.dds";
+	HitTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(HitTexture);
+
+	Texture2D* LaserTexture = new Texture2D();
+	name = "laser";
 	//filename = L"../texture/iron.dds";
 	filename = L"../texture/laser.dds";
-	IronTexture->LoadTexture(TabTex.size(), name, filename);
-	TabTex.push_back(IronTexture);
+	LaserTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(LaserTexture);
 
 	Texture2D* NightTexture = new Texture2D();
 	name = "night";

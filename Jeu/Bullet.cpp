@@ -17,7 +17,7 @@ void Bullet::Init()
 	MeshRenderer* pMeshComponent = _pEntity->AttachComponent<MeshRenderer>();
 	pMeshComponent->SetEntity(_pEntity);
 	pMeshComponent->SetShader();
-	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
+	pMeshComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
 	pMeshComponent->SetMesh(Game::Instance()->GetBulletMesh());
 
 	_pColider = _pEntity->AttachComponent<BoxColider>();
