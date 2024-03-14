@@ -189,43 +189,49 @@ void Game::Run()
 	int y = sizeof(indices);
 	_MeteorMesh.UpLoadMesh(vertices, i/20, indices, y/2);
 
+	float xcase12 = 0.25f;
+	float xcase22 = 0.50f;
+	float xcase32 = 0.75f;
+	float ycase12 = 1 / 3.f;
+	float ycase22 = 1 / 3.f * 2;
+
 	Vertex vertices1[] =
 	{
 		// Front face
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(xcase12,ycase22) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(xcase12, ycase12) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(0.0f, ycase12) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(0.0f,ycase22) }), // Bottom-right
 
 		// Bac
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(xcase22,ycase22) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(xcase22, ycase12) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(xcase32, ycase12) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f),  XMFLOAT2(xcase32,ycase22) }), // Bottom-right
 
 		// Lef
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(xcase12,ycase22) }), // Bottom-front
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(xcase12,ycase12) }), // Top-front
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(xcase22, ycase12) }), // Top-back
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(xcase22,ycase22) }), // Bottom-back
 
 		// Rig
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-front
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(0, 0) }), // Top-front
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-back
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 1) }), // Bottom-back
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1.0f ,ycase22) }), // Bottom-front
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1.0f , ycase12) }), // Top-front
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(xcase32, ycase12) }), // Top-back
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(xcase32,ycase22) }), // Bottom-back
 
 		// Top
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(1, 1) }), // Bottom-right
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT2(xcase12, 0.0f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT2(xcase12,ycase12) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT2(xcase22, ycase12) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT2(xcase22, 0.0f) }), // Bottom-right
 
 		// Bote
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(0, 1) }), // Bottom-left
-		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(0, 0) }), // Top-left
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(1, 0) }), // Top-right
-		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(1, 1) })  // Bottom-right
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT2(xcase12, 1.0f) }), // Bottom-left
+		Vertex({ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT2(xcase12,ycase22) }), // Top-left
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT2(xcase22,ycase22) }), // Top-right
+		Vertex({ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT2(xcase22, 1.0f) })  // Bottom-right
 	};
 	uint16_t indices1[] =
 	{
@@ -290,7 +296,7 @@ void Game::Run()
 
 		// Top face
 		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, 0.0f) }), // Bottom-left rouge
-		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f),  XMFLOAT2(xcase1,ycase1)}) , // Top-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1,ycase1)}) , // Top-left
 		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, ycase1) }), // Top-right
 		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, 0.0f)  }), // Bottom-right
 

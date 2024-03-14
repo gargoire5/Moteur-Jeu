@@ -21,7 +21,7 @@ void GameLogicScript::Update()
 
 	float fTotalTime = pTimer->TotalTime();
 
-	/*if (fTotalTime < 60)
+	if (fTotalTime < 60)
 	{
 		iMaxEnemie = 4;
 	}
@@ -40,7 +40,7 @@ void GameLogicScript::Update()
 	else if (fTotalTime > 240 && fTotalTime < 300)
 	{
 		iMaxEnemie = 8;
-	}*/
+	}
 
 	if (_vMeteorList.size() < iMaxEnemie)
 	{
