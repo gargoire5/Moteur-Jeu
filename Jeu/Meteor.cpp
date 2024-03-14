@@ -1,4 +1,5 @@
 #include "Meteor.h"
+#include "GameLogicScript.h"
 #include "Incl.h"
 #include "Game.h"
 
@@ -39,10 +40,41 @@ void Meteor::Update()
 	XMFLOAT3 vPlayerPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
 	XMFLOAT3 vCurrPos = _pEntity->GetTransform()->fPos;
 
-	XMFLOAT3 vDirection;
-	XMStoreFloat3(&vDirection, XMVector3Normalize(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vCurrPos)));
+	_fYaw = _fYaw - (rand() % 10)/10.0f;
+	_fPitch = _fPitch + (rand() % 10) / 10.0f;
 
-	_pEntity->SetPos(vCurrPos.x + vDirection.x * fDistance, vCurrPos.y + vDirection.y *fDistance, vCurrPos.z + vDirection.z * fDistance);
+	_pEntity->GetTransform()->identityRot();
+	_pEntity->GetTransform()->rotate(_fYaw, _fPitch, 0.0f);
+
+	_RDirection.x += -30 + rand() % (60 + 1);
+	_RDirection.y += -30 + rand() % (60 + 1);
+	_RDirection.z += -30 + rand() % (60 + 1);
+
+	XMFLOAT3 vNormedDirection;
+	XMStoreFloat3(&vNormedDirection, XMVector3Normalize(XMLoadFloat3(&vCurrPos) - XMLoadFloat3(&_RDirection)));
+	XMFLOAT3 vNewPos;
+	vNewPos.x = vCurrPos.x + vNormedDirection.x * fDistance;
+	vNewPos.y = vCurrPos.y + vNormedDirection.y * fDistance;
+	vNewPos.z = vCurrPos.z + vNormedDirection.z * fDistance;
+
+	GameLogicScript* pLogic = Game::Instance()->GetGameLogicScript();
+
+	if (vNewPos.x > 100)
+		pLogic->DestroyMeteor(this);
+	else if (vNewPos.x < -100)
+		pLogic->DestroyMeteor(this);
+
+	if (vNewPos.y > 50)
+		pLogic->DestroyMeteor(this);
+	else if (vNewPos.y < -50)
+		pLogic->DestroyMeteor(this);
+
+	if (vNewPos.z > 100)
+		pLogic->DestroyMeteor(this);
+	else if (vNewPos.z < -100)
+		pLogic->DestroyMeteor(this);
+
+	_pEntity->SetPos(vNewPos.x, vNewPos.y, vNewPos.z);
 }
 
 Entity* Meteor::GetEntity()
@@ -64,6 +96,4 @@ int Meteor::GetIHP()
 	return _iHp;
 }
 Meteor::~Meteor()
-{
-	Engine::Instance()->GetEntityManager()->DeleteEntity(_pEntity);
-}
+{}

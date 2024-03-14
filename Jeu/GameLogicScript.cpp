@@ -13,6 +13,8 @@ GameLogicScript::GameLogicScript()
 
 void GameLogicScript::Update()
 {
+	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
+
 	Game* pGame = Game::Instance();
 	Timer* pTimer = Engine::Instance()->GetTimer();
 	for (int i = 0; i < _vMeteorList.size(); i++)
@@ -42,7 +44,6 @@ void GameLogicScript::Update()
 	{
 		iMaxEnemie = 8;
 	}
-
 	if (_vMeteorList.size() < iMaxEnemie)
 	{
 		SpawnRandomMeteor();
@@ -56,7 +57,7 @@ void GameLogicScript::Update()
 			if (vBulletList->data()[i]->GetColider()->IsColidWith(_vMeteorList[j]->GetColider()->GetBoxGeo(), _vMeteorList[j]->GetEntity()))
 			{
 				_vMeteorList[j]->TakeDamage(1);
-				_vBulletToDestroy.push_back(vBulletList->data()[i]);
+				DestroyBullet(vBulletList->data()[i]);
 				break;
 			}
 		}
@@ -68,7 +69,7 @@ void GameLogicScript::Update()
 		if (pPlayer->GetBoxColider()->IsColidWith(_vMeteorList[i]->GetColider()->GetBoxGeo(), _vMeteorList[i]->GetEntity()))
 		{
 			pPlayer->TakeDamage(i);
-			_vMeteorToDestroy.push_back(_vMeteorList[i]);
+			DestroyMeteor(_vMeteorList[i]);
 			if (pPlayer->GetIHp() < 1)
 			{
 				Engine::Instance()->Exit();
@@ -76,37 +77,35 @@ void GameLogicScript::Update()
 		}
 		if (_vMeteorList[i]->GetIHP() < 1)
 		{
-			_vMeteorToDestroy.push_back(_vMeteorList[i]);
+			DestroyMeteor(_vMeteorList[i]);
 		}
 	}
 
 	for (int i = 0; i < _vBulletToDestroy.size(); i++)
 	{
-		Bullet* tmp = _vBulletToDestroy[i];
+		pEntityManager->DeleteEntity(_vBulletToDestroy[i]->GetEntity());
 		for (int j = 0; j < vBulletList->size(); j++)
 		{
-			if (vBulletList->data()[j] == _vBulletToDestroy[i])
+			if (_vBulletToDestroy[i] == vBulletList->data()[j])
 			{
 				vBulletList->erase(vBulletList->begin() + j);
-				break;
 			}
 		}
-		delete tmp;
+		delete _vBulletToDestroy[i];
 	}
 	_vBulletToDestroy.clear();
 
 	for (int i = 0; i < _vMeteorToDestroy.size(); i++)
 	{
-		Meteor* tmp = _vMeteorToDestroy[i];
+		pEntityManager->DeleteEntity(_vMeteorToDestroy[i]->GetEntity());
 		for (int j = 0; j < _vMeteorList.size(); j++)
 		{
-			if (_vMeteorList[j] == _vMeteorToDestroy[i])
+			if (_vMeteorToDestroy[i] == _vMeteorList[j])
 			{
 				_vMeteorList.erase(_vMeteorList.begin() + j);
-				break;
 			}
 		}
-		delete tmp;
+		delete _vMeteorToDestroy[i];
 	}
 	_vMeteorToDestroy.clear();
 
@@ -117,22 +116,22 @@ void GameLogicScript::SpawnRandomMeteor()
 	Engine* pEngine = Engine::Instance();
 	XMFLOAT3 pPlayerPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
 
-	float x = rand() % 200 + 50;
-	float z = rand() % 200 + 50;
-	float y = rand() % 20;
-
-	bool val = (rand() % 2)==1;
-	if (val)
-		x = -x;
-	val = (rand() % 2) == 1;
-	if (val)
-		y = -y;
-	val = (rand() % 2) == 1;
-	if (val)
-		z = -z;
+	float x = 50 - rand() % (100 + 1);
+	float z = 25 - rand() % (25 + 1);
+	float y = 50 - rand() % (100 + 1);
 
 	Meteor* pMeteor = new Meteor();
-	pMeteor->Init(pPlayerPos.x + x, pPlayerPos.y + y, pPlayerPos.z + z);
+	pMeteor->Init(x,y,z);
 	_vMeteorList.push_back(pMeteor);
+}
+
+void GameLogicScript::DestroyMeteor(Meteor* pMeteor)
+{
+	_vMeteorToDestroy.push_back(pMeteor);
+}
+
+void GameLogicScript::DestroyBullet(Bullet* pBullet)
+{
+	_vBulletToDestroy.push_back(pBullet);
 }
 

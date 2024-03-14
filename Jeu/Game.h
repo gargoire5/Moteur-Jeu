@@ -24,6 +24,8 @@ public:
 	Entity* GetSkyBox();
 	Player* GetPlayer();
 
+
+
 private:
 	Game();
 	static Game* _pInstance;

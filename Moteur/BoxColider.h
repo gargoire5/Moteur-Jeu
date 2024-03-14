@@ -6,10 +6,10 @@ struct BoxGeo
 {
 	float fLeftSide = FLT_MAX;
 	float fRightSide = -FLT_MAX;
-	float fTopSide = FLT_MAX;
-	float fBotSide = -FLT_MAX;
-	float fFrontSide = -FLT_MAX;
-	float fBackSide = FLT_MAX;
+	float fTopSide = -FLT_MAX;
+	float fBotSide = FLT_MAX;
+	float fFrontSide = FLT_MAX;
+	float fBackSide = -FLT_MAX;
 };
 
 class BoxColider : public Component

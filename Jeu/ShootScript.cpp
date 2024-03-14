@@ -1,6 +1,8 @@
 #include "ShootScript.h"
 #include "Incl.h"
 #include "Bullet.h"
+#include "Game.h"
+#include "GameLogicScript.h"
 
 ShootScript::ShootScript()
 {
@@ -37,9 +39,7 @@ void ShootScript::Update()
 
 		if (fTotalDistance > 300)
 		{
-			Bullet* tmp = _vBulletList[i];
-			_vBulletList.erase(_vBulletList.begin() + i);
-			delete tmp;
+			Game::Instance()->GetGameLogicScript()->DestroyBullet(_vBulletList[i]);
 		}
 	}
 }

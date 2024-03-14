@@ -15,5 +15,8 @@ private:
 	int _iHp;
 	Entity* _pEntity;
 	BoxColider* _pColider;
+	float _fYaw;
+	float _fPitch;
+	XMFLOAT3 _RDirection;
 };
 

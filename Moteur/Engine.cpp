@@ -29,6 +29,7 @@ void Engine::Init()
 	_pGraphics->OnResize();
 	_pTimer = new Timer();
 	_pInput = new Input();
+	srand(time(NULL));
 }
 void Engine::Run()
 {

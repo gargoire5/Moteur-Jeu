@@ -63,34 +63,33 @@ void MovementScript::Update()
 		//CubeNight->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
 		SetCursorPos(WindowCenter.x, WindowCenter.y);
 
+		Transform* pTransform = pCam->GetEntity()->GetTransform();
+		XMFLOAT3 Pos = pTransform->fPos;
+
+		XMFLOAT3 NewPos = Pos;
+		
 		if (pInput->IsKey('Z'))
 		{
-			Transform* pTransform = pCam->GetEntity()->GetTransform();
-			XMFLOAT3 Pos = pTransform->fPos;
-
 			float fSpeed = 50.0f;
 			float fDistance = fSpeed * fDeltaTime;
 
 			float x = sinf(XMConvertToRadians(pCam->yaw)) * fDistance;
 			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
 
-			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
-			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+			NewPos.x += x;
+			NewPos.z += z;
 		}
 
 		if (pInput->IsKey('S'))
 		{
-			Transform* pTransform = pCam->GetEntity()->GetTransform();
-			XMFLOAT3 Pos = pTransform->fPos;
-
 			float fSpeed = 50.0f;
 			float fDistance = fSpeed * fDeltaTime;
 
 			float x = sinf(XMConvertToRadians(pCam->yaw)) * fDistance;
 			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
 
-			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
-			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			NewPos.x -= x;
+			NewPos.z -= z;
 		}
 		if (pInput->IsKey('D'))
 		{
@@ -103,8 +102,8 @@ void MovementScript::Update()
 			float x = sinf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 
-			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
-			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+			NewPos.x += x;
+			NewPos.z += z;
 		}
 		if (pInput->IsKey('Q'))
 		{
@@ -117,8 +116,8 @@ void MovementScript::Update()
 			float x = sinf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 
-			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
-			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			NewPos.x -= x;
+			NewPos.z -= z;
 		}
 		if (pInput->IsKey(VK_SPACE))
 		{
@@ -128,7 +127,7 @@ void MovementScript::Update()
 			float fSpeed = 20.0f;
 			float fDistance = fSpeed * fDeltaTime;
 
-			pCam->GetEntity()->SetPos(Pos.x, Pos.y + fDistance, Pos.z);
+			NewPos.y += fDistance;
 		}
 		if (pInput->IsKey(VK_LSHIFT))
 		{
@@ -138,8 +137,28 @@ void MovementScript::Update()
 			float fSpeed = 20.0f;
 			float fDistance = fSpeed * fDeltaTime;
 
-			pCam->GetEntity()->SetPos(Pos.x, Pos.y - fDistance, Pos.z);
+			NewPos.y -= fDistance;
 		}
+
+		if (NewPos.x > 100)
+			NewPos.x = 100;
+		else if (NewPos.x < -100)
+			NewPos.x = -100;
+
+		if (NewPos.y > 50)
+			NewPos.y = 50;
+		else if (NewPos.y < -50)
+			NewPos.y = -50;
+
+		if (NewPos.z > 100)
+			NewPos.z = 100;
+		else if (NewPos.z < -100)
+			NewPos.z = -100;
+
+		pCam->GetEntity()->SetPos(NewPos.x, NewPos.y, NewPos.z);
+		CubeNight->SetPos(NewPos.x, NewPos.y, NewPos.z);
+
+
 		if (pInput->IsKeyDown(VK_RBUTTON))
 		{
 			if (Engine::Instance()->_bSlowMotion == true)

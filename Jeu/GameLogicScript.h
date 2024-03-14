@@ -10,6 +10,9 @@ public:
 	void Update()override;
 	void SpawnRandomMeteor();
 
+	void DestroyMeteor(Meteor* pMeteor);
+	void DestroyBullet(Bullet* pBullet);
+
 	int iMaxEnemie;
 
 private:

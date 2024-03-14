@@ -32,7 +32,6 @@ void Game::Run()
 	_pPlayer = new Player();
 	_pPlayer->Init();
 
-
 	_pSkyBox = pEntityManager->CreateEntity();
 	MeshRenderer* pCubeComponent3 = _pSkyBox->AttachComponent<MeshRenderer>();
 	pCubeComponent3->SetEntity(_pSkyBox);
@@ -99,7 +98,7 @@ void Game::Run()
 	};
 	uint16_t indices[] =
 	{
-		//triangles first face
+	//triangles first face
 	   //top right side
 		0, 7, 5,
 		0, 4, 7,
@@ -382,5 +381,7 @@ Player* Game::GetPlayer()
 {
 	return _pPlayer;
 }
+
+
 
 

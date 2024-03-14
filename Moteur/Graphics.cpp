@@ -497,6 +497,8 @@ void Graphics::Update()
 			pComponent->Update();
 		}
 	}
+
+	pEntityManager->UpdateDestroy();
 }
 
 ID3D12GraphicsCommandList* Graphics::GetCommandList()

@@ -21,6 +21,14 @@ void Entity::SetCurrCam()
 	_pCurrCam = Engine::Instance()->GetCurrCam();
 }
 
+Entity::~Entity()
+{
+	for (int i = 0; i < _vComponentList.size(); i++)
+	{
+		delete _vComponentList[i];
+	}
+}
+
 void Entity::Update()
 {
 	for (Component* pComponent : _vComponentList)

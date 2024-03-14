@@ -16,7 +16,7 @@ public:
 	template <class T>
 	T* AttachComponent();
 	template <class T>
-	Component* GetComponent();
+	T* GetComponent();
 	template <class T>
 	void DetachComponent();
 
@@ -25,7 +25,7 @@ public:
 	Camera* GetCurrCam();
 	void SetCurrCam();
 
-
+	~Entity();
 
 private:
 	std::vector<Component*> _vComponentList;
@@ -50,13 +50,13 @@ T* Entity::AttachComponent()
 }
 
 template <class T>
-Component* Entity::GetComponent()
+T* Entity::GetComponent()
 {
 	for (Component* pComponent : _vComponentList)
 	{
 		if (pComponent->GetID() == T::ID)
 		{
-			return pComponent;
+			return reinterpret_cast<T>(pComponent);
 		}
 	}
 	return nullptr;

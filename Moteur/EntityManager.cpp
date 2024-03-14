@@ -20,21 +20,22 @@ std::vector<Entity*> EntityManager::GetEntityList()
 
 void EntityManager::DeleteEntity(Entity* pEntity)
 {
-	for (int i = 0; i < _vEntityList.size(); i++)
-	{
-		if (_vEntityList[i] == pEntity)
-		{
-			_vEntityList.erase(_vEntityList.begin() + i);
-			
-		}
-	}
+	_vEntityListToDestroy.push_back(pEntity);
 }
 
 void EntityManager::UpdateDestroy()
 {
-	for (Entity* pEntity : _vEntityListToDestroy)
+	for (int i = 0; i < _vEntityListToDestroy.size(); i++)
 	{
-		delete pEntity;
+		for (int j = 0; j < _vEntityList.size(); j++)
+		{
+			if (_vEntityListToDestroy[i] == _vEntityList[j])
+			{
+				_vEntityList.erase(_vEntityList.begin() + j);
+				break;
+			}
+		}
+		delete _vEntityListToDestroy[i];
 	}
-	_vEntityList.clear();
+	_vEntityListToDestroy.clear();
 }

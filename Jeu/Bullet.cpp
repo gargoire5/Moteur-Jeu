@@ -71,7 +71,5 @@ BoxColider* Bullet::GetColider()
 
 Bullet::~Bullet()
 {
-
-	Engine::Instance()->GetEntityManager()->DeleteEntity(_pEntity);
 }
 

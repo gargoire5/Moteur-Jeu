@@ -28,9 +28,10 @@ void BoxColider::Init(Mesh* pMesh)
 		}
 		if (pMesh->_pVertices[i].Pos.z > _pBoxGeo.fBackSide)//BackSide
 		{
-			_pBoxGeo.fFrontSide = pMesh->_pVertices[i].Pos.z;
+			_pBoxGeo.fBackSide = pMesh->_pVertices[i].Pos.z;
 		}
 	}
+
 }
 
 void BoxColider::Init(float fHight, float fDepth, float fWidth)
