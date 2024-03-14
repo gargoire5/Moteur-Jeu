@@ -12,7 +12,7 @@ void ShootScript::Update()
 	Input* pInput = pEngine->GetInput();
 	Timer* pTimer = pEngine->GetTimer();
 
-	if (pInput->IsKey(VK_LBUTTON))
+	if (pInput->IsKey(VK_LBUTTON) && pEngine->_bPaused == false)
 	{
 		float fCurrTime = pTimer->TotalTime();
 		if (fCurrTime - _fLastShootTime >=0.3f)

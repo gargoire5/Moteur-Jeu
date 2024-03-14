@@ -8,6 +8,7 @@ class Timer;
 class MovementScript;
 class ShootScript;
 class GameLogicScript;
+class Player;
 
 class Game
 {
@@ -17,22 +18,24 @@ public:
 	Mesh* GetBulletMesh();
 	Mesh* GetMeteorMesh();
 
-	bool _bFPS = false;
-
 	MovementScript* GetMovementScript();
 	ShootScript* GetShootScript();
 	GameLogicScript* GetGameLogicScript();
 	Entity* GetSkyBox();
+	Player* GetPlayer();
 
 private:
 	Game();
 	static Game* _pInstance;
-	Mesh _BulletMesh;
-	Mesh _MeteorMesh;
 
+	Player* _pPlayer;
 	Entity* _pSkyBox;
+
 	MovementScript* _pMovementScript;
 	ShootScript* _pShootScript;
 	GameLogicScript* _pGameLogicScript;
+
+	Mesh _BulletMesh;
+	Mesh _MeteorMesh;
 };
 

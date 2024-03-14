@@ -16,19 +16,19 @@ void MovementScript::Update()
 	std::vector<Entity*> entityList = pEngine->GetEntityManager()->GetEntityList();
 	if (pInput->IsKeyDown(VK_ESCAPE))
 	{
-		if (Game::Instance()->_bFPS == false)
+		if (Engine::Instance()->_bPaused == false)
 		{
-			Game::Instance()->_bFPS = true;
-			ShowCursor(false);
+			Engine::Instance()->Pause();
+			ShowCursor(true);
 		}
 		else
 		{
-			Game::Instance()->_bFPS = false;
-			ShowCursor(true);
+			Engine::Instance()->Resume();
+			ShowCursor(false);
 		}
 	}
 
-	if (Game::Instance()->_bFPS)
+	if (Engine::Instance()->_bPaused == false)
 	{
 		POINT vWindowSize = pEngine->GetGraphics()->GetWindowSize();
 
@@ -142,10 +142,10 @@ void MovementScript::Update()
 		}
 		if (pInput->IsKeyDown(VK_RBUTTON))
 		{
-			if (Engine::Instance()->bSlowMotion == true)
-				Engine::Instance()->bSlowMotion = false;
+			if (Engine::Instance()->_bSlowMotion == true)
+				Engine::Instance()->_bSlowMotion = false;
 			else
-				Engine::Instance()->bSlowMotion = true;
+				Engine::Instance()->_bSlowMotion = true;
 		}
 	}
 	

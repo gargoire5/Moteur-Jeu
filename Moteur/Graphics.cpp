@@ -216,12 +216,10 @@ LRESULT CALLBACK Graphics::WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 	{
 	case WM_CREATE:
 	{
-		// Save the DXSample* passed in to CreateWindow.
 		LPCREATESTRUCT pCreateStruct = reinterpret_cast<LPCREATESTRUCT>(lParam);
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pCreateStruct->lpCreateParams));
 	}
 	return 0;
-
 
 	default:
 		return DefWindowProc(hWnd, msg, wParam, lParam);

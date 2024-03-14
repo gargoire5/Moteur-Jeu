@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "ShootScript.h"
 #include "Bullet.h"
+#include "Player.h"
 
 GameLogicScript::GameLogicScript()
 {
@@ -21,7 +22,7 @@ void GameLogicScript::Update()
 
 	float fTotalTime = pTimer->TotalTime();
 
-	/*if (fTotalTime < 60)
+	if (fTotalTime < 60)
 	{
 		iMaxEnemie = 4;
 	}
@@ -40,7 +41,7 @@ void GameLogicScript::Update()
 	else if (fTotalTime > 240 && fTotalTime < 300)
 	{
 		iMaxEnemie = 8;
-	}*/
+	}
 
 	if (_vMeteorList.size() < iMaxEnemie)
 	{
@@ -61,8 +62,18 @@ void GameLogicScript::Update()
 		}
 	}
 
+	Player* pPlayer = pGame->GetPlayer();
 	for (int i = 0; i < _vMeteorList.size(); i++)
 	{
+		if (pPlayer->GetBoxColider()->IsColidWith(_vMeteorList[i]->GetColider()->GetBoxGeo(), _vMeteorList[i]->GetEntity()))
+		{
+			pPlayer->TakeDamage(i);
+			_vMeteorToDestroy.push_back(_vMeteorList[i]);
+			if (pPlayer->GetIHp() < 1)
+			{
+				Engine::Instance()->Exit();
+			}
+		}
 		if (_vMeteorList[i]->GetIHP() < 1)
 		{
 			_vMeteorToDestroy.push_back(_vMeteorList[i]);
@@ -98,6 +109,7 @@ void GameLogicScript::Update()
 		delete tmp;
 	}
 	_vMeteorToDestroy.clear();
+
 }
 
 void GameLogicScript::SpawnRandomMeteor()
@@ -105,8 +117,8 @@ void GameLogicScript::SpawnRandomMeteor()
 	Engine* pEngine = Engine::Instance();
 	XMFLOAT3 pPlayerPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
 
-	float x = rand() % 200 + 30;
-	float z = rand() % 200 + 30;
+	float x = rand() % 200 + 50;
+	float z = rand() % 200 + 50;
 	float y = rand() % 20;
 
 	bool val = (rand() % 2)==1;

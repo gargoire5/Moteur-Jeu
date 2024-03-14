@@ -32,10 +32,9 @@ void Engine::Init()
 }
 void Engine::Run()
 {
-	bool running = true;
 	_pTimer->Reset();
 	_pTimer->Start();
-	while (running)
+	while (_bIsRunning)
 	{
 		MSG msg = {0};
 
@@ -47,7 +46,7 @@ void Engine::Run()
 			if (msg.message == WM_QUIT)
 			{
 				_pTimer->Stop();
-				running = false;
+				_bIsRunning = false;
 				break;
 			}
 		}
@@ -59,6 +58,21 @@ void Engine::Run()
 		_pGraphics->Draw();
 		
 	}
+}
+
+void Engine::Pause()
+{
+	_bPaused = true;
+}
+
+void Engine::Resume()
+{
+	_bPaused = false;
+}
+
+void Engine::Exit()
+{
+	_bIsRunning = false;
 }
 
 void Engine::SetMainCam(Camera* pCam)

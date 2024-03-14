@@ -16,6 +16,7 @@ public:
 	void Pause();
 	void Resume();
 	void Exit();
+
 	void SetMainCam(Camera* pCam);
 
 	EntityManager* GetEntityManager();
@@ -27,7 +28,8 @@ public:
 	void AddScript(Script* pScript);
 	std::vector<Script*> GetScriptList();
 
-	bool bSlowMotion = false;
+	bool _bSlowMotion = false;
+	bool _bPaused = false;
 
 private:
 	Engine();
@@ -38,7 +40,6 @@ private:
 	Input* _pInput;
 	Camera* _pCurrCamera;
 	std::vector<Script*> _vScriptList;
-
-	
+	bool _bIsRunning = true;
 };
 

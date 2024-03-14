@@ -47,13 +47,20 @@ void Timer::Tick()
     if (_bStop == false) {
         float CurrTime = timeGetTime();
         if (_fPrevTime != 0) {
-            if (Engine::Instance()->bSlowMotion == true)
+            if (!Engine::Instance()->_bPaused)
             {
-                _fDeltaTime = ((CurrTime - _fPrevTime) / 1000)/2.5;
+                if (Engine::Instance()->_bSlowMotion == true)
+                {
+                    _fDeltaTime = ((CurrTime - _fPrevTime) / 1000) / 2.5;
+                }
+                else
+                {
+                    _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
+                }
             }
             else
             {
-                _fDeltaTime = (CurrTime - _fPrevTime) / 1000;
+                _fDeltaTime = 0;
             }
         }
         _fPrevTime = CurrTime;

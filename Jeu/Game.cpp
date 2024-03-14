@@ -29,8 +29,8 @@ void Game::Run()
 	pEngine->Init();
 	EntityManager* pEntityManager = pEngine->GetEntityManager();
 
-	Player* pPlayer = new Player();
-	pPlayer->Init();
+	_pPlayer = new Player();
+	_pPlayer->Init();
 
 
 	_pSkyBox = pEntityManager->CreateEntity();
@@ -334,8 +334,8 @@ void Game::Run()
 	int yo = sizeof(indicesCube);
 	pMeshCube.UpLoadMesh(verticesCube, io / 20, indicesCube, yo / 2);
 	pCubeComponent3->SetMesh(&pMeshCube);
-
 	//--------------------------------------------------------------------------------
+
 	_pMovementScript = new MovementScript();
 	pEngine->AddScript(_pMovementScript);
 	_pShootScript = new ShootScript();
@@ -343,7 +343,6 @@ void Game::Run()
 	_pGameLogicScript = new GameLogicScript();
 	pEngine->AddScript(_pGameLogicScript);
 
-	Game::Instance()->_bFPS = true;
 	ShowCursor(false);
 
 	pEngine->Run();
@@ -377,6 +376,11 @@ GameLogicScript* Game::GetGameLogicScript()
 Entity* Game::GetSkyBox()
 {
 	return _pSkyBox;
+}
+
+Player* Game::GetPlayer()
+{
+	return _pPlayer;
 }
 
 

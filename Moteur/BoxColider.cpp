@@ -33,6 +33,16 @@ void BoxColider::Init(Mesh* pMesh)
 	}
 }
 
+void BoxColider::Init(float fHight, float fDepth, float fWidth)
+{
+	_pBoxGeo.fFrontSide = -(fDepth / 2);
+	_pBoxGeo.fBackSide = (fDepth / 2);
+	_pBoxGeo.fBotSide = -(fHight / 2);
+	_pBoxGeo.fTopSide = (fHight / 2);
+	_pBoxGeo.fLeftSide = -(fWidth / 2);
+	_pBoxGeo.fRightSide = (fWidth / 2);
+}
+
 bool BoxColider::IsColidWith(BoxGeo* pBoxGeo, Entity* pEntity)
 {
 	bool bColidX = false;
