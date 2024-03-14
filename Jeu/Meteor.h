@@ -16,7 +16,7 @@ private:
 	int _iHp;
 	bool _bHit;
 	Entity* _pEntity;
-	// pCubeComponent;
-	Texture2D* texture;
+	MeshRenderer* pCubeComponent;
+	//Texture2D* texture;
 	BoxColider* _pColider;
 };

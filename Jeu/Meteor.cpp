@@ -14,11 +14,10 @@ void Meteor::Init(float x, float y, float z)
 	_pEntity = pEntityManager->CreateEntity();
 	_pEntity->SetSca(3, 3, 3);
 
-	MeshRenderer* pCubeComponent = _pEntity->AttachComponent<MeshRenderer>();
+	pCubeComponent = _pEntity->AttachComponent<MeshRenderer>();
 	pCubeComponent->SetEntity(_pEntity);
 	pCubeComponent->SetShader();
-	texture = pEngine->Instance()->GetGraphics()->GetTextureList(0);
-	pCubeComponent->SetTexture2D(texture);
+	pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(0));
 	_pEntity->SetPos(x, y, z);
 
 	pCubeComponent->SetMesh(Game::Instance()->GetMeteorMesh());
@@ -38,11 +37,11 @@ void Meteor::Update()
 	float fDistance = fSpeed * fDeltaTime;
 
 	if (_bHit == false) {
-		texture = pEngine->Instance()->GetGraphics()->GetTextureList(1);
+		pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(0));
 	}
 	if (_bHit == true) {
 		fDuration += fDeltaTime;
-		texture = pEngine->Instance()->GetGraphics()->GetTextureList(0);
+		pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(1));
 		if (fDuration >= 0.5f) {
 			_bHit = false;
 			fDuration = 0;
