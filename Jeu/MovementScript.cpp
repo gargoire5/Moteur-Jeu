@@ -12,7 +12,8 @@ void MovementScript::Update()
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
 
 	Camera* pCam = pEngine->GetCurrCam();
-
+	std::vector<Entity*> entityList = pEngine->GetEntityManager()->GetEntityList();
+	Entity* CubeNight = entityList[3];
 	if (pInput->IsKeyDown(VK_ESCAPE))
 	{
 		if (Game::Instance()->_bFPS == false)
@@ -57,8 +58,9 @@ void MovementScript::Update()
 		}
 
 		pCam->GetEntity()->GetTransform()->identityRot();
+		//CubeNight->GetTransform()->identityRot();
 		pCam->GetEntity()->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
-
+		//CubeNight->GetTransform()->rotate(pCam->yaw, pCam->pitch, 0.0f);
 		SetCursorPos(WindowCenter.x, WindowCenter.y);
 
 		if (pInput->IsKey('Z'))
@@ -73,7 +75,7 @@ void MovementScript::Update()
 			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
 
 			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
-
+			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 		}
 
 		if (pInput->IsKey('S'))
@@ -88,6 +90,7 @@ void MovementScript::Update()
 			float z = cosf(XMConvertToRadians(pCam->yaw)) * fDistance;
 
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
 		if (pInput->IsKey('D'))
 		{
@@ -101,6 +104,7 @@ void MovementScript::Update()
 			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 
 			pCam->GetEntity()->SetPos(Pos.x + x, Pos.y, Pos.z + z);
+			CubeNight->SetPos(Pos.x + x, Pos.y, Pos.z + z);
 		}
 		if (pInput->IsKey('Q'))
 		{
@@ -114,6 +118,7 @@ void MovementScript::Update()
 			float z = cosf(XMConvertToRadians(pCam->yaw + 90)) * fDistance;
 
 			pCam->GetEntity()->SetPos(Pos.x - x, Pos.y, Pos.z - z);
+			CubeNight->SetPos(Pos.x - x, Pos.y, Pos.z - z);
 		}
 		if (pInput->IsKey(VK_SPACE))
 		{

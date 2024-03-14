@@ -1,3 +1,4 @@
+
 #include "Game.h"
 #include "Incl.h"
 #include "Player.h";
@@ -30,6 +31,14 @@ void Game::Run()
 
 	Player* pPlayer = new Player();
 	pPlayer->Init();
+
+
+	Entity* pCubeEntity3 = pEntityManager->CreateEntity();
+	MeshRenderer* pCubeComponent3 = pCubeEntity3->AttachComponent<MeshRenderer>();
+	pCubeComponent3->SetEntity(pCubeEntity3);
+	pCubeComponent3->SetShader();
+	pCubeComponent3->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(2));
+	pCubeEntity3->SetPos(0,5, 0);
 
 	//------------------------------Upload Mesh---------------------------------------
 	float d1 = +1.0f;
@@ -248,6 +257,83 @@ void Game::Run()
 	y = sizeof(indices1);
 	_BulletMesh.UpLoadMesh(vertices1, i / 20, indices1, y / 2);
 
+	float xcase1 = 0.25f;
+	float xcase2 = 0.50f;
+	float xcase3 = 0.75f;
+	float ycase1 = 1/3.f;
+	float ycase2 = 1/3.f*2;
+	Vertex verticesCube[] =
+	{
+		// Front face
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1,ycase2) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, ycase1) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(0.0f, ycase1) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(0.0f,ycase2) }), // Bottom-right
+
+		// Back face
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,ycase2) }), // Bottom-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, ycase1) }), // Top-left
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase3, ycase1) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase3,ycase2) }), // Bottom-right
+
+		// Left face
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1,ycase2) }), // Bottom-front
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1,ycase1) }), // Top-front
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, ycase1) }), // Top-back
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,ycase2) }), // Bottom-back
+
+		// Right face
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(1.0f ,ycase2) }), // Bottom-front(xcase1, 1.0f/3*2.f)
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(1.0f , ycase1) }), // Top-front(xcase1,ycase1)
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase3, ycase1) }), // Top-back(xcase2, ycase1)
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase3,ycase2) }), // Bottom-back(xcase2, 1.0f / 3*2.f)
+
+		// Top face
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, -200.0f), XMFLOAT2(xcase1, 0.0f) }), // Bottom-left rouge
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, -200.0f),  XMFLOAT2(xcase1,ycase1)}) , // Top-left
+		Vertex({ XMFLOAT3(-200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, ycase1) }), // Top-right
+		Vertex({ XMFLOAT3(+200.0f, +200.0f, +200.0f), XMFLOAT2(xcase2, 0.0f)  }), // Bottom-right
+
+		// Bottom face
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1, 1.0f) }), // Bottom
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, -200.0f), XMFLOAT2(xcase1,ycase2) }),
+		Vertex({ XMFLOAT3(-200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2,ycase2) }),
+		Vertex({ XMFLOAT3(+200.0f, -200.0f, +200.0f), XMFLOAT2(xcase2, 1.0f) })  // Bottom
+	};
+
+	uint16_t indicesCube[] =
+	{
+		// Front face
+		2, 1, 0,
+		3, 2, 0,
+
+		// Back face
+		5, 6, 4,
+		6, 7, 4,
+
+		// Left face
+		9, 10, 8,
+		10, 11, 8,
+
+		// Right face
+		14, 13, 12,
+		15, 14, 12,
+
+		// Top face
+		18, 17, 16,
+		19, 18, 16,
+		//19, 18, 16,
+
+		// Bottom face
+		21, 22, 20,
+		22, 23, 20
+	};
+
+	Mesh pMeshCube;
+	int io = sizeof(verticesCube);
+	int yo = sizeof(indicesCube);
+	pMeshCube.UpLoadMesh(verticesCube, io / 20, indicesCube, yo / 2);
+	pCubeComponent3->SetMesh(&pMeshCube);
 
 	//--------------------------------------------------------------------------------
 	_pMovementScript = new MovementScript();
