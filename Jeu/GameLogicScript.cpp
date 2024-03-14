@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "ShootScript.h"
 #include "Bullet.h"
+#include "Player.h"
 
 GameLogicScript::GameLogicScript()
 {
@@ -14,6 +15,8 @@ void GameLogicScript::Update()
 {
 	Game* pGame = Game::Instance();
 	Timer* pTimer = Engine::Instance()->GetTimer();
+	Player* pPlayer = new Player();
+
 	for (int i = 0; i < _vMeteorList.size(); i++)
 	{
 		_vMeteorList[i]->Update();
@@ -46,6 +49,8 @@ void GameLogicScript::Update()
 	{
 		SpawnRandomMeteor();
 	}
+
+	
 
 	std::vector<Bullet*>* vBulletList = pGame->GetShootScript()->GetBulletList();
 	for (int i = 0; i < vBulletList->size(); i++)
@@ -92,12 +97,42 @@ void GameLogicScript::Update()
 			if (_vMeteorList[j] == _vMeteorToDestroy[i])
 			{
 				_vMeteorList.erase(_vMeteorList.begin() + j);
+				score += 100;
 				break;
 			}
 		}
 		delete tmp;
 	}
 	_vMeteorToDestroy.clear();
+
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCnt++;
+
+	if ((Engine::Instance()->GetTimer()->TotalTime() - timeElapsed) >= 1.0f)
+	{
+		float fps = (float)frameCnt;
+		int hpPlayer = pPlayer->_iHp;
+		int pScore = score;
+		int pTotaltime = Engine::Instance()->GetTimer()->TotalTime();
+
+		std::wstring fpsStr = std::to_wstring(fps);
+		std::wstring hpPlayerStr = std::to_wstring(hpPlayer);
+		std::wstring scoreStr = std::to_wstring(pScore);
+		std::wstring totaltimeStr = std::to_wstring(pTotaltime);
+
+		std::wstring windowText = Engine::Instance()->GetGraphics()->mMainWndCaption +
+			L"    FPS: " + fpsStr +
+			L"    HP:  " + hpPlayerStr +
+			L"    Score:  " + scoreStr +
+			L"    Temps restant:  " + totaltimeStr;
+
+		SetWindowText(Engine::Instance()->GetGraphics()->_hWindow, windowText.c_str());
+
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
 }
 
 void GameLogicScript::SpawnRandomMeteor()

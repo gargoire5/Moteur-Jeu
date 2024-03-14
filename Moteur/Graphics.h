@@ -38,7 +38,7 @@ public:
 	POINT GetWindowSize();
 
 	HWND _hWindow;
-
+	std::wstring mMainWndCaption = L"Jeu";
 private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
