@@ -17,7 +17,8 @@ void Meteor::Init(float x, float y, float z)
 	MeshRenderer* pCubeComponent = _pEntity->AttachComponent<MeshRenderer>();
 	pCubeComponent->SetEntity(_pEntity);
 	pCubeComponent->SetShader();
-	pCubeComponent->SetTexture2D(pEngine->Instance()->GetGraphics()->GetTextureList(0));
+	texture = pEngine->Instance()->GetGraphics()->GetTextureList(0);
+	pCubeComponent->SetTexture2D(texture);
 	_pEntity->SetPos(x, y, z);
 
 	pCubeComponent->SetMesh(Game::Instance()->GetMeteorMesh());
@@ -35,6 +36,20 @@ void Meteor::Update()
 
 	float fSpeed = 20.0f;
 	float fDistance = fSpeed * fDeltaTime;
+
+	if (_bHit == false) {
+		texture = pEngine->Instance()->GetGraphics()->GetTextureList(1);
+	}
+	if (_bHit == true) {
+		fDuration += fDeltaTime;
+		texture = pEngine->Instance()->GetGraphics()->GetTextureList(0);
+		if (fDuration >= 0.5f) {
+			_bHit = false;
+			fDuration = 0;
+		}
+	}
+	
+	
 
 	XMFLOAT3 vPlayerPos = pEngine->GetCurrCam()->GetEntity()->GetTransform()->fPos;
 	XMFLOAT3 vCurrPos = _pEntity->GetTransform()->fPos;
@@ -57,7 +72,10 @@ BoxColider* Meteor::GetColider()
 
 void Meteor::TakeDamage(int i)
 {
+	Engine* pEngine = Engine::Instance();
 	_iHp -= i;
+	_bHit = true;
+
 }
 int Meteor::GetIHP()
 {
