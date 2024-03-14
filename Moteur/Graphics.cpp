@@ -8,6 +8,9 @@
 #include "Script.h"
 
 using namespace DirectX;
+
+Graphics* Graphics::_pInstance;
+
 Graphics::Graphics()
 {
 	_fWindowWidth = 100.f;

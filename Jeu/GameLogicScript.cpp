@@ -100,6 +100,8 @@ void GameLogicScript::Update()
 	}
 	_vMeteorToDestroy.clear();
 
+	UpdateTitle();
+
 }
 
 void GameLogicScript::SpawnRandomMeteor()
@@ -153,7 +155,7 @@ void GameLogicScript::UpdateTitle()
 		std::wstring fpsfStr = std::to_wstring(fps);
 		std::wstring lifeStr = std::to_wstring(life);
 
-		std::wstring windowText =  +
+		std::wstring windowText =  pGraphics->GetWindowTitle() +
 			L"    time: " + timeStr +
 			L"   score: " + scorefStr +
 			L"    fps:  " + fpsfStr +
