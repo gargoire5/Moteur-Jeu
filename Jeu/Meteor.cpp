@@ -25,6 +25,8 @@ void Meteor::Init(float x, float y, float z)
 	_pColider = _pEntity->AttachComponent<BoxColider>();
 	_pColider->Init(Game::Instance()->GetMeteorMesh());
 	_pColider->SetEntity(_pEntity);
+	 rota = rand() % 7;
+	
 }
 
 void Meteor::Update()
@@ -55,6 +57,33 @@ void Meteor::Update()
 
 	XMFLOAT3 vDirection;
 	XMStoreFloat3(&vDirection, XMVector3Normalize(XMLoadFloat3(&vPlayerPos) - XMLoadFloat3(&vCurrPos)));
+	
+	
+	switch (rota) {
+	case 0:
+		_yaw += 0.1;
+		
+	case 1:
+		_pitch += 0.1;
+	case 2:
+		_roll += 0.1;
+	case 3:
+		_yaw += 0.1;
+		_pitch += 0.1;
+	case 4:
+		_yaw += 0.1;
+		_roll += 0.1;
+	case 5:
+		_pitch += 0.1;
+		_roll += 0.1;
+	case 6:
+		_yaw += 0.1;
+		_pitch += 0.1;
+		_roll += 0.1;
+	}
+
+	_pEntity->GetTransform()->identityRot();
+	_pEntity->GetTransform()->rotate(_yaw, _pitch, _roll);
 
 	_pEntity->SetPos(vCurrPos.x + vDirection.x * fDistance, vCurrPos.y + vDirection.y *fDistance, vCurrPos.z + vDirection.z * fDistance);
 }

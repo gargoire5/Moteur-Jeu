@@ -19,4 +19,8 @@ private:
 	MeshRenderer* pCubeComponent;
 	//Texture2D* texture;
 	BoxColider* _pColider;
+	float _yaw;
+	float _pitch;
+	float _roll;
+	int rota;
 };

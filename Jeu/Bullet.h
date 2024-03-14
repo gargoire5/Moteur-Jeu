@@ -17,7 +17,7 @@ private:
 	Entity* _pEntity;
 	BoxColider* _pColider;
 	XMFLOAT3 _fStartPos;
-
+	float _roll = 0.f;
 	float _yaw;
 	float _pitch;
 };

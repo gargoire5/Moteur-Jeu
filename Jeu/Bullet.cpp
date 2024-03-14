@@ -51,7 +51,14 @@ void Bullet::Update()
 	float y = -sinf(XMConvertToRadians(_pitch)) * fDistance;
 	float z = cosf(XMConvertToRadians(_yaw)) * fDistance;
 
+	_roll += 17;
+	_pEntity->GetTransform()->identityRot();
+	_pEntity->GetTransform()->rotate(_yaw, _pitch, _roll);
 	_pEntity->SetPos(Pos.x + x, Pos.y + y, Pos.z + z);
+
+	
+
+	
 }
 
 Entity* Bullet::GetEntity()
