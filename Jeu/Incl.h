@@ -1,4 +1,5 @@
 #include "../Moteur/Engine.h"
+#include "../Moteur/Entity.h"
 #include "../Moteur/MeshRenderer.h"
 #include "../Moteur/BoxColider.h"
 #include "../Moteur/Camera.h"

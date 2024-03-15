@@ -4,9 +4,7 @@
 #include "Texture.h"
 
 Shader::Shader()
-{
-
-}
+{}
 
 Shader::~Shader()
 {
@@ -21,7 +19,6 @@ void Shader::Initialize()
 
 	CD3DX12_DESCRIPTOR_RANGE texTable;
 	texTable.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-
 
 	CD3DX12_ROOT_PARAMETER slotRootParameter[3];
 

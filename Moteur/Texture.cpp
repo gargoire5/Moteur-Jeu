@@ -1,5 +1,7 @@
 #include "Texture.h"
 #include "Engine.h"
+#include "Graphics.h"
+
 Texture2D::Texture2D()
 {
 	Microsoft::WRL::ComPtr<ID3D12Resource> _Resource = nullptr;

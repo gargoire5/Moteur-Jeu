@@ -8,14 +8,9 @@ Component::Component()
 }
 
 void Component::PreRender()
-{
-
-}
-
+{}
 void Component::Render()
-{
-
-}
+{}
 
 void Component::SetEntity(Entity* pEntity)
 {
@@ -28,8 +23,7 @@ Entity* Component::GetEntity()
 }
 
 void Component::Update()
-{
-}
+{}
 
 void Component::SetShader()
 {

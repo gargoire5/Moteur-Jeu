@@ -1,5 +1,7 @@
 #include "MeshRenderer.h"
 #include "Camera.h"
+#include "Engine.h"
+#include "Entity.h"
 
 
 MeshRenderer::MeshRenderer()

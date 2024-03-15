@@ -27,14 +27,6 @@ void Mesh::UpLoadMesh(Vertex* vertices, int vertexCount, std::uint16_t* indices,
 	_iVbByteSize = (UINT)vertexCount * sizeof(Vertex);
 	_iIbByteSize = (UINT)indexCount * sizeof(std::uint16_t);
 
-	//HRESULT hr = D3DCreateBlob(_iVbByteSize, &_DXVertexBufferCPU);
-	//assert(hr == S_OK && "error create blob");
-	//CopyMemory(_DXVertexBufferCPU->GetBufferPointer(), vertices.data(), _iVbByteSize);
-	//
-	//hr = D3DCreateBlob(_iIbByteSize, &_DXIndexBufferCPU);
-	//assert(hr == S_OK && "error create blob");
-	//CopyMemory(_DXIndexBufferCPU->GetBufferPointer(), indices.data(), _iIbByteSize);
-
 	_DXVertexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, vertices, _iVbByteSize, _DXVertexBufferUploader);
 	_DXIndexBufferGPU = d3dUtil::CreateDefaultBuffer(DXDevice, DXCommandList, indices, _iIbByteSize, _DXIndexBufferUploader);
 

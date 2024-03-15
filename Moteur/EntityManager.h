@@ -1,6 +1,7 @@
 #pragma once
 #include "Incl.h"
-#include "Entity.h"
+
+class Entity;
 class EntityManager
 {
 public:

@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Texture.h"
 #include "Script.h"
+#include "Entity.h"
 
 using namespace DirectX;
 Graphics::Graphics()
@@ -34,17 +35,6 @@ void Graphics::InitDX()
 #if defined(DEBUG) | defined(_DEBUG)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
-
-//#if defined(DEBUG) || defined(_DEBUG) 
-//	// Enable the D3D12 debug layer.
-//	{
-//		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-//		ID3D12Debug* debugController;
-// 		assert(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))== S_OK && "error create debugInterface");
-//		debugController->EnableDebugLayer();
-//	}
-//#endif
-
 	//---------------Create Device/Factory----------------------------------------------------------------------------------------------------------------------//
 	assert(CreateDXGIFactory1(IID_PPV_ARGS(&_DXFactory))==S_OK && "error create Factory");
 	HRESULT hardwareResult = D3D12CreateDevice(NULL, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&_DXDevice));
@@ -158,13 +148,6 @@ void Graphics::InitDX()
 	ID3D12CommandList* cmdsLists[] = { _DXCommandList };
 	_DXCommandQueue->ExecuteCommandLists(_countof(cmdsLists), cmdsLists);
 	//-------------------------------------------------------------------------------------------------------------------------------------//
-	//-----------------Create CbvHeap--------------------------------------------------------------------------------------------------------------------//	
-	//-----------------Create CbvHeap--------------------------------------------------------------------------------------------------------------------//	
-	//_DXCbvHeapDesc.NumDescriptors = 1;
-	//_DXCbvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	//_DXCbvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	//_DXCbvHeapDesc.NodeMask = 0;
-	//_DXDevice->CreateDescriptorHeap(&_DXCbvHeapDesc, IID_PPV_ARGS(&_DXCbvHeap));
 
 	_ObjectCB = std::make_unique<UploadBuffer<ObjectConstants>>(_DXDevice, 1, true);
 

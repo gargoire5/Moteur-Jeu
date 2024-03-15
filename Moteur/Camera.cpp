@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "Camera.h"
+#include "Entity.h"
 
 void Camera::Init()
 {
@@ -33,15 +34,3 @@ XMFLOAT4X4* Camera::GetProj()
 	return &_mProj;
 }
 
-void Camera::PreRender()
-{
-	_pShader->PreDraw();
-}
-void Camera::Render()
-{
-	/*ID3D12GraphicsCommandList* DXCommandList = Engine::Instance()->GetGraphics()->GetCommandList();
-
-	D3D12_GPU_VIRTUAL_ADDRESS GpuAddr = _DXCamCB->GetVirtualAddr();
-
-	DXCommandList->SetGraphicsRootConstantBufferView(1, GpuAddr);*/
-}

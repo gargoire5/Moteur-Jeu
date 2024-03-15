@@ -74,6 +74,8 @@ void Engine::Resume()
 void Engine::Exit()
 {
 	_bIsRunning = false;
+	if (GetGraphics()->GetDevice()!= nullptr)
+		GetGraphics()->FlushCommandQueue();
 }
 
 void Engine::SetMainCam(Camera* pCam)

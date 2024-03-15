@@ -1,4 +1,5 @@
 #include "EntityManager.h"
+#include "Entity.h"
 
 EntityManager::EntityManager()
 {

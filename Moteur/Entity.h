@@ -1,6 +1,5 @@
 #pragma once
 #include "Incl.h"
-#include "Mesh.h"
 #include "Component.h"
 
 class Camera;

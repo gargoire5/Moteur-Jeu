@@ -1,5 +1,5 @@
 #pragma once
-#include <windows.h> // for XMVerifyCPUSupport
+#include <windows.h>
 #include <DirectXMath.h>
 #include <DirectXPackedVector.h>
 #include <iostream>
@@ -11,18 +11,16 @@ struct Transform
 public:
 	Transform();
 public:
-	//vecteur scale et matrice associé
 	XMFLOAT3 fSca;
 	XMFLOAT4X4 mSca;
 
-	//vecteurs pour stocker les directions
+
 	XMFLOAT3 fRight;  
 	XMFLOAT3 fUp;     
 	XMFLOAT3 fDir;    
 	XMFLOAT4 qRot;
 	XMFLOAT4X4 mRot;
 
-	//vecteur position et matrice associé
 	XMFLOAT3 fPos;
 	XMFLOAT4X4 mPos;
 

@@ -1,13 +1,15 @@
 #pragma once
 //#include "Graphics.h"
 #include "EntityManager.h"
-#include "Graphics.h"
 
+class Graphics;
 class Script;
 class Entity;
 class Input;
 class Timer;
 class Player;
+class Camera;
+
 class Engine
 {
 public:

@@ -1,9 +1,9 @@
 #pragma once
 #include "Incl.h"
-#include "Engine.h"
-#include "Component.h"
-#include "Mesh.h"
 #include "Shader.h"
+#include "Component.h"
+
+class Mesh;
 
 class MeshRenderer : public Component
 {
@@ -16,16 +16,13 @@ public:
 		return ID;
 	}
 	void SetMesh(Mesh* pMesh);
-	//void SetTexture(Texture* pMesh);
 	void PreRender()override;
 	void Render()override;
 	void Update();
 	void SetTexture2D(Texture2D* pTexture);
-	~MeshRenderer();
 
 private:
 	Mesh* _pMeshToRender;
-	//Texture*;
 	UploadBuffer<ObjectConstants>* _DXObjectCB = nullptr;
 	Texture2D* _pTexture;
 };
