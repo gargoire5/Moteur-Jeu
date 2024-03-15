@@ -56,9 +56,6 @@ void Bullet::Update()
 	_pEntity->GetTransform()->rotate(_yaw, _pitch, _roll);
 	_pEntity->SetPos(Pos.x + x, Pos.y + y, Pos.z + z);
 
-	
-
-	
 }
 
 Entity* Bullet::GetEntity()

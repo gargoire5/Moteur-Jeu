@@ -21,8 +21,6 @@ void GameLogicScript::Update()
 	Game* pGame = Game::Instance();
 	Timer* pTimer = Engine::Instance()->GetTimer();
 	
-
-	
 	_LifeBar->Update();
 
 	for (int i = 0; i < _vMeteorList.size(); i++)
