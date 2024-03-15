@@ -15,7 +15,7 @@ void LifeBar::Init()
 	EntityManager* pEntityManager = Engine::Instance()->GetEntityManager();
 	_pEntityLife = pEntityManager->CreateEntity();
 	Game* pGame = Game::Instance();
-	int Hp = Game::Instance()->GetPlayer()->GetHp();
+	int Hp = Game::Instance()->GetPlayer()->GetIHp();
 
 	pLifeBar = _pEntityLife->AttachComponent<MeshRenderer>();
 	pLifeBar->SetEntity(_pEntityLife);

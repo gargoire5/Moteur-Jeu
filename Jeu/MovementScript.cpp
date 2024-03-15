@@ -11,8 +11,6 @@ void MovementScript::Update()
 	Input* pInput = pEngine->GetInput();
 	float fDeltaTime = pEngine->GetTimer()->DeltaTime();
 
-
-	Entity* LifeBar = Game::Instance()->GetLifeEntity();
 	Entity* CubeNight = Game::Instance()->GetSkyBox();
 
 	Camera* pCam = pEngine->GetCurrCam();

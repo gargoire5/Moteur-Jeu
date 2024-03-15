@@ -77,7 +77,7 @@ void GameLogicScript::Update()
 	{
 		if (pPlayer->GetBoxColider()->IsColidWith(_vMeteorList[i]->GetColider()->GetBoxGeo(), _vMeteorList[i]->GetEntity()))
 		{
-			pPlayer->TakeDamage(i);
+			pPlayer->TakeDamage(1);
 			DestroyMeteor(_vMeteorList[i]);
 			if (pPlayer->GetIHp() < 1)
 			{

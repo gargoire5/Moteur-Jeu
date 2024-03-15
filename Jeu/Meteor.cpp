@@ -26,7 +26,6 @@ void Meteor::Init(float x, float y, float z)
 	_pColider = _pEntity->AttachComponent<BoxColider>();
 	_pColider->Init(Game::Instance()->GetMeteorMesh());
 	_pColider->SetEntity(_pEntity);
-	 rota = rand() % 7;
 	
 }
 
@@ -74,19 +73,37 @@ void Meteor::Update()
 	GameLogicScript* pLogic = Game::Instance()->GetGameLogicScript();
 
 	if (vNewPos.x > 100)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 	else if (vNewPos.x < -100)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 
 	if (vNewPos.y > 50)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 	else if (vNewPos.y < -50)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 
 	if (vNewPos.z > 100)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 	else if (vNewPos.z < -100)
+	{
 		pLogic->DestroyMeteor(this);
+		return;
+	}
 
 	_pEntity->SetPos(vNewPos.x, vNewPos.y, vNewPos.z);
 }
