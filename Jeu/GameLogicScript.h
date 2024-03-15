@@ -4,6 +4,7 @@
 class Meteor;
 class Bullet;
 class LifeBar;
+
 class GameLogicScript : public Script
 {
 public:
@@ -15,7 +16,8 @@ public:
 	void DestroyBullet(Bullet* pBullet);
 
 	int iMaxEnemie;
-
+	int score = 0;
+	
 private:
 	std::vector<Meteor*> _vMeteorList;
 	std::vector<Bullet*> _vBulletToDestroy;

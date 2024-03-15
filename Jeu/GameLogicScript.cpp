@@ -8,6 +8,9 @@
 #include "Player.h"
 #include "LifeBar.h"
 
+static int frameCnt = 0;
+static float timeElapsed = 0.0f;
+
 GameLogicScript::GameLogicScript()
 {
 	_LifeBar = new LifeBar();
@@ -56,6 +59,8 @@ void GameLogicScript::Update()
 		SpawnRandomMeteor();
 	}
 
+	
+
 	std::vector<Bullet*>* vBulletList = pGame->GetShootScript()->GetBulletList();
 	for (int i = 0; i < vBulletList->size(); i++)
 	{
@@ -84,6 +89,7 @@ void GameLogicScript::Update()
 		}
 		if (_vMeteorList[i]->GetIHP() < 1)
 		{
+			score += 100;
 			DestroyMeteor(_vMeteorList[i]);
 		}
 	}
@@ -110,12 +116,34 @@ void GameLogicScript::Update()
 			if (_vMeteorToDestroy[i] == _vMeteorList[j])
 			{
 				_vMeteorList.erase(_vMeteorList.begin() + j);
+				
 			}
 		}
 		delete _vMeteorToDestroy[i];
 	}
 	_vMeteorToDestroy.clear();
 
+	frameCnt++;
+	if ((Engine::Instance()->GetTimer()->TotalTime() - timeElapsed) >= 1.0f)
+	{
+		float fps = (float)frameCnt;
+		int pScore = score;
+		int pTotaltime = Engine::Instance()->GetTimer()->TotalTime();
+
+		std::wstring fpsStr = std::to_wstring(fps);
+		std::wstring scoreStr = std::to_wstring(pScore);
+		std::wstring totaltimeStr = std::to_wstring(pTotaltime);
+
+		std::wstring windowText = Engine::Instance()->GetGraphics()->mMainWndCaption +
+			L"    FPS: " + fpsStr +
+			L"    Score:  " + scoreStr +
+			L"    Temps:  " + totaltimeStr;
+
+		SetWindowText(Engine::Instance()->GetGraphics()->_hWindow, windowText.c_str());
+
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
 }
 
 void GameLogicScript::SpawnRandomMeteor()

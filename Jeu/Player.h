@@ -12,7 +12,6 @@ public:
 	void TakeDamage(int i);
 	int GetIHp();
 	~Player();
-private:
 	int _iHp;
 	BoxColider* _pBoxColider;
 	Entity* _pEntity;

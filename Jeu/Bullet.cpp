@@ -28,7 +28,7 @@ void Bullet::Init()
 
 	_pEntity->SetPos(pPlayerTransform->fPos.x, pPlayerTransform->fPos.y - 2, pPlayerTransform->fPos.z);
 	_pEntity->GetTransform()->identityRot();
-	_pEntity->GetTransform()->rotate(pEngine->GetCurrCam()->yaw, pEngine->GetCurrCam()->pitch, 0.0f);
+	_pEntity->GetTransform()->rotate(pEngine->GetCurrCam()->yaw, pEngine->GetCurrCam()->pitch, 0);
 
 	_fStartPos = _pEntity->GetTransform()->fPos;
 
