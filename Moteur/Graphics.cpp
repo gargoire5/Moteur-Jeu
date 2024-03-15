@@ -201,8 +201,8 @@ void Graphics::InitDX()
 	name = "laser";
 	//filename = L"../texture/iron.dds";
 	filename = L"../texture/lasermap.dds";
-	IronTexture->LoadTexture(TabTex.size(), name, filename);
-	TabTex.push_back(IronTexture);
+	LaserTexture->LoadTexture(TabTex.size(), name, filename);
+	TabTex.push_back(LaserTexture);
 
 	Texture2D* NightTexture = new Texture2D();
 	name = "night";

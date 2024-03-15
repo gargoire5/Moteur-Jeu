@@ -20,6 +20,5 @@ private:
 	float _roll = 0.f;
 	float _yaw;
 	float _pitch;
-	float _roll;
 };
 

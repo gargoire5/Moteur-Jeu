@@ -53,6 +53,10 @@ void GameLogicScript::Update()
 	{
 		iMaxEnemie = 8;
 	}
+	else if (fTotalTime > 360)
+	{
+		Engine::Instance()->Exit();
+	}
 
 	if (_vMeteorList.size() < iMaxEnemie)
 	{
